@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.css.addbase.apporgan.dao.BaseAppUserDao">
+
+	<select id="queryObject" resultType="com.css.addbase.apporgan.entity.BaseAppUser">
+		select * from BASE_APP_USER where ID = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.css.addbase.apporgan.entity.BaseAppUser">
+		select * from BASE_APP_USER 
+		<if test="organid != null">
+		    and ORGANID = #{organid}
+		</if>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from BASE_APP_USER 
+	</select>
+	
+	<select id="queryObjectByUserIds" resultType="com.css.addbase.apporgan.entity.BaseAppUser" >
+		select  *  from BASE_APP_USER where USER_ID in 
+		<foreach item="userIds" collection="array" open="(" separator="," close=")">
+			#{userIds}
+		</foreach>
+	</select>
+	
+	<select id="queryObjectByDeptIds" resultType="com.css.addbase.apporgan.entity.BaseAppUser" >
+		select  *  from BASE_APP_USER where ORGANID in 
+		<foreach item="deptIds" collection="array" open="(" separator="," close=")">
+			#{deptIds}
+		</foreach>
+	</select>
+	
+	<select id="queryContactList" resultType="com.css.addbase.apporgan.entity.BaseAppUser">
+		<if test="askType != null">
+		 select *  from  BASE_APP_USER  where 1=1 
+        	and USER_ID in (
+                select
+                        top 0, 3 
+                        CHECK_USER_ID
+                from
+                        DOCUMENT_CHECK_MANUSCRIPT
+                group by
+                        CHECK_USER_ID
+                order by
+                        count(*) desc
+      		 )
+      	</if>
+      	<if test="checkType != null">
+      	 select *  from  BASE_APP_USER  where 1=1 
+        	and USER_ID in (
+                select
+                        top 0, 3 
+                        AUDIT_USER_ID
+                from
+                        DOCUMENT_AUDIT
+                group by
+                        AUDIT_USER_ID
+                order by
+                        count(*) desc
+      		 )
+      	</if>
+   		<if test="signType != null">
+      	 select *  from  BASE_APP_USER  where 1=1 
+        	and USER_ID in (
+                select
+                        top 0, 3 
+                        REVIEWER_ID
+                from
+                        DOCUMENT_REVIEW_STAMP
+                group by
+                        REVIEWER_ID
+                order by
+                        count(*) desc
+      		 )
+      	</if>
+   	</select>
+	 
+	<insert id="save" parameterType="com.css.addbase.apporgan.entity.BaseAppUser">
+		insert into BASE_APP_USER
+		(
+			"ID", 
+			"USER_ID", 
+			"ISDELETE", 
+			"TIMESTAMP", 
+			"SORT", 
+			"TRUENAME", 
+			"TYPE", 
+			"IF_SYSTEM", 
+			"ORGANID", 
+			"ACCOUNT", 
+			"MOBILE", 
+			"USEREMAIL", 
+			"SECLEVEL", 
+			"SEX",
+			"IF_DUTY"
+		)
+		values
+		(
+			#{id}, 
+			#{userId}, 
+			#{isdelete}, 
+			#{timestamp}, 
+			#{sort}, 
+			#{truename}, 
+			#{type}, 
+			#{ifSystem}, 
+			#{organid}, 
+			#{account}, 
+			#{mobile}, 
+			#{useremail}, 
+			#{seclevel}, 
+			#{sex},
+			#{ifDuty}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.css.addbase.apporgan.entity.BaseAppUser">
+		update BASE_APP_USER 
+		<set>
+			<if test="userId != null">"USER_ID" = #{userId}, </if>
+			<if test="isdelete != null">"ISDELETE" = #{isdelete}, </if>
+			<if test="timestamp != null">"TIMESTAMP" = #{timestamp}, </if>
+			<if test="sort != null">"SORT" = #{sort}, </if>
+			<if test="truename != null">"TRUENAME" = #{truename}, </if>
+			<if test="type != null">"TYPE" = #{type}, </if>
+			<if test="ifSystem != null">"IF_SYSTEM" = #{ifSystem}, </if>
+			<if test="organid != null">"ORGANID" = #{organid}, </if>
+			<if test="account != null">"ACCOUNT" = #{account}, </if>
+			<if test="mobile != null">"MOBILE" = #{mobile}, </if>
+			<if test="useremail != null">"USEREMAIL" = #{useremail}, </if>
+			<if test="seclevel != null">"SECLEVEL" = #{seclevel}, </if>
+			<if test="sex != null">"SEX" = #{sex},</if>
+			<if test="ifDuty != null">"IF_DUTY" = #{ifDuty}</if>
+		</set>
+		where ID = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from BASE_APP_USER where ID = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from BASE_APP_USER where ID in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

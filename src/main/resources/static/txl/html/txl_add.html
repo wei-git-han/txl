@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+	<meta charset="utf-8"/>
+	<title>编辑人员信息</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta content="width=device-width, initial-scale=1" name="viewport"/>
+	<link href="../../assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+	<link href="../../assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
+	<link href="../../assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+	<link href="../../assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+	<link href="../../assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css"/>
+	<link href="../../assets/admin/pages/css/tasks.css" rel="stylesheet" type="text/css"/>
+	<link href="../../assets/global/css/components.css" id="style_components" rel="stylesheet" type="text/css"/>
+	<link href="../../assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
+	<link href="../../assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
+	<link href="../../assets/admin/layout/css/themes/blue.css" rel="stylesheet" type="text/css" id="style_color"/>
+	<link href="../../assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
+	
+	<!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
+	<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/clockface/css/clockface.css"/>
+	<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css"/>
+	<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css"/>
+	<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/bootstrap-colorpicker/css/colorpicker.css"/>
+	<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css"/>
+	<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"/>	
+	<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/jstree/dist/themes/default/style.min.css"/>
+	
+	<link rel="stylesheet" type="text/css" href="../../templates/admin/commons/css/common.css"/>
+	<link rel="stylesheet" type="text/css" href="../../templates/admin/css/common_index.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/txl_add.css"/>
+</head>
+<body>
+	<div class="wrap">
+		<div class="txl_top">
+			<div class="txl_top_left"><img src="../images/back-normal.png" class="imgsbig"  id="return" />编辑信息</div>
+		</div>
+		<div class="txl_content_wrap">
+			<div class="txl_content">
+			    	<div class="scroller" style="height:100%;">
+						<form class="form-horizontal" role="form"  style="margin-top:12%;"  id="saveForm">
+							<input type="hidden" class="form-control bgwhite"   id="userid"  name="userid"  />
+							<!-- <div class="right_header">
+								<img src="../../templates/admin/images/personman.png" class="headpic"  />
+							</div> -->
+							<div class="form-body">
+								<div class="form-group">
+									<label class="col-xs-4 labels">姓名</label>
+									<div class="col-xs-5">
+										<input type="text" name="fullname" id="fullname"  class="form-control"  value=""   required="required"   trim="trim" />
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-xs-4 labels">性别</label>
+									<div class="col-xs-5"  style="padding-top: 5px;">
+										<input type="radio" name="sex"   id="man"    value="0"  disabled="disabled"  checked="checked" />男  &nbsp;&nbsp;&nbsp;
+										<input type="radio" name="sex"  id="woman"   value="1"  disabled="disabled"  />女
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-xs-4 labels">部门</label>
+									<div class="col-xs-5">
+					                      <input type="text" class="form-control bgwhite"   id="organName"  name="organName"  />
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-xs-4 labels">职务</label>
+									<div class="col-xs-5">
+										<input type="text" name="post" id="post" class="form-control" value="" />
+									</div>
+								</div>
+								
+								
+								<div class="form-group">
+									<label class="col-xs-4 labels">座机</label>
+									<div class="col-xs-5">
+										<input type="text" name="telephone" id="telephone" class="form-control" value=""   tel="tel"  trim="trim" />
+									</div>
+								</div>
+								
+								<div class="form-group addpart">
+									<label class="col-xs-4 labels">手机</label>
+									<div class="col-xs-5">
+										<input type="text" name="mobile" id="mobile" class="form-control" value=""   required="required"    tel="tel"  trim="trim"   />
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label class="col-xs-4 labels">房间号</label>
+									<div class="col-xs-5">
+										<input type="text" name="address"  id="address"  class="form-control" value="" />
+									</div>
+								</div>
+								
+								<div class="form-group" style="margin-top:50px;">
+									<label class="col-xs-4 labels"></label>
+									<div class="col-xs-5">
+										<div class="footer_btn">
+											<button type="button"   id="save">保存</button>
+											<button type="button"  id="quxiao">取消</button>
+										</div>
+									</div>
+								</div>
+								
+							</div>
+						</form>
+					</div>
+			</div>
+		</div>
+	</div>	
+	<script src="../../assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+	<script src="../../assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
+	<script src="../../assets/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+	<script src="../../assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="../../assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+	<script src="../../assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+	<script src="../../assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+	<script src="../../assets/global/plugins/jquery.cokie.min.js" type="text/javascript"></script>
+	<script src="../../assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+	<script src="../../assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+	<script src="../../assets/global/scripts/metronic.js" type="text/javascript"></script>
+	<script src="../../assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
+	<script src="../../assets/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
+	<script src="../../assets/admin/layout/scripts/demo.js" type="text/javascript"></script>
+	<script src="../../assets/global/plugins/gridtable/gridtable.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../assets/admin/pages/scripts/tasks.js" type="text/javascript"></script>
+	<script src="../../assets/global/plugins/bootbox/bootbox.min.js" type="text/javascript"></script>
+	<script src="../../assets/global/plugins/jstree/dist/jstree.min.js"></script>
+	<script type="text/javascript" src="../../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+	<script type="text/javascript" src="../../assets/global/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+	<script type="text/javascript" src="../../assets/global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+	<script type="text/javascript" src="../../assets/global/plugins/clockface/js/clockface.js"></script>
+	<script type="text/javascript" src="../../assets/global/plugins/bootstrap-daterangepicker/moment.min.js"></script>
+	<script type="text/javascript" src="../../assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+	<script type="text/javascript" src="../../assets/global/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+	<script type="text/javascript" src="../../assets/global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+	<script type="text/javascript" src="../../assets/global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script type="text/javascript" src="../../assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="../../assets/global/plugins/jquery-validation/js/additional-methods.js"></script>
+	<script type="text/javascript" src="../../assets/global/plugins/jquery-validation/js/localization/messages_zh.js"></script>
+	<script src="../../templates/admin/commons/js/jquery.form.js" type="text/javascript"></script>
+	<script src="../../templates/admin/commons/js/commons.js" type="text/javascript"></script>
+	<script src="../js/txl_add.js" type="text/javascript"></script>
+	
+	<script th:inline="javascript">
+		/*[+
+		 	var rytree = {"url":"../data/rytree.json","dataType":"text"};//人员树
+		 	var bmtree = {"url":"../data/bmtree.json","dataType":"text"};//部门树
+		+]*/
+		   
+		/*[-*/
+			var rytree = {"url":"../data/rytree.json","dataType":"text"};//人员树
+			var bmtree = {"url":"/txlorgan/tree","dataType":"text"};//部门树 
+			/*  var bmtree = {"url":"../data/bmtree.json","dataType":"text"};//部门树  */
+			//var returndata = {"url":"../data/returndata.json","dataType":"text"};//返回的数据
+		/*-]*/
+		jQuery(document).ready(function() {
+			pageModule.initControl();
+		});
+	</script>
+</body>
+</html>

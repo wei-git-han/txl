@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.css.base.log.dao.ExceptionDao">
+
+	<!-- <select id="getProjectByUserName" resultType="com.css.xminfo.entity.TProjectInfoEntity"> 
+		select * from t_project_info where GCPM = #{0} </select> -->
+
+	<select id="queryList" resultType="com.css.base.log.entity.SysLogException">
+		select * from T_Log_Exception where 1=1
+		<!-- <if test="projectId != null "> and PROJECT_ID = #{projectId} </if> -->
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<insert id="save" parameterType="com.css.base.log.entity.SysLogException">
+		insert into SYS_LOG_EXCEPTION
+		(
+		"exception_Name",
+		"ex_id",
+		"execute_Time",
+		"system_Code",
+		"stack_Trace_Msg"
+		)
+		values
+		(
+		#{exceptionName},
+		#{exId},
+		#{executeTime},
+		#{systemCode},
+		#{stackTraceMsg}
+		)
+	</insert>
+
+</mapper>

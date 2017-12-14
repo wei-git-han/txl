@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+	<meta charset="utf-8"/>
+	<title>通讯录</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta content="width=device-width, initial-scale=1" name="viewport"/>
+	<link href="assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+	<link href="assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
+	<link href="assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+	<link href="assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+	<link href="assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css"/>
+	<link href="assets/admin/pages/css/blog.css" rel="stylesheet" type="text/css"/>
+	<link rel="stylesheet" type="text/css" href="assets/global/plugins/jstree/dist/themes/default/style.min.css"/>
+	<link href="assets/admin/pages/css/timeline-old.css" rel="stylesheet" type="text/css"/>
+	<link href="assets/admin/pages/css/tasks.css" rel="stylesheet" type="text/css"/>
+	<link href="assets/global/css/components.css" id="style_components" rel="stylesheet" type="text/css"/>
+	<link href="assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
+	<link href="assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
+	<link href="assets/admin/layout/css/themes/blue.css" rel="stylesheet" type="text/css" id="style_color"/>
+	<link href="assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
+	
+	<link rel="stylesheet" type="text/css" href="templates/admin/commons/css/common.css"/>
+	<link rel="stylesheet" type="text/css" href="templates/admin/css/common_index.css"/>
+	<link rel="stylesheet" type="text/css" href="templates/admin/css/index.css"/>
+</head>
+<body onkeydown="keySearch()">
+	<div class="wrap">
+		<input type="hidden" id="treeSecId"/>
+		<input type="hidden" id="secName"/>
+		<input type="hidden" name="starttime" id="starttime"/>
+		<div class="wrap_top">
+			<div class="wrap_top_content">
+				<p>通讯录</p>
+				<div class="top_part">
+					<input type="text" name="searchValue"   class="searchValue"  id="searchValue" value="" />
+					<img src="templates/admin/images/search-normal.png" class="search_btn"/>
+				</div>
+			</div>
+		</div>
+		<div class="wrap_content">
+			<div class="main_content">
+				<div class="main_left">
+					<div class="main_left_wrap">
+						<p class="left_title"><img src="templates/admin/images/tab_n.png" class="imgs" style="float: left;" />&nbsp;<a style="float: left;margin-left: 5px;">全部联系人</a></p>
+						<div class="left_tree">
+							<div class="left_tree_wrap">
+								<div class="scroller" style="height:100%;">
+									<div id="tree_2" class="tree-demo" style="height:100%;overflow-x: auto;"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="main_center">
+					<div class="main_center_wrap">
+						<!--开始，无结果的时候把里面的内容清空-->
+						<!-- <div class="scroller" style="height:100%;"> -->
+							<div style="height:100%;width:100%;position:relative;">
+								<div class="center_content">
+									<div class="center_content_main">
+											<div style="width:100%;height:231px;position:absolute;overflow:hidden;">
+												<div style="width:100%;height:100%;position:relative;">
+													<div style="height:36px;line-height:36px;width:100%;position:absolute;">
+														<p class="center_title" style="vertical-align: middle;"><img src="templates/admin/images/favorite-normal.png" class="imgs" /> 收藏</p>
+													</div>
+													<div style="height:100%;width:100%;padding-top:36px;">
+														<div style="height:100%;width:100%;position:relative;overflow:hidden">
+															<div  style="height:100%;width:50px;position:absolute;left:0px;">
+																<div style="height:100%;width:100%;padding-bottom:10px;">
+																	<div  style="height:100%;width:100%;position:relative;line-height:185px;text-align: center;">
+																			<i class="fa  fa-chevron-left"  style="font-size:20px;color:#B6B6B6;cursor:pointer;" id="leftbtn"></i>
+																	</div>
+																</div>
+															</div>
+															<div  style="height:100%;width:50px;position:absolute;right:0px;">
+																<div style="height:100%;width:100%;padding-bottom:10px;">
+																	<div  style="height:100%;width:100%;position:relative;line-height:185px;text-align: center;z-index:999">
+																			<i class="fa  fa-chevron-right"  style="font-size:20px;color:#B6B6B6;cursor:pointer;" id="rightbtn"></i>
+																	</div>
+																</div>
+															</div>
+															<div  style="position:absolute;left:50px;right:50px;height:100%;">
+																<div style="width:100%;height:100%;position:relative;white-space: nowrap;overflow:hidden;">
+																	<div  class="lxrContent"  id="lxrContent"   style="position: absolute;left: 0px;">
+																		<!--动态加载-->
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!--表格-->
+											<div style="width:100%;height:100%;padding-top:231px;">
+												<div style="width:100%;height:100%;position:relative;">
+														<div style="height:36px;line-height:36px;width:100%;position:absolute;">
+															<!-- <button  id="addsc" type="button"  style=" float: right; margin-right: 10px; color: #5498EB; height: 26px;line-height: 21px; background: none;border: none;border: 1px solid #5498e8;">收藏 <i class="fa fa-plus" style="color:#5498EB"></i></button> -->
+															<button  id="daoru" type="button"  style=" float: right; margin-right: 10px; color: #5498EB; height: 26px;line-height: 21px; background: none;border: none;border: 1px solid #5498e8; display: none;">导入 <i class="fa fa-sign-in" style="color:#5498EB"></i></button>  
+														</div>
+														<div style="height:100%;width:100%;padding-top:40px;">
+															<div style="height:100%;width:100%;position:relative;">
+																	<div id="gridcont"  style="height:100%;width:100%;"></div>
+															</div>
+														</div>
+												</div>
+											</div>
+									</div>
+								</div>
+							 </div>
+						<!--  </div> -->
+						<!--结束-->
+						<!--无搜索结果时的页面展示
+							<div class="noresult">
+							<img src="templates/admin/images/noresult.png" />
+							<p>无搜索结果!</p>
+						</div>
+						-->
+
+					</div>		
+				</div>
+						<div class="main_right">
+					<div class="main_right_wrap">
+						<p class="right_title" style="width:100%;"><span>特殊电话</span><button  id="add_bmdh"  style="display:none; float:right;margin-right:20px;margin-top: -5px;border:none;border:1px solid #5498EB"><i class="fa fa-plus"  style="color:#5498EB"></i></button></p>
+						<div class="right_part">
+							<div class="right_part_wrap">
+								<div class="scroller" style="height:100%;">
+									<div id="bmdh" style="overflow:hidden">
+										
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	
+	<script src="assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+	<script src="assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
+	<!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+	<script src="assets/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+	<script src="assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+	<script src="assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+	<script src="assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+	<script src="assets/global/plugins/jquery.cokie.min.js" type="text/javascript"></script>
+	<script src="assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+	<script src="assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+	<script src="assets/global/plugins/bootbox/bootbox.min.js" type="text/javascript"></script>
+	<script src="assets/global/scripts/metronic.js" type="text/javascript"></script>
+	<script src="assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
+	<script src="assets/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
+	<script src="assets/admin/layout/scripts/demo.js" type="text/javascript"></script>
+	<script src="assets/admin/pages/scripts/tasks.js" type="text/javascript"></script>
+	 <script src="assets/global/plugins/gridtable/gridtable.js"></script>
+	<script src="assets/global/plugins/jstree/dist/jstree.min.js"></script>
+	<script src="templates/admin/commons/js/commons.js" type="text/javascript"></script>
+	<script src="templates/admin/js/index.js" type="text/javascript"></script>
+	<script th:inline="javascript">
+		/* var txltree = {"url":"templates/admin/data/txltree.json","dataType":"text"};//通讯录树   */
+		var txltree = {"url":"txlorgan/tree","dataType":"text"};//通讯录树
+		//var lxr = {"url":"templates/admin/data/lxr.json","dataType":"text"};//联系人树 
+		var lxr = {"url":"txlUser/scuser","dataType":"text"};//联系人树
+		var orglxr = {"url":"txlUser/orguser","dataType":"text"};//联系
+		var bmdh = {"url":"txlorgtel/listBmdh","dataType":"text"};//部门电话
+		var addorupd = {"url":"txlcollect/addorupd","dataType":"text"};//新增或更新收藏信息
+		var delSc = {"url":"txlcollect/delSc","dataType":"text"};//取消收藏
+		//var tablegrid = {"url":"templates/admin/data/tablegrid.json","dataType":"text"};//表格数据
+		var savetip = {"url":"templates/admin/data/savetip.json","dataType":"text"};//收藏提示
+		var tablegrid = {"url":"txlUser/listuser","dataType":"text"};//表格数据
+		var delone = {"url":"txlorgtel/deleteone","dataType":"text"};//取消收藏
+		var importdata = {"url":"txlUser/syncdate","dataType":"text"};//取消收藏
+		jQuery(document).ready(function() {
+			pageModule.initControl();
+		});
+	</script>
+</body>
+</html>

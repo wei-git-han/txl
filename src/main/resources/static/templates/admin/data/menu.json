@@ -1,0 +1,28 @@
+/****************
+功能:系统主页菜单
+状态:状态
+request
+response
+	id:菜单id
+	name:菜单名称
+	href:菜单路径
+
+******************/
+
+[
+    {
+        "href": "document/qwgl/html/qwgl.html",
+        "id": "qwgl",
+        "text": "勤务管理"
+    },
+    {
+        "href": "document/qwdj/html/qwdj.html",
+        "id": "qwdj",
+        "text": "勤务登记"
+    },
+    {
+        "href": "document/qwtj/html/qwtj.html",
+        "id": "qwtj",
+        "text": "勤务统计"
+    }
+]

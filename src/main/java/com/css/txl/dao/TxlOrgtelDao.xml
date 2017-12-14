@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.css.txl.dao.TxlOrgtelDao">
+
+	<select id="queryObject" resultType="com.css.txl.entity.TxlOrgtel">
+		select * from TXL_ORGTEL where ID = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.css.txl.entity.TxlOrgtel">
+		select * from TXL_ORGTEL 
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from TXL_ORGTEL 
+	</select>
+	 
+	<insert id="save" parameterType="com.css.txl.entity.TxlOrgtel">
+		insert into TXL_ORGTEL
+		(
+			"ID", 
+			"ORG_ID", 
+			"ORG_NAME", 
+			"ORG_ADDRESS", 
+			"ORG_TEL"
+		)
+		values
+		(
+			#{id}, 
+			#{orgId}, 
+			#{orgName}, 
+			#{orgAddress}, 
+			#{orgTel}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.css.txl.entity.TxlOrgtel">
+		update TXL_ORGTEL 
+		<set>
+			<if test="orgId != null">"ORG_ID" = #{orgId}, </if>
+			<if test="orgName != null">"ORG_NAME" = #{orgName}, </if>
+			<if test="orgAddress != null">"ORG_ADDRESS" = #{orgAddress}, </if>
+			<if test="orgTel != null">"ORG_TEL" = #{orgTel}</if>
+		</set>
+		where ID = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from TXL_ORGTEL where ID = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from TXL_ORGTEL where ID in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

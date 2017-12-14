@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.css.base.dao.SysGeneratorDao">
+	<select id="queryList" resultType="map">
+		select tableName , engine , tableComment, createTime from (
+			select name tableName, 'DM' as engine, crtdate createTime from SYSOBJECTS 
+				where SCHID in ( select ID from SYSOBJECTS where NAME IN ( select USERNAME from USER_USERS ) AND TYPE$='SCH' ) and SUBTYPE$='UTAB' )
+		left join ( 
+			select TVNAME, COMMENT$ tableComment from SYSTABLECOMMENTS 
+				where SCHNAME IN ( select USERNAME from USER_USERS ) and TABLE_TYPE ='TABLE' )
+		on TABLENAME=TVNAME 
+		<if test="tableName != null and tableName.trim() != ''">
+			and table_name like concat('%', #{tableName}, '%') 
+		</if>
+		order by tablename
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+	<select id="queryTotal" resultType="int">
+		select count(*) from USER_TABLES
+		<if test="tableName != null and tableName.trim() != ''">
+			and table_name like concat('%', #{tableName}, '%') 
+		</if> 
+	</select> 
+	
+	<select id="queryTable" resultType="map">
+		select tableName , engine , tableComment, createTime from (
+			select name tableName, 'DM' as engine, crtdate createTime from SYSOBJECTS 
+				where SCHID in ( select ID from SYSOBJECTS where NAME IN ( select USERNAME from USER_USERS ) AND TYPE$='SCH' ) and SUBTYPE$='UTAB' and name=#{tableName})
+		left join ( 
+			select TVNAME, COMMENT$ tableComment from SYSTABLECOMMENTS 
+				where SCHNAME IN ( select USERNAME from USER_USERS ) and TABLE_TYPE ='TABLE'  and TVNAME=#{tableName})
+		on TABLENAME=TVNAME 
+	</select> 
+	
+	<select id="queryColumns" resultType="map">
+		 select F.COLUMN_NAME columnName,F.DATA_TYPE dataType,F.COMMENT$ columnComment,E.P,'' extra from ( 
+		 	select * from USER_TAB_COLUMNS a 
+		 		left join ( select * from SYSCOLUMNCOMMENTS where TVNAME=#{tableName} and  SCHNAME IN ( select USERNAME from USER_USERS ) ) b 
+		 			on COLUMN_NAME=b.COLNAME WHERE a.TABLE_NAME=#{tableName} ) f 
+		 		left join( select c.TABLE_NAME, c.COLUMN_NAME,'P' p from USER_CONS_COLUMNS c 
+		 		left join (select * from USER_CONSTRAINTS) d on c.CONSTRAINT_NAME=D.CONSTRAINT_NAME where d.CONSTRAINT_TYPE='P' and c.TABLE_NAME=#{tableName} ) e 
+		 		on f.COLUMN_NAME=e.COLUMN_NAME 
+	</select>
+</mapper>

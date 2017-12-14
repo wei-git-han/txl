@@ -1,0 +1,75 @@
+.haspic{
+	float: left;
+	display: inline-block;
+	width:15px;
+	height: 20px;
+    background: url(../images/favorite-n.png) no-repeat right 2px;
+    margin-left: 8px;
+    margin-top: 4px;
+	background-size:15px;
+}
+.haspic:hover{
+	background-image: url(../images/favorite-h.png);
+}
+
+.activelove{
+	float: left;
+	display: inline-block;
+	width:15px;
+	height: 20px;
+	background: url(../images/favorite-normal.png) no-repeat right 2px;
+    margin-left:4px;
+	background-size:15px;
+}
+.activelove:hover{
+	background-image: url(../images/favorite-hover.png);
+}
+
+/*右侧部门电话桃心*/
+.haspicR{
+	float: left;
+	display: inline-block;
+	width:15px;
+	height: 20px;
+    background: url(../images/favorite-n.png) no-repeat right 2px;
+    margin-left: 8px;
+	background-size:15px;
+}
+.haspicR:hover{
+	background-image: url(../images/favorite-h.png);
+}
+
+.activeloveR{
+	float: left;
+	display: inline-block;
+	width:15px;
+	height: 20px;
+	background: url(../images/favorite-normal.png) no-repeat right 2px;
+    margin-left:4px;
+	background-size:15px;
+}
+.activeloveR:hover{
+	background-image: url(../images/favorite-hover.png);
+}
+
+.table-advance thead tr th {
+    background-color: #DDD;
+    font-size: 14px;
+    font-weight: 400;
+    color: #333;
+    text-align:center!important
+}
+
+.table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+   background:#fff
+}
+.ysc i{color:#ccc;}
+
+
+
+
+
+
+
+
+

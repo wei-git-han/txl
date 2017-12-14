@@ -1,0 +1,19 @@
+package ${package}.dao;
+
+import ${package}.entity.${className};
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.css.base.dao.BaseDao;
+
+/**
+ * ${comments}
+ * 
+ * @author 中软信息系统工程有限公司
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Mapper
+public interface ${className}Dao extends BaseDao<${className}> {
+	
+}

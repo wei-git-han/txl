@@ -1,0 +1,27 @@
+<!-- <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.css.base.shiro.RealmDao">
+	
+	 查询用户的所有权限
+	<select id="queryUserPerms" resultType="String">
+		select p.p_handle from sys_user_role ur 
+			left join sys_role_permission rp on ur.role_id = rp.role_id 
+			left join sys_permission p on rp.p_id = p.p_id
+		where ur.user_id=#{userId}
+	</select>
+	
+	查询用户的所有菜单ID 
+	<select id="queryAllMenuId" resultType="Long">
+		select m.menu_id from sys_user_role ur 
+			LEFT JOIN sys_role_permission rp on ur.role_id = rp.role_id 
+			LEFT JOIN sys_menu m on rp.p_id = m.perms 
+		where ur.user_id = #{userId}
+	</select>
+	 <select id="queryByUserName" resultType="com.css.base.entity.SysUser">
+		select * from sys_user where username = #{username}
+ 	</select>
+	<select id="queryAllPerms" resultType="String">
+		select handle from sys_permission 
+	</select>
+</mapper>  -->

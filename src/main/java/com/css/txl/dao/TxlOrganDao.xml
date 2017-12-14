@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.css.txl.dao.TxlOrganDao">
+
+	<select id="queryObject" resultType="com.css.txl.entity.TxlOrgan">
+		select * from TXL_ORGAN where ORGANID = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.css.txl.entity.TxlOrgan">
+		select * from TXL_ORGAN 
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from TXL_ORGAN 
+	</select>
+	 
+	<insert id="save" parameterType="com.css.txl.entity.TxlOrgan">
+		insert into TXL_ORGAN
+		(
+			"ORGANID", 
+			"ORGANNAME", 
+			"FATHERID", 
+			"ORDERID", 
+			"DN", 
+			"ISDELETE", 
+			"CODE", 
+			"PATH", 
+			"ORGUUID", 
+			"TIMESTAMP", 
+			"TYPE"
+		)
+		values
+		(
+			#{organid}, 
+			#{organname}, 
+			#{fatherid}, 
+			#{orderid}, 
+			#{dn}, 
+			#{isdelete}, 
+			#{code}, 
+			#{path}, 
+			#{orguuid}, 
+			#{timestamp}, 
+			#{type}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.css.txl.entity.TxlOrgan">
+		update TXL_ORGAN 
+		<set>
+			<if test="organname != null">"ORGANNAME" = #{organname}, </if>
+			<if test="fatherid != null">"FATHERID" = #{fatherid}, </if>
+			<if test="orderid != null">"ORDERID" = #{orderid}, </if>
+			<if test="dn != null">"DN" = #{dn}, </if>
+			<if test="isdelete != null">"ISDELETE" = #{isdelete}, </if>
+			<if test="code != null">"CODE" = #{code}, </if>
+			<if test="path != null">"PATH" = #{path}, </if>
+			<if test="orguuid != null">"ORGUUID" = #{orguuid}, </if>
+			<if test="timestamp != null">"TIMESTAMP" = #{timestamp}, </if>
+			<if test="type != null">"TYPE" = #{type}</if>
+		</set>
+		where ORGANID = #{organid}
+	</update>
+	
+	<delete id="delete">
+		delete from TXL_ORGAN where ORGANID = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from TXL_ORGAN where ORGANID in 
+		<foreach item="organid" collection="array" open="(" separator="," close=")">
+			#{organid}
+		</foreach>
+	</delete>
+
+</mapper>

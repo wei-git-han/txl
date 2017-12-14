@@ -1,0 +1,80 @@
+﻿server:
+  port: 8132
+
+app:
+  ConnectTimeout: 100
+  ReadTimeout: 5000
+ 
+#子配置文件
+spring.profiles.include: url
+ 
+druid:
+    dbType: dm
+    url: jdbc:dm://${csse.dmdba.url}/TXL_APP
+    username: TXL_APP
+    password: password01
+    initial-size: 1
+    min-idle: 1
+    max-active: 5
+    test-on-borrow: true
+
+mybatis.configuration.mapUnderscoreToCamelCase: true
+
+logging:
+  file: ${csse.log.path}
+  level:
+#    root: info
+    com: 
+      css: debug
+
+spring:
+  application:
+    name: SinglePlatform
+
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+
+#单点登录配置（新）
+csse:
+  mircoservice:
+    oauth2:
+      client:
+        accessTokenUri: ${csse.mircoservice.zuul}/api/uaa/oauth/token
+        clientId: ${csse.txl.appId}
+        clientSecret: ${csse.txl.appSecret}
+  sso: 
+    server: 
+      url: ${csse.mircoservice.zuul}
+      no-auth-suffixs: js,css,font,png,jpg,jpeg,htm,ico,pdf,ofd,wps,doc
+      api: 
+        checkToken: api/sso/valtoken/  
+        userinfo: api/sso/user/
+
+#消息格式
+msg:
+  type: application
+  appid: 
+  display: 
+    system: 
+    notification: 
+    msgbox: 
+  action: 
+    anstore: 
+    deployment: 
+
+#判断当前登录者是否为应用的管理员
+csse.mircoservice.app: /api/app/application/manager
+#组织机构增量同步接口
+csse.mircoservice.syncdepartments: /api/org/syncdepartments
+
+#数据库配置地址
+csse.dmdba.url: 172.16.201.31:5236
+#应用的appID
+csse.txl.appID: cpk.csse.txl
+#应用的secret
+csse.txl.appSecret: secret
+#日志输出路径
+csse.log.path: c:/temp/storetemp/meet.log
