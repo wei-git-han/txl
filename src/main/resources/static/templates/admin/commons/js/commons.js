@@ -1,3 +1,6 @@
+/*
+ js验证的时候用
+ * */
 var css={
 		filter_html:function(html){
 			/*1、本方法的功能：去除HTML标签、空格（&nbsp;）、换行（\n）*/
@@ -58,12 +61,12 @@ var css={
 		}
 };
 
-jQuery(document).ready(function() {    
+jQuery(document).ready(function() {
     Metronic.init(); // init metronic core componets
     Layout.init(); // init layout
     QuickSidebar.init(); // init quick sidebar
     Demo.init(); // init demo features
-    //initcomonother();
+    initcomonother();
     initinclude();
     
     var pagedate = new Date();
@@ -75,15 +78,29 @@ jQuery(document).ready(function() {
 	if(day<10){
 		day = "0"+day;
 	}
-	
-	var hour = pagedate.getHours();
-	var minute = pagedate.getMinutes();
-	
 	var year = pagedate.getFullYear();
 	$(".datee").val(year+"-"+month+"-"+day);
-	$(".nowdate").val(year+"-"+month+"-"+day+" "+hour+":"+minute);
-	
 });    
+
+/*start设置bootstrap滚动条自适应浏览器高度*/
+var c2 = {};
+$(window).resize(function(){
+	clearTimeout(c2);
+	c2 = setTimeout(function(){
+		/*
+        <div style="height:100%;">高度通过此处来设置,scroller外面需要包一层容器
+        	<div  style="height:100%;" class="scroller">
+        	</div>
+        </div>
+		 */
+		$(".slimScrollDiv,.scroller").each(function(){
+			$(this).css({"height":"100%"});
+		});
+	},500)
+});
+/*end*/
+
+
     
 function setformdata(data){
 	for(key in data){
@@ -150,15 +167,21 @@ function getformdata(arry){
 }
 
 
+
 /*
  传入一个表单name数组，清空表单数据（重置按钮使用）-------这个方法可以用在列表的重置按钮上，传入对应的表单元素的name值即可
  * */
 
-function removeInputData(arry){
-	$.each(arry,function(i){
-		$("[name="+arry[i]+"]").val("");
-	})
-}
+	function removeInputData(arry){
+		$.each(arry,function(i){
+			$("[name="+arry[i]+"]").val("");
+		})
+	}
+
+
+
+
+
 
 /*	var jsonarry =  [{
 						text:"是否转维修",
@@ -244,7 +267,6 @@ function getUrlParam(name){
 	if(r!=null)return unescape(r[2]);
 	return null;
 }
-
 /*升级版，可以带中文自动解码*/
 function getUrlParam2(name){
 	var reg=new RegExp("(^|&)"+name+"=([^&]*)(&|$)","i");
@@ -254,7 +276,12 @@ function getUrlParam2(name){
 	return null;
 }
 
-
+function initcomonother(){
+	$(".menu2_list2").click(function(){
+		$(".menu2_list2").removeClass("active");
+		$(this).addClass("active");
+	})
+}
 	
 function initinclude(){
 	var include = $("[include]");
@@ -309,6 +336,13 @@ jQuery.fn.extend({
 	}
 });
 
+jQuery.fn.extend({
+	createUserTree: function(obj) {
+		obj.target = $(this).attr("id");
+		var gridobj = new createUserTree(obj);
+		return gridobj;
+	}
+});
 
 function createSelecttree(obj){
 	var create = function(){
@@ -336,7 +370,7 @@ function createSelecttree(obj){
 			data = {};
 		}
 		$("#"+obj.target).parent().append(
-			'<div class="'+obj.target+'tree1" style="display:none;background:#ffffff;border:1px solid #cccccc;'+width+';padding:10px;position:relative;z-index: 100;">'+
+			'<div class="'+obj.target+'tree1 positionTree" style="max-height:300px;overflow-y:auto;overflow-x: auto;display:none;background:#ffffff;border:1px solid #cccccc;'+width+';padding:10px;position:relative;z-index: 100;">'+
     		'	<div id="'+obj.target+'tree2" class="tree-demo" style="width:100%;">'+
 			'	</div>'+
     		'</div>'
@@ -400,7 +434,6 @@ function createSelecttree(obj){
 
 
 
-
 function createcheckboxtree(obj){
 	var create = function(){
 		$(".selecttree").css({
@@ -427,7 +460,7 @@ function createcheckboxtree(obj){
 			data = {};
 		}
 		$("#"+obj.target).parent().append(
-			'<div class="'+obj.target+'tree1" style="display:none;background:#ffffff;border:1px solid #cccccc;'+width+';padding:10px;position:relative;z-index: 100;">'+
+			'<div class="'+obj.target+'tree1 positionTree" style="max-height:300px;overflow-y:auto;overflow-x: auto;display:none;background:#ffffff;border:1px solid #cccccc;'+width+';padding:10px;position:relative;z-index: 100;">'+
     		'	<div id="'+obj.target+'tree2" class="tree-demo" style="width:100%;">'+
 			'	</div>'+
     		'</div>'
@@ -436,9 +469,11 @@ function createcheckboxtree(obj){
 			$("."+obj.target+"tree1").slideToggle(50);
 			return false;
 		})
-/*		$("body").click(function(){
-			$("."+obj.target+"tree1").slideUp(50)
-		})*/
+		$("."+obj.target+"tree1").click(function(){
+			return false;
+		})
+		
+
 		//增加判断，当点击展开和收起加减号时不隐藏树。
 		$("body").click(function(e){
 			if($(e.target).hasClass("jstree-ocl")){
@@ -475,22 +510,29 @@ function createcheckboxtree(obj){
 					obj.success(data,$("#"+obj.target+"tree2"));
 				});
 				$("#"+obj.target+"tree2").on("select_node.jstree", function(e,data) {
-					var id = $("#" + data.selected).attr("id");
 					
+					var id = $("#" + data.selected).attr("id");
 					var nodes2 = $("#"+obj.target+"tree2").jstree("get_bottom_checked",true);
-			
 					var treessid = [];
 					var treessname = [];
 					$.each(nodes2, function(i,obj) {
 						treessid.push(obj.id)
 						treessname.push(obj.text)
 					});
-					//liuhq:当同一页面中有两个或多个相同树时赋值有重复问题，
-					//$("#"+obj.target).val($("#"+id+">a").text());
-					//$("#"+obj.target).val($("#"+obj.target+"tree2").find("#"+id+">a").eq(0).text());
-					$("#bm").val(treessname);
-					$("#bmId").val(treessid);
-				    //obj.selectnode(e,data);
+					$("#"+obj.target).val(treessname);
+				    obj.selectnode(e,data,treessname,treessid);
+				});
+				$("#"+obj.target+"tree2").on("deselect_node.jstree", function(e,data) {
+					var id = $("#" + data.selected).attr("id");
+					var nodes2 = $("#"+obj.target+"tree2").jstree("get_bottom_checked",true);
+					var treessid = [];
+					var treessname = [];
+					$.each(nodes2, function(i,obj) {
+						treessid.push(obj.id)
+						treessname.push(obj.text)
+					});
+					$("#"+obj.target).val(treessname);
+				    obj.deselectnode(e,data,treessname,treessid);
 				});
 				
 			}
@@ -500,6 +542,117 @@ function createcheckboxtree(obj){
 	create();
 }
 
+function createUserTree(obj){
+	var create = function(){
+		$(".selecttree").css({
+			width:"100%",
+			height:"100%",
+			overflow:"visible"
+		});
+		$("#"+obj.target).css({
+			width:"100%",
+			height:"100%",
+			"padding-left":"10px",
+			border:"none"
+		});
+		$("#"+obj.target)[0].readOnly=true;
+		
+		var width = obj.width;
+		if(width==null||typeof(width)=="undefined"){
+			width = "";
+		}else{
+			width = "width:"+obj.width;
+		}
+		var data = obj.data;
+		if(width==null||typeof(width)=="undefined"){
+			data = {};
+		}
+		$("#"+obj.target).parent().append(
+			'<div class="'+obj.target+'tree1" style="max-height:300px;overflow-y:auto;overflow-x: auto;display:none;background:#ffffff;border:1px solid #cccccc;'+width+';padding:10px;position:absolute;z-index: 100;">'+
+    		'	<div id="'+obj.target+'tree2" class="tree-demo" style="width:100%;">'+
+			'	</div>'+
+    		'</div>'
+		);
+		
+		$("#"+obj.target).click(function(){
+			$("."+obj.target+"tree1").slideToggle(50);
+			return false;
+		})
+		
+		/*在选择树的框范围内点击树不消失*/
+		$("."+obj.target+"tree1").click(function(){
+			return false;
+		})
+		//增加判断，当点击展开和收起加减号时不隐藏树。
+		$("body").click(function(e){
+			if($(e.target).hasClass("jstree-ocl")){
+				return;
+			}
+			$("."+obj.target+"tree1").slideUp(50);
+		})
+		
+		
+		$ajax({
+			url:obj.url,
+			async:false,
+			success:function(data){
+				
+				$("#"+obj.target+"tree2").jstree({
+				    "plugins": ["wholerow", "types",obj.plugins],
+				    "core": {
+				    "themes" : {
+				        "responsive": false
+				    },    
+				    "data": data,
+				    },
+				    "types" : {
+				    	"default" : {
+					        "icon" : "peoples_img"
+					    },
+					    "file" : {
+					        "icon" : "peoples_img"
+					    },
+					    "1" : {
+					        "icon" : "people_img"
+					    }
+				    }
+				});
+				$("#"+obj.target+"tree2").on("ready.jstree", function(e,o) {
+					obj.success(data,$("#"+obj.target+"tree2"));
+				});
+				$("#"+obj.target+"tree2").on("select_node.jstree", function(e,data) {
+					var nodes2 = $("#"+obj.target+"tree2").jstree("get_bottom_selected",true);
+					
+					var treessid = [];
+					var treessname = [];
+					$.each(nodes2, function(i,obj) {
+						if (obj.type == 1) {
+							treessid.push(obj.id);
+							treessname.push(obj.text);
+						}
+					});
+				    obj.selectnode(e,data,treessname,treessid);
+				});
+				
+				$("#"+obj.target+"tree2").on("deselect_node.jstree", function(e,data) {
+					var nodes2 = $("#"+obj.target+"tree2").jstree("get_bottom_selected",true);
+					var treessid = [];
+					var treessname = [];
+					$.each(nodes2, function(i,obj) {
+						if (obj.type == 1) {
+							treessid.push(obj.id);
+							treessname.push(obj.text);
+						}
+					});
+				    obj.selectnode(e,data,treessname,treessid);
+				});
+				
+			}
+		})
+		
+	}
+	create();
+}
 
 
 
@@ -527,31 +680,9 @@ function getWebEquipmentOS(){
 }
 
 
-
-
-
-
-var path = "/gwgl/";
 var newbootbox = {
-	/*封装的新的alert弹出框*/
-	alert:function(text){
-        bootbox.dialog(
-	        {
-	            message: text,
-	            title: "提示",
-	            buttons: {
-		            success: {
-		                label: "确定",
-		                className: "btn-primary",
-		                callback: function() {
-		                }
-		            }
-	            }
-	        }
-        );
-	},
-	confirm:function(obj){  //有两个回调函数，确认删除？
-		bootbox.dialog({
+	confirm:function(obj){
+		window.top.bootbox.dialog({
 	        title: obj.title,
 	        message: obj.message,
 	        buttons: {
@@ -572,41 +703,134 @@ var newbootbox = {
 	        }
 	    });
 	},
-	alertdialog:function(obj){//有一个回调函数
-		bootbox.dialog({
-			title: obj.title,
-		    message: obj.message,
-            buttons: {
-              success: {
-                label: "确定",
-                className: "btn-primary",
-                callback: function() {
-                	obj.callback1();	
-                }
-              }
-            }
-        });
+	//插件的确认框
+	oconfirm:function(obj){
+		window.top.bootbox.dialog({
+	        title: obj.title,
+	        message: obj.message,
+            className:"cjDialog",
+	        buttons: {
+	          success: {
+	            label: "确定",
+	            className: "btn-primary",
+	            callback: function() {
+					obj.callback1();	
+	            }
+	          },
+	          danger: {
+	            label: "取消",
+	            className: "btn-default",
+	            callback: function() {
+	            	//obj.callback2();
+	            }
+	          },
+	        }
+	    });
 	},
-	sure:function(hrefstr,modalId){
-		$("#"+modalId).modal("hide");
-		//alert(this.bootboxfg1)
-		if(hrefstr != ""){
-			/*var topWindow = window.top;
-			topWindow.location.href=hrefstr;*/
-			window.parent.location.href=hrefstr;
+	alert2:function(text){
+		$(".newmodal").remove();
+		$("body").append(
+			'<div class="bootbox modal fade newmodal" id="newalert2" tabindex="-1" role="basic">'+
+			'    <div class="modal-dialog" style="width:600px">'+
+			'        <div class="modal-content">'+
+			'            <div class="modal-header">'+
+			'                <h4 class="modal-title">提示</h4>'+
+			'            </div>'+
+			'            <div class="modal-body" style="height:155px;line-height:140px;text-align:center">'+
+			'				  <div>'+text+'</div>'+
+			'            </div>'+
+			'        </div>'+
+			'    </div>'+
+			'</div>'
+		);
+		$("#newalert2").modal("show");
+	},
+	//插件的提示框
+	alert:function(text,shi){
+		var dtd=$.Deferred();
+        window.top.bootbox.dialog({
+	            message: text,
+	            title: "提示",
+	            className:"cjDialog"
+	        });
+        if(shi!=false){
+        	var $alert=window.top.$(".cjDialog");
+            var cancel=setTimeout(function(){
+    			window.top.$(".newclose").click();
+    			dtd.resolve();
+    		},2000);
+    		$alert.on("hidden.bs.modal",function(e){
+    			clearTimeout(cancel);
+    			dtd.resolve();
+    		});
+        }
+		return dtd;
+	},
+	alertInfo:function(text){
+		var dtd=$.Deferred();
+        window.top.bootbox.dialog({
+	            message: text,
+	            title: "提示",
+	            className:"alertInfo"
+	        });
+        
+        var $alert=window.top.$(".alertInfo");
+        var cancel=setTimeout(function(){
+			window.top.$(".alertInfo").find(".newclose").click();
+			dtd.resolve();
+		},2000);
+		$alert.on("hidden.bs.modal",function(e){
+			clearTimeout(cancel);
+			dtd.resolve();
+		});
+		return dtd;
+	},
+	newdialog:function(obj){
+		var id = obj.id;
+		var width = obj.width+"px";
+		var height = obj.height+"px";
+		var title = obj.title;
+		var header = obj.header;
+		var style = obj.style;
+		var url = obj.url;
+		var html="";
+		var styleHtml="";
+		if(!header){
+			html = "style='display:none'";
 		}
-		
+		if(style!=null||typeof(style)!="undefined"){
+			for(key in style){
+				styleHtml+=";"+key+":"+style[key]
+			}
+		};
+		$(window.top.document.body).find(".modal").remove();
+		$(window.top.document.body).append(
+			'<div class="modal fade in newmodal" id="'+obj.id+'" tabindex="-1" aria-hidden="true">'+
+			'    <div class="modal-dialog" style="width:'+width+'">'+
+			'        <div class="modal-content">'+
+			'            <div class="modal-header"'+html+'>'+
+			'                <div class="newclose" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i></div>'+
+			'                <h4 class="modal-title">'+title+'</h4>'+
+			'            </div>'+
+			'            <div class="modal-body" style="height:'+height+styleHtml+'">'+
+			'				<iframe src="'+url+'" style="width:100%;height:100%;" frameborder="0" marginheight="0px" marginwidth="0px"  height="100%" width="100%"></iframe>'+
+			'            </div>'+
+			'        </div>'+
+			'    </div>'+
+			'</div>'
+		);
+		window.top.show(obj.id);
 	},
-	
-	quxiao:function(modalId){
-		//alert(modalId)
-		$("#"+modalId).modal("hide");
-	},
-	
-	newclose:function(modalId){
-		//alert(modalId)
-		$("#"+modalId).modal("hide");
+	newdialogClose:function(obj){
+		window.top.hide(obj);
 	}
 }
 
+//按enter键进行搜索
+$("body").keydown(function(event){
+	var event = event || window.event;
+	if(event.keyCode == "13"){
+		$(".search").click();
+	}
+})
 

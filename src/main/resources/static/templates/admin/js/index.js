@@ -11,21 +11,21 @@ var pageModule = function(){
 				$("#lxrContent").html("");
 				$.each(data, function(i,obj) {
 					var html2="";
-					var isSc ="activelove";
+					//var isSc ="activelove";
 					$.each(obj.children, function(j,obj2) {
-						if(obj2.isSc == "true"){
+					/*	if(obj2.isSc == "true"){
 							isSc = "haspic";
 						}else if(obj2.isSc == "false"){
 							isSc ="activelove";
 						}else{
 							isSc ="activelove";
-						}
+						}*/
 						html2+=  '<div class="center_model">'+
 						 				'	<div  style="width:100%;height:100%;position:relative">'+	
 										'	<div class="center_model_wrap">'+
 										'		<div class="model_name">'+
 										'			<div style="display:inline-block;">'+		
-										'				<span   onclick="clickfn(\''+obj2.userid+'\')"><a style="font-size:24px;">'+obj2.fullname+'</a></span><a class="'+isSc+'"   onclick="delscfn(\''+obj2.userid+'\')"></a>'+
+										'				<span   onclick="clickfn(\''+obj2.userid+'\')"><a style="font-size:24px;">'+obj2.fullname+'</a></span><i class="fa fa-star starsc" onclick="delscfn(\''+obj2.userid+'\')"></i>'+
 										'			</div>'+
 										'		</div>'+
 										'		<div class="model_zhiwu">'+
@@ -56,7 +56,6 @@ var pageModule = function(){
 			url:bmdh,
 			success:function(data){
 				$("#bmdh").html("");
-				console.log(data);
 				$.each(data, function(i,obj) {
 					$("#bmdh").append(
 						'<div class="model">'+
@@ -127,7 +126,6 @@ var pageModule = function(){
 		$ajax({
 			url:txltree,
 			success:function(data){
-				
 				$("#tree_2").jstree({
 				    "plugins": ["wholerow", "types"],
 				    "core": {
@@ -208,20 +206,6 @@ var pageModule = function(){
 			window.location.href="txl/html/bmdh_add.html";
 		})
 		
-		//加入收藏
-		/*$("#addsc").click(function(){
-			var datas=grid.getcheckrow();
-			var ids=[];
-			if(datas.length>0){
-				$(datas).each(function(i){
-					ids[i]=this.userid;
-				});
-				scfn(ids.toString());
-			}else{    
-		        newbootbox.alert("请选择要收藏的数据！");
-			}
-		})*/
-		
 		
 		//导入
 		$("#daoru").click(function(){
@@ -231,22 +215,9 @@ var pageModule = function(){
 				data:{gettime:gettime},
 				success:function(data){
 					$("#starttime").val(data.starttime);
-					//newbootbox.alert("同步数据成功！");
-					bootbox.dialog({
-			            title: "提示",
-			            message: "同步数据成功！",
-			            buttons: {
-			              success: {
-			                label: "确定",
-			                className: "btn-primary",
-			                callback: function() {
-			                	//window.location.href="../../index.html";
-			                	window.location.reload();
-			                }
-			              }
-			            }
-			        }); 
-					
+					newbootbox.alertInfo("同步数据成功！").done(function(){
+						window.location.reload();
+					});
 				}
 			})
 		});
@@ -266,14 +237,6 @@ var pageModule = function(){
 		$(".searchValue").keypress(function(){
 			$(".search_btn").click();
 		})
-		/*$(".searchValue").bind('input change',function(){
-			var id = $("#treeSecId").val();
-			var searchValue = $("#searchValue").val();
-			$("#secName").val(searchValue);
-			grid.setparams({"orgid":id,"searchValue":searchValue});
-			grid.reload();
-		})*/
-		
 	}
 	
 
@@ -301,62 +264,26 @@ function clickbmdhfn(id){
 
 //加入收藏
 var addscfn = function(id) {
-	 bootbox.dialog({
-	        title: "提示",
-	        message: "是否收藏？",
-	        buttons: {
-	          success: {
-	            label: "确定",
-	            className: "btn-primary",
-	            callback: function() {
-					$ajax({
-						url:addorupd,
-						data:{id:id},
-						success:function(data){
-							if(data.result=="success"){
-								newbootbox.alertdialog({
-									 title: "提示",
-								     message: "收藏成功！",
-								     callback1:function(){
-								    	window.location.reload();
-								     }
-								});
-							}else{
-								newbootbox.alert("收藏失败！");
-							}
-						}
-					})
-	            }
-	          },
-	          danger: {
-	            label: "取消",
-	            className: "btn-default",
-	            callback: function() {
-	            }
-	          },
-	        }
-	    });
+	newbootbox.confirm({
+     	title:"提示",
+     	message: "是否确定收藏？？",
+     	callback1:function(){
+     		$ajax({
+				url:addorupd,
+				data:{id:id},
+				success:function(data){
+					if(data.result=="success"){
+						newbootbox.alertInfo("收藏成功！").done(function(){
+							window.location.reload();
+						});
+					}else{
+						newbootbox.alertInfo("收藏失败！");
+					}
+				}
+			})
+     	}
+   });
 }
-//收藏
-/*function scfn(id){
-	$ajax({
-		url:addorupd,
-		data:{id:id},
-		success:function(data){
-			if(data.result=="success"){
-				newbootbox.alertdialog({
-					 title: "提示",
-				     message: "收藏成功！",
-				     callback1:function(){
-				    	 window.location.reload();
-				     }
-				});
-			}else{
-				newbootbox.alert("收藏失败！");
-			}
-		}
-	})
-}*/
 
 
 function delscfn(id){
@@ -365,15 +292,11 @@ function delscfn(id){
 		data:{id:id},
 		success:function(data){
 			if(data.result=="success"){
-				newbootbox.alertdialog({
-					 title: "提示",
-				     message: "取消成功！",
-				     callback1:function(){
-				    	 window.location.reload();
-				     }
+				newbootbox.alertInfo("取消成功！").done(function(){
+					window.location.reload();
 				});
 			}else{
-				newbootbox.alert("取消失败！");
+				newbootbox.alertInfo("取消失败！");
 			}
 		}
 	})
@@ -381,41 +304,25 @@ function delscfn(id){
 
 //删除
 function delfn(id){
-	  bootbox.dialog({
-	        title: "提示",
-	        message: "是否要进行删除操作？",
-	        buttons: {
-	          success: {
-	            label: "确定",
-	            className: "btn-primary",
-	            callback: function() {
-					$ajax({
-						url:delone,
-						data:{id:id},
-						success:function(data){
-							if(data.result=="success"){
-								newbootbox.alertdialog({
-									 title: "提示",
-								     message: "删除成功！",
-								     callback1:function(){
-								    	 window.location.reload();
-								     }
-								});
-							}else{
-								newbootbox.alert("删除失败！");
-							}
-						}
-					})
-	            }
-	          },
-	          danger: {
-	            label: "取消",
-	            className: "btn-default",
-	            callback: function() {
-	            }
-	          },
-	        }
-	    });
+	 newbootbox.confirm({
+     	title:"提示",
+     	message: "是否要进行删除操作？",
+     	callback1:function(){
+     		$ajax({
+				url:delone,
+				data:{id:id},
+				success:function(data){
+					if(data.result=="success"){
+						newbootbox.alertInfo("删除成功！").done(function(){
+							 window.location.reload();
+						});
+					}else{
+						newbootbox.alertInfo("删除失败！");
+					}
+				}
+			})
+     	}
+	});
 }
 
 
@@ -426,4 +333,9 @@ function keySearch(){
 	}
 }
 
-
+var show = function(obj){
+	$("#"+obj).modal("show");
+}
+var hide = function(obj){
+	$("#"+obj).modal("hide");
+}

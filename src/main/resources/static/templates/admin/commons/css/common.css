@@ -203,3 +203,31 @@ div.checker input{
 .divInline {
     position: relative;
 }
+.cjDialog{
+	background-color:#fff;
+	right:inherit;
+	bottom:inherit;
+}
+.cjDialog .modal-dialog{
+	margin:0!important;
+}
+.cjDialog + .modal-backdrop{opacity:0!important}
+.cjDialog .modal-body,.alertInfo .modal-body{
+	min-height:130px;
+	border-bottom: 1px solid #e5e5e5;
+}
+.cjDialog .modal-footer,.alertInfo .modal-footer {
+    border-top:none;
+}
+.bootbox-body{
+	color:#000;
+	line-height:130px;
+	font-size:15px!important;
+	text-align:center;
+}
+.modal-dialog {
+    width: 400px;
+}
+.modal-footer {
+	text-align: center;
+}

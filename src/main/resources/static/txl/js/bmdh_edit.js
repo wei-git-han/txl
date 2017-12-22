@@ -49,21 +49,11 @@ var pageModule = function(){
 					type:'post',
 					success:function(data){
 						if (data.result == "success") {
-							 bootbox.dialog({
-					            title: "提示",
-					            message: "保存成功！",
-					            buttons: {
-					              success: {
-					                label: "确定",
-					                className: "btn-primary",
-					                callback: function() {
-					                	window.location.href="../../index.html";
-					                }
-					              }
-					            }
-					        }); 
+							newbootbox.alertInfo("保存成功！").done(function(){
+								window.location.href="../../index.html";
+							});
 						}else{
-							newbootbox.alert("保存失败！")
+							newbootbox.alertInfo("保存失败！")
 						}
 					}
 				})

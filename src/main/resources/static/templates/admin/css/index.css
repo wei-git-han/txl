@@ -65,6 +65,15 @@
 }
 .ysc i{color:#ccc;}
 
+.fa-star{
+	font-size:16px!important;
+}
+.starsc{
+	margin-left: 5px;
+    float: right;
+    margin-top: 3px;
+    cursor:pointer;
+}
 
 
 

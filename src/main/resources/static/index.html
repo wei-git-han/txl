@@ -19,7 +19,6 @@
 	<link href="assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
 	<link href="assets/admin/layout/css/themes/blue.css" rel="stylesheet" type="text/css" id="style_color"/>
 	<link href="assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
-	
 	<link rel="stylesheet" type="text/css" href="templates/admin/commons/css/common.css"/>
 	<link rel="stylesheet" type="text/css" href="templates/admin/css/common_index.css"/>
 	<link rel="stylesheet" type="text/css" href="templates/admin/css/index.css"/>
@@ -140,7 +139,6 @@
 	
 	<script src="assets/global/plugins/jquery.min.js" type="text/javascript"></script>
 	<script src="assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
-	<!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
 	<script src="assets/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
 	<script src="assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
@@ -159,16 +157,13 @@
 	<script src="assets/global/plugins/jstree/dist/jstree.min.js"></script>
 	<script src="templates/admin/commons/js/commons.js" type="text/javascript"></script>
 	<script src="templates/admin/js/index.js" type="text/javascript"></script>
-	<script th:inline="javascript">
-		/* var txltree = {"url":"templates/admin/data/txltree.json","dataType":"text"};//通讯录树   */
+	<script>
 		var txltree = {"url":"txlorgan/tree","dataType":"text"};//通讯录树
-		//var lxr = {"url":"templates/admin/data/lxr.json","dataType":"text"};//联系人树 
 		var lxr = {"url":"txlUser/scuser","dataType":"text"};//联系人树
 		var orglxr = {"url":"txlUser/orguser","dataType":"text"};//联系
 		var bmdh = {"url":"txlorgtel/listBmdh","dataType":"text"};//部门电话
 		var addorupd = {"url":"txlcollect/addorupd","dataType":"text"};//新增或更新收藏信息
 		var delSc = {"url":"txlcollect/delSc","dataType":"text"};//取消收藏
-		//var tablegrid = {"url":"templates/admin/data/tablegrid.json","dataType":"text"};//表格数据
 		var savetip = {"url":"templates/admin/data/savetip.json","dataType":"text"};//收藏提示
 		var tablegrid = {"url":"txlUser/listuser","dataType":"text"};//表格数据
 		var delone = {"url":"txlorgtel/deleteone","dataType":"text"};//取消收藏
