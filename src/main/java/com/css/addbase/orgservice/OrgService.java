@@ -1,10 +1,19 @@
 package com.css.addbase.orgservice;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.alibaba.fastjson.JSONObject;
 import com.css.addbase.AppConfig;
+import com.css.base.entity.SSOUser;
 /**
  * 核心服务组织机构接口
  * 
@@ -31,6 +40,7 @@ public class OrgService {
 					appConfig.getZuul() + appConfig.getOrg() +"/userinfo/" + uuid + "?access_token=" + appConfig.getAccessToken(),
 					UserInfo.class, new Object[0]);
 		} catch (Exception e) {
+			System.out.println("【报错信息】用户ID不存在，userId="+uuid);
 			System.out.println(e);
 			AppConfig.accessToken = "";
 			return (UserInfo) restTemplate.getForObject(
@@ -39,7 +49,33 @@ public class OrgService {
 		}
 		
 	}
-
+	/*
+	 * 根据用户token获取用户信息
+	 */
+	public  SSOUser getSUser(String token){
+		String url=appConfig.getZuul()  +"/api/sso/user/" ;
+		SSOUser user=null;
+		try {
+			HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
+			con.setDoInput(true);
+			con.setDoOutput(true);
+			con.setRequestMethod("POST");
+			con.setRequestProperty("content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+			OutputStream os =  con.getOutputStream();
+			String body ="access_token="+ token;
+			os.write(body.getBytes());
+			os.flush();
+			InputStream is = con.getInputStream();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+			String line  = reader.readLine();
+			reader.close();
+			user=JSONObject.parseObject(line,SSOUser.class);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return user ;
+	}
 	/**
 	 * 根据部门Id获取部门信息
 	 * 
@@ -52,6 +88,7 @@ public class OrgService {
 					appConfig.getZuul() + appConfig.getOrg() +"/department/" + id + "?access_token=" + appConfig.getAccessToken(),
 					Organ.class, new Object[0]);
 		} catch (Exception e) {
+			System.out.println("【报错信息】组织机构ID不存在，orgId="+id);
 			System.out.println(e);
 			AppConfig.accessToken = "";
 			return  (Organ) restTemplate.getForObject(

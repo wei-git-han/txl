@@ -107,30 +107,6 @@ public class JSONUtil {
 		String text = JSON.toJSONString(javaObject);
 		return JSON.parse(text);
 	}
-	/**
-	 * 1、若json为空，则像客户端返回错误信息。<br/>
-	 * 2、本方法用于搜索接口。<br/>
-	 * 3、当keywords为空字符串、null时，直接返回提示信息。
-	 * @param json
-	 * @return
-	 */
-	public static JSONObject jsonFailed(String json){
-		JSONObject jsonFailed=new JSONObject();
-		jsonFailed.put("result", "failed");
-		if(StringUtils.isEmpty(json)) {
-			jsonFailed.put("msg", "json参数为空！");
-			Response.json(jsonFailed);
-			return null;
-		}
-		JSONObject jsonObj = (JSONObject) JSONObject.parse(json);
-		String keywords=jsonObj.getString("keywords");
-		if(StringUtils.isBlank(keywords)){
-			jsonFailed.put("msg", "keywords参数为空或不存在！");
-			Response.json(jsonFailed);
-			return null;
-		}
-		return jsonObj;
-	}
 
 	/**
 	 * 1、搜索成功后，显示结果数据。<br/>
@@ -139,11 +115,12 @@ public class JSONUtil {
 	 * @param link
 	 * @return
 	 */
-	public static JSONObject resultSuccess(int total, String link) {
+	public static JSONObject resultSuccess(int total,String appId, String link) {
 		JSONObject result = new JSONObject();
 		result.put("result", "success");
 		result.put("total", total);
-		result.put("link", "");
+		result.put("appId", appId);
+		result.put("link", link);
 		return result;
 	}
 }
