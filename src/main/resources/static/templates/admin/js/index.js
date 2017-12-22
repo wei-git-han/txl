@@ -1,7 +1,6 @@
 var grid=null;
 var pageModule = function(){
 	var treeid = "";
-	
 	/*主要数据加载*/
 	var initLxr = function(){
 		/*联系人数据*/
@@ -94,9 +93,9 @@ var pageModule = function(){
                      }},
                      {display:"操作",name:"do",width:"13%",align:"center",paixu:false,render:function(rowdata){
                     	 if(rowdata.isSc == 0 ){
-                    		 return '<a class="sc" title="收藏" href="javascript:addscfn(\''+rowdata.userid+'\')"><i class="fa fa-heart"></i></a>';
+                    		 return '<a class="sc" title="收藏" href="javascript:addscfn(\''+rowdata.userid+'\')"><i class="fa fa-star"></i></a>';
                     	 }else{
-                    		 return '<a class="ysc" title="取消收藏" href="javascript:delscfn(\''+rowdata.userid+'\')"><i class="fa fa-heart"></i></a>';
+                    		 return '<a class="ysc" title="取消收藏" href="javascript:delscfn(\''+rowdata.userid+'\')"><i class="fa fa-star"></i></a>';
                     	 }
                       }}
                  ],
