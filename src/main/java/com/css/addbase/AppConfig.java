@@ -71,7 +71,7 @@ public class AppConfig {
 	 * @return
 	 */
 	public String getAppId() {
-		return env.getProperty("csse.txl.appID");
+		return env.getProperty("csse.txl.appId");
 	}
 	
 	/**

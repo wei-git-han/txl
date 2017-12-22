@@ -26,7 +26,7 @@ public class SearchApiController {
 	private TxlUserService txlUserService;
 	@Autowired
 	private OrgService orgService;
-	@Value("${csse.appID}")
+	@Value("${csse.txl.appId}")
 	private String appId;
 	/**
 	 * 1、搜索范围：表[TXL_USER],字段：FULLNAME、MOBILE
