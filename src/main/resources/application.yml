@@ -73,7 +73,7 @@ csse.mircoservice.syncdepartments: /api/org/syncdepartments
 #数据库配置地址
 csse.dmdba.url: 172.16.201.31:5236
 #应用的appID
-csse.txl.appID: cpk.csse.txl
+csse.txl.appId: cpk.csse.txl
 #应用的secret
 csse.txl.appSecret: secret
 #日志输出路径
