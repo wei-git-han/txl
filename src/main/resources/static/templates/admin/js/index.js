@@ -327,9 +327,9 @@ function delfn(id){
 
 /*点击回车键搜索*/
 function keySearch(){
-	if(event.keyCode == 13){
+	/*if(event.keyCode == 13){
 		$(".search_btn").click();
-	}
+	}*/
 }
 
 var show = function(obj){

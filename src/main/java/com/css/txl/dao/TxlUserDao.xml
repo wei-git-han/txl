@@ -16,11 +16,15 @@
 	
  	<select id="queryTotal" resultType="int">
 		select count(0) from TXL_USER where 1=1
-		<if test="keywords != null">
-		and (
-		fullname like '%'||#{keywords}||'%'
-		or mobile like '%'||#{keywords}||'%'
-		)
+		<if test="keywords != null and keywords.length>0">
+		and 
+		<foreach collection="keywords" item="item" open="(" separator="or" close=")">
+		fullname like '%'||#{item}||'%'
+		or mobile like '%'||#{item}||'%' 
+		<if test="zm != null">
+		 or UCASE(GETPY(fullname)) like '%'||UCASE(GETPY(#{item}))||'%'
+		</if>
+		</foreach>
 		</if>
 	</select>
 	 

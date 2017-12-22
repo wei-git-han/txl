@@ -37,7 +37,7 @@ public interface TxlUserDao extends BaseDao<TxlUser> {
      * 根据name查询用户
      * @param id 
      */
-	@Select("select * from TXL_USER where ORGANID = #{0} and (FULLNAME like '%'||#{1}||'%' or ORGANNAME like '%'||#{1}||'%' or POST like '%'||#{1}||'%' or TELEPHONE like '%'||#{1}||'%' or MOBILE like '%'||#{1}||'%' or ADDRESS like '%'||#{1}||'%' GETPY(FULLNAME) like upper(#{1}||'%'))")
+	@Select("select * from TXL_USER where ORGANID = #{0} and (FULLNAME like '%'||#{1}||'%' or ORGANNAME like '%'||#{1}||'%' or POST like '%'||#{1}||'%' or TELEPHONE like '%'||#{1}||'%' or MOBILE like '%'||#{1}||'%' or ADDRESS like '%'||#{1}||'%' or GETPY(FULLNAME) like upper(#{1}||'%'))")
 	List<TxlUser> getOthUsers(String id, String name);
 
 	int queryTotal(Map<String, Object> map);
