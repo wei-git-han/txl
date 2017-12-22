@@ -11,11 +11,11 @@ var pageModule = function(){
 				if(true == data.manager){
 					$("#orgAddress").removeAttr("disabled");
 					$("#orgTel").removeAttr("disabled");
-					$("#save").show();
+					//$("#save").show();
             	}else{
             		$("#orgAddress").attr("disabled",true);
             		$("#orgTel").attr("disabled",true);
-            		$("#save").hide();
+            		//$("#save").hide();
             	}
 			}
 		});
