@@ -97,7 +97,7 @@ var pageModule = function(){
                     	 if(rowdata.isSc == 0 ){
                     		 return '<a class="sc" title="收藏" href="javascript:addscfn(\''+rowdata.userid+'\')"><i class="fa fa-heart"></i></a>';
                     	 }else{
-                    		 return '<a class="ysc" title="已收藏" href="javascript:addscfn(\''+rowdata.userid+'\')"><i class="fa fa-heart"></i></a>';
+                    		 return '<a class="ysc" title="取消收藏" href="javascript:delscfn(\''+rowdata.userid+'\')"><i class="fa fa-heart"></i></a>';
                     	 }
                       }}
                  ],
