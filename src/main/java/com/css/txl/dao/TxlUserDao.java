@@ -30,7 +30,7 @@ public interface TxlUserDao extends BaseDao<TxlUser> {
      * 根据name查询用户
      * @param id 
      */
-	@Select("select * from TXL_USER where FULLNAME like '%'||#{1}||'%' or ORGANNAME like '%'||#{1}||'%' or POST like '%'||#{1}||'%' or TELEPHONE like '%'||#{1}||'%' or MOBILE like '%'||#{1}||'%' or ADDRESS like '%'||#{1}||'%' or GETPY(FULLNAME) like upper(#{1}||'%')")
+	@Select("select USERID,FULLNAME, ACCOUNT, PASSWORD, SEX, ORGANID,(SELECT ORGANNAME FROM TXL_ORGAN b WHERE b.ORGANID=a.ORGANID) as ORGANNAME,ORDERID, DN, ISDELETE, CA, ISMANAGER, TOKENID, SPID, SN, IP, STARTDATE, ENDDATE, USERUUID, USEREMAIL, SECLEVEL, FAILEDLOGINCOUNT, EDITPWDTIME, MOBILE, TIMESTAMP, TYPE, POST, TELEPHONE, ADDRESS,PYNAME from TXL_USER a where FULLNAME like '%'||#{1}||'%' or ORGANNAME like '%'||#{1}||'%' or POST like '%'||#{1}||'%' or TELEPHONE like '%'||#{1}||'%' or MOBILE like '%'||#{1}||'%' or ADDRESS like '%'||#{1}||'%' or GETPY(FULLNAME) like upper(#{1}||'%')")
 	List<TxlUser> getNameToUser(String name);
 	
 	/**
