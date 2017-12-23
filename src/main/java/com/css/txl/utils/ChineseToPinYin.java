@@ -78,12 +78,12 @@ public class ChineseToPinYin {
 		return "*";
 	}
 	
-	public static void main(String[] args) {
-		ChineseToPinYin pinYin = new ChineseToPinYin();
-		/*Scanner sc = new Scanner(System.in);
-		System.out.println("请输入汉字");
-		String str = sc.next();*/
-		String py = pinYin.getPYString("荀攸");
-		System.out.println("拼音："+py);
-	}
+//	public static void main(String[] args) {
+//		ChineseToPinYin pinYin = new ChineseToPinYin();
+//		/*Scanner sc = new Scanner(System.in);
+//		System.out.println("请输入汉字");
+//		String str = sc.next();*/
+//		String py = pinYin.getPYString("荀攸");
+//		System.out.println("拼音："+py);
+//	}
 }

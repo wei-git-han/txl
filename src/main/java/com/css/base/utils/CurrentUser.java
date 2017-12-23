@@ -36,15 +36,20 @@ public class CurrentUser {
 	 * 判断当前登录人是否为管理角色
 	 * @return true 为管理员，flase 不是管理员
 	 */
-	public static boolean getIsManager(String appID){
-		return SSOAuthFilter.getRole(appID).getIsManager();
+	public static boolean getIsManager(String appID,String appSecret){
+		try{
+			return StringUtils.isNotBlank(appID)?SSOAuthFilter.getRole(appID,appSecret).getIsManager():false;
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
 	}
 	/**
-	 * 获取当前登录人是否为角色
+	 * 获取当前登录人是否为管理员角色
 	 * @return true 为管理员，flase 不是管理员
 	 */
-	public static String getManagerType(String appID){
-		return SSOAuthFilter.getRole(appID).getManagerType();
+	public static String getManagerType(String appID,String appSecret){
+		return SSOAuthFilter.getRole(appID,appSecret).getManagerType();
 	}
 	public static List<String> getRoleIds(){
 		return null ;

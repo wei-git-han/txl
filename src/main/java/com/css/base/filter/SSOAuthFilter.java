@@ -19,12 +19,14 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.alibaba.fastjson.JSONObject;
 import com.css.base.entity.SSORole;
 import com.css.base.entity.SSOUser;
+import com.css.base.utils.StringUtils;
 
 /*
  * 该组件需要配合Spring MVC 禁止使用统配后缀名
@@ -64,6 +66,7 @@ public class SSOAuthFilter extends OncePerRequestFilter{
 	private static  String ssoUserInfoURL;
 	private static  String apiAppinfoURL;
 	private static  String ssoCheckTokenURL;
+	private static  String appSecretconfig;
 	private static  String accessTokenUrl;
 	public static final ThreadLocal<String> tokenThreadLocal=new ThreadLocal<String>();
 	private static final ThreadLocal<HttpServletRequest> requestThreadLocal=new ThreadLocal<HttpServletRequest>();
@@ -75,8 +78,9 @@ public class SSOAuthFilter extends OncePerRequestFilter{
 		ssoUserInfoURL = baseUrl + apiUserinfo;
 		ssoCheckTokenURL = baseUrl + apiCheckToken;
 		String grant_type = "client_credentials";
-		accessTokenUrl = accessTokenUri+"?client_secret="+clientSecret+"&grant_type="+grant_type;
+		accessTokenUrl = accessTokenUri+"?grant_type="+grant_type;
 		apiAppinfoURL = sso_server_url + apiAppinfo;
+		appSecretconfig = clientSecret;
 		suffixs=new HashSet<String>();
 		for(String suffix:no_auth_suffixs.split(",")){
 			suffixs.add(suffix);
@@ -188,9 +192,20 @@ public class SSOAuthFilter extends OncePerRequestFilter{
 	 * 获取为服务token
 	 * @return
 	 */
-	public static String getAccessToken(String appID) {
-		JSONObject access_token = new RestTemplate().postForObject(accessTokenUrl+"&client_id="+appID,null,JSONObject.class);
-		return access_token.getString("access_token");
+	public static String getAccessToken(String appID,String appSecret) {
+		if (StringUtils.isBlank(appSecret)) {
+			appSecret = appSecretconfig;
+		}
+		try {
+			JSONObject access_token = new RestTemplate().postForObject(accessTokenUrl+"&client_id="+appID+"&client_secret="+appSecret,null,JSONObject.class);
+			System.out.println(appID + ":" +appSecret+":获取token成功-管理员");
+			return access_token.getString("access_token");
+		} catch (HttpClientErrorException e) {
+			System.out.println(appID + ":" +appSecret+":获取token失败-管理员");
+			System.err.println(e);
+			return "";
+		}
+		
 	}
 
 	/*
@@ -228,10 +243,10 @@ public class SSOAuthFilter extends OncePerRequestFilter{
 	/*
 	 * 获取当前登录人员角色信息
 	 */
-	public static SSORole getRole(String appID){
+	public static SSORole getRole(String appID,String appSecret){
 		try {
 			String account = SSOAuthFilter.getSUser().getAccount();
-			SSORole role= (SSORole) new RestTemplate().getForObject(apiAppinfoURL+"?account="+account+"&access_token=" +getAccessToken(appID),SSORole.class, new Object[0]);
+			SSORole role= (SSORole) new RestTemplate().getForObject(apiAppinfoURL+"?account="+account+"&access_token=" +getAccessToken(appID,appSecret),SSORole.class, new Object[0]);
 			return role;
 		} catch (Exception e) {
 			e.printStackTrace();

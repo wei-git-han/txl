@@ -73,7 +73,7 @@ public class TxlOrgtelController {
 	public void info(String id){
 		JSONObject json = new JSONObject();
 		TxlOrgtel txlOrgtel = txlOrgtelService.queryObject(id);
-		json.put("manager", CurrentUser.getIsManager(appConfig.getAppId()));
+		json.put("manager", CurrentUser.getIsManager(appConfig.getAppId(),appConfig.getAppSecret()));
 		json.put("txlOrgtel", txlOrgtel);
 		Response.json(json);
 	}

@@ -116,7 +116,7 @@ public class TxlController {
 		json.put("total", liInfos.size());
 		json.put("page", 1);
 		json.put("rows", liInfos);
-		json.put("manager", CurrentUser.getIsManager(appConfig.getAppId()));
+		json.put("manager", CurrentUser.getIsManager(appConfig.getAppId(),appConfig.getAppSecret()));
 		Response.json(json);
 	}
 	/**

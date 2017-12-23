@@ -75,6 +75,6 @@ csse.dmdba.url: 172.16.201.31:5236
 #应用的appID
 csse.txl.appId: cpk.csse.txl
 #应用的secret
-csse.txl.appSecret: secret
+csse.txl.appSecret: AC10074F-9DB6-4e2f-9BD6-F06AD6167853
 #日志输出路径
 csse.log.path: c:/temp/storetemp/meet.log

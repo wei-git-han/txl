@@ -75,6 +75,14 @@ public class AppConfig {
 	}
 	
 	/**
+	 * 获取应用的appID
+	 * @return
+	 */
+	public String getAppSecret() {
+		return env.getProperty("csse.txl.appSecret");
+	}
+	
+	/**
 	 * 获取为服务token
 	 * @return
 	 */
