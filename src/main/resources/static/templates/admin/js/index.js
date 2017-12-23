@@ -215,7 +215,7 @@ var pageModule = function(){
 				success:function(data){
 					$("#starttime").val(data.starttime);
 					newbootbox.alertInfo("同步数据成功！").done(function(){
-						window.location.reload();
+						initgrid();
 					});
 				}
 			})
@@ -248,6 +248,10 @@ var pageModule = function(){
 			inittree();
 			initLxr();
 			initgrid();
+		},
+		inittow:function(){
+			initgrid();
+			initLxr();
 		}
 	};
 }();	
@@ -273,7 +277,7 @@ var addscfn = function(id) {
 				success:function(data){
 					if(data.result=="success"){
 						newbootbox.alertInfo("收藏成功！").done(function(){
-							window.location.reload();
+							pageModule.inittow();
 						});
 					}else{
 						newbootbox.alertInfo("收藏失败！");
@@ -292,7 +296,7 @@ function delscfn(id){
 		success:function(data){
 			if(data.result=="success"){
 				newbootbox.alertInfo("取消成功！").done(function(){
-					window.location.reload();
+					pageModule.inittow();
 				});
 			}else{
 				newbootbox.alertInfo("取消失败！");
@@ -313,7 +317,7 @@ function delfn(id){
 				success:function(data){
 					if(data.result=="success"){
 						newbootbox.alertInfo("删除成功！").done(function(){
-							 window.location.reload();
+							pageModule.inittow();
 						});
 					}else{
 						newbootbox.alertInfo("删除失败！");
