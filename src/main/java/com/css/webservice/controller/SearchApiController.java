@@ -1,7 +1,11 @@
 package com.css.webservice.controller;
 
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -35,8 +39,9 @@ public class SearchApiController {
 	 */
 	@ResponseBody
 	@RequestMapping("/data")
-	public void data(@RequestBody SearchEntity entity) {
-		JSONObject obj=jsonFailed(entity);
+	public void data(HttpServletRequest request) {
+		sysPring(request);
+		JSONObject obj=null;//jsonFailed(entity);
 		if(obj==null){return;}
 		String userId=obj.getString("userId");
 		String[] keyWords=obj.getObject("keyWords", String[].class);
@@ -75,5 +80,24 @@ public class SearchApiController {
 			json.put("keyWords", keyWords);
 			return json;
 		}
+	}
+	
+	private void sysPring(HttpServletRequest request){
+		Enumeration<String> enums=request.getParameterNames();
+		while(enums.hasMoreElements()){
+			String key=enums.nextElement();
+			System.out.println("【公文搜索参数】"+key+"->"+toStr(request.getParameterValues(key)));
+		}
+	}
+	
+	private String toStr(String[] values) {
+		StringBuilder sb=new StringBuilder();
+		if(values!=null&&values.length>0){
+			for(String value:values){
+				sb.append(","+value);
+			}
+			sb.deleteCharAt(0);
+		}
+		return sb.toString();
 	}
 }
