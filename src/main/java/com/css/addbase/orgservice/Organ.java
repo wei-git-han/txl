@@ -19,7 +19,7 @@ public class Organ {
 	private String orguuid;
 	private String path;
 	@JSONField(serialize = false)
-	private Integer type;
+	private String type;
 	@JSONField(serialize = false)
 	private Long timestamp;
 	
@@ -103,11 +103,11 @@ public class Organ {
 		this.path = path;
 	}
 
-	public Integer getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(Integer type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 

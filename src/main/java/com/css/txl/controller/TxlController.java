@@ -26,6 +26,7 @@ import com.css.addbase.orgservice.SyncOrgan;
 import com.css.addbase.orgservice.UserInfo;
 import com.css.base.utils.CurrentUser;
 import com.css.base.utils.Response;
+import com.css.base.utils.StringUtils;
 import com.css.txl.entity.TxlCollect;
 import com.css.txl.entity.TxlOrgan;
 import com.css.txl.entity.TxlUser;
@@ -162,8 +163,12 @@ public class TxlController {
 	
 	@RequestMapping(value = "/syncdate")
 	@ResponseBody
-	public void syncdate(HttpServletRequest request, Long gettime) {
-		starttime = gettime;
+	public void syncdate() {
+		if (starttime == null) {
+			//设置消息时间戳
+			String time = String.valueOf(System.currentTimeMillis());
+			starttime = Long.valueOf(time.substring(0, 10));
+		}
 		JSONObject json = new JSONObject();
 		Map<String, Object> map = new HashMap<>();
 		List<TxlUser> liInfos = txlUserService.queryList(map);
@@ -176,12 +181,6 @@ public class TxlController {
 		}
 		
 		if(organs.size() != 0 || liInfos.size() != 0) {
-			if (starttime == null) {
-				//设置消息时间戳
-				String time = String.valueOf(System.currentTimeMillis());
-				starttime = Long.valueOf(time.substring(0, 10));
-			}
-			
 			SyncOrgan syncOrgan = (SyncOrgan) restTemplate.getForObject(zuul+syncdepartments+"?starttime="+starttime+"&access_token=" + appConfig.getAccessToken(),
 					SyncOrgan.class, new Object[0]);
 			starttime = syncOrgan.getTimestamp();
@@ -191,7 +190,6 @@ public class TxlController {
 			List<Organ> organs2 = syncOrgan.getOrg();
 			SyncOrgan(organs2);
 		}
-		
 		json.put("starttime", starttime);
 		
 		Response.json(json);
@@ -549,159 +547,171 @@ public class TxlController {
 	
 	public void SyncOrgan(List<Organ> organs){
 		for(Organ organ:organs) {
-			TxlOrgan txlOrgan = new TxlOrgan();
-			if(null != organ.getCode() && !"".equals(organ.getCode())) {
+			
+			if(StringUtils.equals("0", organ.getType())) {
+				orgService.delete(organ.getOrganId());
+			} else if (StringUtils.equals("1", organ.getType())){
+				TxlOrgan txlOrgan = new TxlOrgan();
 				txlOrgan.setCode(organ.getCode());
-			}
-			if(null != organ.getIsDelete() && !"".equals(organ.getIsDelete())) {
 				txlOrgan.setIsdelete(String.valueOf(organ.getIsDelete()));
-			}
-			if(null != organ.getOrderId() && !"".equals(organ.getOrderId())) {
 				txlOrgan.setOrderid(String.valueOf(organ.getOrderId()));
-			}
-			if(null != organ.getDn() && !"".equals(organ.getDn())) {
 				txlOrgan.setDn(organ.getDn());
-			}
-			if(null != organ.getFatherId() && !"".equals(organ.getFatherId())) {
 				txlOrgan.setFatherid(organ.getFatherId());
-			}
-			if(null != organ.getOrganId() && !"".equals(organ.getOrganId())) {
 				txlOrgan.setOrganid(organ.getOrganId());
-			}
-			if(null != organ.getOrganName() && !"".equals(organ.getOrganName())) {
 				txlOrgan.setOrganname(organ.getOrganName());
-			}
-			if(null != organ.getOrguuid() && !"".equals(organ.getOrguuid())) {
 				txlOrgan.setOrguuid(organ.getOrguuid());
-			}
-			if(null != organ.getType() && !"".equals(organ.getType())) {
 				txlOrgan.setType(organ.getType());
-			}
-			if(null != organ.getTimestamp() && !"".equals(organ.getTimestamp())) {
 				txlOrgan.setTimestamp(organ.getTimestamp());
+				TxlOrgan txlOrgantemp = orgService.queryObject(organ.getOrganId());
+				if (txlOrgantemp == null) {
+					orgService.save(txlOrgan);
+				} else {
+					orgService.update(txlOrgan);
+				} 
+			}else {
+				TxlOrgan txlOrgan = new TxlOrgan();
+				txlOrgan.setCode(organ.getCode());
+				txlOrgan.setIsdelete(String.valueOf(organ.getIsDelete()));
+				txlOrgan.setOrderid(String.valueOf(organ.getOrderId()));
+				txlOrgan.setDn(organ.getDn());
+				txlOrgan.setFatherid(organ.getFatherId());
+				txlOrgan.setOrganid(organ.getOrganId());
+				txlOrgan.setOrganname(organ.getOrganName());
+				txlOrgan.setOrguuid(organ.getOrguuid());
+				txlOrgan.setType(organ.getType());
+				txlOrgan.setTimestamp(organ.getTimestamp());
+				orgService.save(txlOrgan);
 			}
 			
-			if(null == organ.getType() || "".equals(organ.getType()) || "2".equals(organ.getType())) {
-				orgService.save(txlOrgan);
-			}else if("1".equals(organ.getType())) {
-				orgService.update(txlOrgan);
-			}else {
-				orgService.delete(txlOrgan.getOrganid());
-			}
 			
 		}
     }
     
 	public void SyncUser(List<UserInfo> userInfos){
 		for(UserInfo userInfo: userInfos) {
-			TxlUser txlUser = new TxlUser();
-			DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-			if(null != userInfo.getFailedLoginCount() && !"".equals(userInfo.getFailedLoginCount())) {
+			
+			if(StringUtils.equals("0", userInfo.getType())) {
+				txlUserService.delete(userInfo.getUserid());
+			}else if(StringUtils.equals("1", userInfo.getType())) {
+				TxlUser txlUser = new TxlUser();
+				DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 				txlUser.setFailedlogincount(userInfo.getFailedLoginCount());
-			}
-			if(null != userInfo.getIsDelete() && !"".equals(userInfo.getIsDelete())) {
 				txlUser.setIsdelete(String.valueOf(userInfo.getIsDelete()));
-			}
-			if(null != userInfo.getIsManager() && !"".equals(userInfo.getIsManager())) {
 				txlUser.setIsmanager(userInfo.getIsManager());
-			}
-			if(null != userInfo.getOrderId() && !"".equals(userInfo.getOrderId())) {
 				txlUser.setOrderid(String.valueOf(userInfo.getOrderId()));
-			}
-			if(null != userInfo.getAccount() && !"".equals(userInfo.getAccount())) {
 				txlUser.setAccount(userInfo.getAccount());
-			}
-			if(null != userInfo.getCa() && !"".equals(userInfo.getCa())) {
 				txlUser.setCa(userInfo.getCa());
-			}
-			if(null != userInfo.getDept() && !"".equals(userInfo.getDept())) {
 				txlUser.setDept(userInfo.getDept());
-			}
-			if(null != userInfo.getDn() && !"".equals(userInfo.getDn())) {
 				txlUser.setDn(userInfo.getDn());
-			}
-			if(null != userInfo.getEditPwdTime() && !"".equals(userInfo.getEditPwdTime())) {
 				txlUser.setEditpwdtime(userInfo.getEditPwdTime());
-			}
-			if(null != userInfo.getEndDate() && !"".equals(userInfo.getEndDate())) {
-				
-				try {
-					txlUser.setEnddate(format.parse(userInfo.getEndDate()));
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if(null != userInfo.getEndDate() && !"".equals(userInfo.getEndDate())) {
+					
+					try {
+						txlUser.setEnddate(format.parse(userInfo.getEndDate()));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
-			}
-			if(null != userInfo.getFullname() && !"".equals(userInfo.getFullname())) {
-				txlUser.setFullname(userInfo.getFullname());
-				if(userInfo.getFullname().indexOf("首长") > 0) {
-					txlUser.setPyName(ChineseFCUtil.cn2py(String.valueOf(userInfo.getFullname().charAt(0))).toUpperCase()+"SZ");
-				}else if(userInfo.getFullname().indexOf("局长") > 0) {
-					txlUser.setPyName(ChineseFCUtil.cn2py(String.valueOf(userInfo.getFullname().charAt(0))).toUpperCase()+"JZ");
-				}else if(userInfo.getFullname().indexOf("处长") > 0) {
-					txlUser.setPyName(ChineseFCUtil.cn2py(String.valueOf(userInfo.getFullname().charAt(0))).toUpperCase()+"CZ");
-				}else {
-					txlUser.setPyName(ChineseFCUtil.cn2py(userInfo.getFullname()).toUpperCase());
+				if(null != userInfo.getFullname() && !"".equals(userInfo.getFullname())) {
+					txlUser.setFullname(userInfo.getFullname());
+					if(userInfo.getFullname().indexOf("首长") > 0) {
+						txlUser.setPyName(ChineseFCUtil.cn2py(String.valueOf(userInfo.getFullname().charAt(0))).toUpperCase()+"SZ");
+					}else if(userInfo.getFullname().indexOf("局长") > 0) {
+						txlUser.setPyName(ChineseFCUtil.cn2py(String.valueOf(userInfo.getFullname().charAt(0))).toUpperCase()+"JZ");
+					}else if(userInfo.getFullname().indexOf("处长") > 0) {
+						txlUser.setPyName(ChineseFCUtil.cn2py(String.valueOf(userInfo.getFullname().charAt(0))).toUpperCase()+"CZ");
+					}else {
+						txlUser.setPyName(ChineseFCUtil.cn2py(userInfo.getFullname()).toUpperCase());
+					}
 				}
-			}
-			if(null != userInfo.getIp() && !"".equals(userInfo.getIp())) {
 				txlUser.setIp(userInfo.getIp());
-			}
-			if(null != userInfo.getMobile() && !"".equals(userInfo.getMobile())) {
 				txlUser.setMobile(userInfo.getMobile());
-			}
-			if(null != userInfo.getOrganId() && !"".equals(userInfo.getOrganId())) {
 				txlUser.setOrganid(userInfo.getOrganId());
-			}
-			if(null != userInfo.getPassword() && !"".equals(userInfo.getPassword())) {
 				txlUser.setPassword(userInfo.getPassword());
-			}
-			if(null != userInfo.getSecLevel() && !"".equals(userInfo.getSecLevel())) {
 				txlUser.setSeclevel(userInfo.getSecLevel());
-			}
-			if(null != userInfo.getSex() && !"".equals(userInfo.getSex())) {
 				txlUser.setSex(userInfo.getSex());
-			}
-			if(null != userInfo.getSn() && !"".equals(userInfo.getSn())) {
 				txlUser.setSn(userInfo.getSn());
-			}
-			if(null != userInfo.getSpId() && !"".equals(userInfo.getSpId())) {
 				txlUser.setSpid(userInfo.getSpId());
-			}
-			if(null != userInfo.getStartDate() && !"".equals(userInfo.getStartDate())) {
-				try {
-					txlUser.setStartdate(format.parse(userInfo.getStartDate()));
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if(null != userInfo.getStartDate() && !"".equals(userInfo.getStartDate())) {
+					try {
+						txlUser.setStartdate(format.parse(userInfo.getStartDate()));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
-			}
-			if(null != userInfo.getTokenId() && !"".equals(userInfo.getTokenId())) {
 				txlUser.setTokenid(userInfo.getTokenId());
-			}
-			if(null != userInfo.getUserEmail() && !"".equals(userInfo.getUserEmail())) {
 				txlUser.setUseremail(userInfo.getUserEmail());
-			}
-			if(null != userInfo.getUserid() && !"".equals(userInfo.getUserid())) {
 				txlUser.setUserid(userInfo.getUserid());
-			}
-			if(null != userInfo.getUserUuid() && !"".equals(userInfo.getUserUuid())) {
 				txlUser.setUseruuid(userInfo.getUserUuid());
-			}
-			if(null != userInfo.getType() && !"".equals(userInfo.getType())) {
 				txlUser.setType(userInfo.getType());
-			}
-			if(null != userInfo.getTimestamp() && !"".equals(userInfo.getTimestamp())) {
 				txlUser.setTimestamp(userInfo.getTimestamp());
+				TxlUser txlUsertemp = txlUserService.queryObject(userInfo.getUserid());
+                if (txlUsertemp == null) {
+                	txlUserService.save(txlUser);
+                } else {
+                	txlUserService.update(txlUser);
+                }
+			}else {
+				//人员新增
+				TxlUser txlUser = new TxlUser();
+				DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+				txlUser.setFailedlogincount(userInfo.getFailedLoginCount());
+				txlUser.setIsdelete(String.valueOf(userInfo.getIsDelete()));
+				txlUser.setIsmanager(userInfo.getIsManager());
+				txlUser.setOrderid(String.valueOf(userInfo.getOrderId()));
+				txlUser.setAccount(userInfo.getAccount());
+				txlUser.setCa(userInfo.getCa());
+				txlUser.setDept(userInfo.getDept());
+				txlUser.setDn(userInfo.getDn());
+				txlUser.setEditpwdtime(userInfo.getEditPwdTime());
+				if(null != userInfo.getEndDate() && !"".equals(userInfo.getEndDate())) {
+					
+					try {
+						txlUser.setEnddate(format.parse(userInfo.getEndDate()));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if(null != userInfo.getFullname() && !"".equals(userInfo.getFullname())) {
+					txlUser.setFullname(userInfo.getFullname());
+					if(userInfo.getFullname().indexOf("首长") > 0) {
+						txlUser.setPyName(ChineseFCUtil.cn2py(String.valueOf(userInfo.getFullname().charAt(0))).toUpperCase()+"SZ");
+					}else if(userInfo.getFullname().indexOf("局长") > 0) {
+						txlUser.setPyName(ChineseFCUtil.cn2py(String.valueOf(userInfo.getFullname().charAt(0))).toUpperCase()+"JZ");
+					}else if(userInfo.getFullname().indexOf("处长") > 0) {
+						txlUser.setPyName(ChineseFCUtil.cn2py(String.valueOf(userInfo.getFullname().charAt(0))).toUpperCase()+"CZ");
+					}else {
+						txlUser.setPyName(ChineseFCUtil.cn2py(userInfo.getFullname()).toUpperCase());
+					}
+				}
+				txlUser.setIp(userInfo.getIp());
+				txlUser.setMobile(userInfo.getMobile());
+				txlUser.setOrganid(userInfo.getOrganId());
+				txlUser.setPassword(userInfo.getPassword());
+				txlUser.setSeclevel(userInfo.getSecLevel());
+				txlUser.setSex(userInfo.getSex());
+				txlUser.setSn(userInfo.getSn());
+				txlUser.setSpid(userInfo.getSpId());
+				if(null != userInfo.getStartDate() && !"".equals(userInfo.getStartDate())) {
+					try {
+						txlUser.setStartdate(format.parse(userInfo.getStartDate()));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				txlUser.setTokenid(userInfo.getTokenId());
+				txlUser.setUseremail(userInfo.getUserEmail());
+				txlUser.setUserid(userInfo.getUserid());
+				txlUser.setUseruuid(userInfo.getUserUuid());
+				txlUser.setType(userInfo.getType());
+				txlUser.setTimestamp(userInfo.getTimestamp());
+				txlUserService.save(txlUser);
 			}
 			
-			if(null == userInfo.getType() || "".equals(userInfo.getType()) || "2".equals(userInfo.getType())) {
-				txlUserService.save(txlUser);
-			}else if("1".equals(userInfo.getType())) {
-				txlUserService.update(txlUser);
-			}else {
-				txlUserService.delete(txlUser.getUserid());
-			}
 		}
     }
 	

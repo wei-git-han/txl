@@ -62,7 +62,7 @@ public class TxlUser implements Serializable {
 	//
 	private Long timestamp;
 	//
-	private Integer type;
+	private String type;
 	// 职位
 	private String post;
 	// 座机电话
@@ -440,14 +440,14 @@ public class TxlUser implements Serializable {
 	/**
 	 * 设置：
 	 */
-	public void setType(Integer type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
 	/**
 	 * 获取：
 	 */
-	public Integer getType() {
+	public String getType() {
 		return type;
 	}
 
