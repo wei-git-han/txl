@@ -76,7 +76,7 @@ var pageModule = function(){
                 	 {display:"姓名",name:"fullname",width:"10%",align:"center",paixu:false,render:function(rowdata,n){
                         return  '<a onclick="clickfn(\''+rowdata.userid+'\')">'+rowdata.fullname+'</a>';
                      }},
-                     {display:"手机",name:"mobile",width:"17%",align:"center",paixu:false,render:function(rowdata){
+                     {display:"手机号",name:"mobile",width:"17%",align:"center",paixu:false,render:function(rowdata){
                          return rowdata.mobile;                                        
                      }},
                      {display:"座机",name:"telephone",width:"15%",align:"center",paixu:false,render:function(rowdata){
