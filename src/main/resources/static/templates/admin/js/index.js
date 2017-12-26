@@ -79,7 +79,7 @@ var pageModule = function(){
                      {display:"手机号",name:"mobile",width:"17%",align:"center",paixu:false,render:function(rowdata){
                          return rowdata.mobile;                                        
                      }},
-                     {display:"座机",name:"telephone",width:"15%",align:"center",paixu:false,render:function(rowdata){
+                     {display:"座机号",name:"telephone",width:"15%",align:"center",paixu:false,render:function(rowdata){
                           return rowdata.telephone;                                     
                      }},
                      {display:"职务",name:"post",width:"10%",align:"center",paixu:false,render:function(rowdata){
