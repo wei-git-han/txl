@@ -31,4 +31,6 @@ public interface TxlUserService {
 	List<TxlUser> getOthUsers(String id, String name);
 	int queryTotal(Map<String,Object> map);
 	List<TxlUser> getNameToUser(String name);
+
+	List<TxlUser> getTxlFavorite(String userId);
 }

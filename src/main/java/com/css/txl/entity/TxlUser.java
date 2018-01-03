@@ -74,7 +74,7 @@ public class TxlUser implements Serializable {
 	
 	// 组织机构Name
 	private String organName;
-	
+	private String orgName;
 	// 是否收藏
 	private String isSc;
 	
@@ -491,5 +491,13 @@ public class TxlUser implements Serializable {
 	 */
 	public String getAddress() {
 		return address;
+	}
+
+	public String getOrgName() {
+		return orgName;
+	}
+
+	public void setOrgName(String orgName) {
+		this.orgName = orgName;
 	}
 }

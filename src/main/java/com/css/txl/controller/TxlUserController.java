@@ -21,6 +21,7 @@ import com.css.base.utils.CurrentUser;
 import com.css.base.utils.PageUtils;
 import com.github.pagehelper.PageHelper;
 import com.css.base.utils.Response;
+import com.css.base.utils.StringUtils;
 import com.css.txl.entity.TxlOrgan;
 import com.css.txl.entity.TxlUser;
 import com.css.txl.service.TxlOrganService;
@@ -185,6 +186,33 @@ public class TxlUserController {
 			}
 		}
 		result.put("info",jsons);
+		Response.json(result);
+	}
+	/**
+	 * 获取当前登录人的收藏信息
+	 */
+	@RequestMapping(value = "/getTxlFavorite")
+	@ResponseBody
+	public void getTxlFavorite() {
+		JSONObject result = new JSONObject();
+		JSONArray jsons = new JSONArray();
+		String userId=CurrentUser.getUserId();
+		List<TxlUser> liInfos =  txlUserService.getTxlFavorite(userId);
+			for(TxlUser txlUser:liInfos) {
+				JSONObject dutyJson = new JSONObject();
+				dutyJson.put("name", txlUser.getFullname());
+				dutyJson.put("mobile", txlUser.getMobile());
+				dutyJson.put("orgName", StringUtils.isNotBlank(txlUser.getOrgName())?txlUser.getOrgName():"");
+				if(null != txlUser.getTelephone() && !"".equals(txlUser.getTelephone())) {
+					dutyJson.put("tel", txlUser.getTelephone());
+				}else {
+					dutyJson.put("tel", "");
+				}
+				jsons.add(dutyJson);
+			}
+		result.put("rows",jsons);
+		result.put("total", liInfos.size());
+		result.put("page", 1);
 		Response.json(result);
 	}
 }

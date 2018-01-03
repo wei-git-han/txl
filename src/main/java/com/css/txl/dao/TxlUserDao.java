@@ -41,4 +41,6 @@ public interface TxlUserDao extends BaseDao<TxlUser> {
 	List<TxlUser> getOthUsers(String id, String name);
 
 	int queryTotal(Map<String, Object> map);
+
+	List<TxlUser> getTxlFavorite(String userId);
 }

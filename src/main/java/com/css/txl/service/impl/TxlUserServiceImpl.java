@@ -73,4 +73,9 @@ public class TxlUserServiceImpl implements TxlUserService {
 	public List<TxlUser> getNameToUser(String name){
 		return txlUserDao.getNameToUser(name);
 	}
+
+	@Override
+	public List<TxlUser> getTxlFavorite(String userId) {
+		return txlUserDao.getTxlFavorite(userId);
+	}
 }
