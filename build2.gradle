@@ -15,8 +15,8 @@ buildscript {
 }
 	
 apply plugin: 'java'
-//apply plugin: 'war'
-//apply plugin: 'maven'
+apply plugin: 'war'
+apply plugin: 'maven'
 apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
 
@@ -26,10 +26,10 @@ description = ""
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 	
-//war {
-//    baseName = 'one_number_app'
-//   version =  '0.1.2'
-//} 
+war {
+    baseName = 'txl'
+    version =  '1205-01'
+} 
 
 processResources {
     from('src/main/java') {
@@ -45,7 +45,7 @@ bootRun {
 }
 	
 	repositories {
-	      maven { url 'file://' + new File('csse/_localmaven').absolutePath }
+		maven { url 'file://' + new File('csse/_localmaven').absolutePath }
 	   // maven { url 'file://' + new File('mavenlibs').absolutePath }    
 	   // maven { url "http://192.168.17.247:8081/nexus/content/groups/public/" }
 	   // mavenCentral()
@@ -63,7 +63,7 @@ bootRun {
 		//springcache redis 依赖
 		compile("org.springframework.boot:spring-boot-starter-cache")
 		compile("org.springframework.boot:spring-boot-starter-redis")
-	        compile("org.springframework.boot:spring-boot-starter-tomcat")
+	     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 	     
 	   compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
 	   compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc'
