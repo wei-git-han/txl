@@ -15,8 +15,11 @@ druid:
     password: password01
     initial-size: 1
     min-idle: 1
-    max-active: 5
+    max-active: 10 
+    maxWait: 3000
     test-on-borrow: true
+    testWhileIdle: true
+    validationQuery: select 1 from DUAL 
 
 mybatis.configuration.mapUnderscoreToCamelCase: true
 

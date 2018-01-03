@@ -22,9 +22,11 @@ import com.alibaba.druid.pool.DruidDataSource;
  * @since 2017/2/5.
  */
 
+
+
+
 @Configuration
 @EnableConfigurationProperties(DruidProperties.class)
-@AutoConfigureAfter(DBInit.class)
 @ConditionalOnClass(DruidDataSource.class)
 @ConditionalOnProperty(prefix = "druid", name = "url")
 @AutoConfigureBefore(DataSourceAutoConfiguration.class)
@@ -33,8 +35,7 @@ public class DruidConfig {
     @Autowired
     private DruidProperties properties;
     @Bean
-    public DataSource dataSource(DBInit dbInit) {
-    	dbInit.creatUser();
+    public DataSource dataSource() {
         DruidDataSource dataSource = new DruidDataSource();
         dataSource.setUrl(properties.getUrl());
         dataSource.setUsername(properties.getUsername());
@@ -48,8 +49,12 @@ public class DruidConfig {
         if (properties.getMaxActive() > 0) {
             dataSource.setMaxActive(properties.getMaxActive());
         }
+        if(properties.getMaxWait()> 0){
+        	dataSource.setMaxWait(properties.getMaxWait());
+        }
         dataSource.setTestOnBorrow(properties.isTestOnBorrow());      
-       
+        dataSource.setTestWhileIdle(properties.isTestWhileIdle());
+        dataSource.setValidationQuery(properties.getValidationQuery());
         try {
             dataSource.init();
         } catch (SQLException e) {
@@ -69,8 +74,10 @@ class DruidProperties {
     private int     maxActive;
     private int     minIdle;
     private int     initialSize;
+    private int     maxWait ;
     private boolean testOnBorrow;
-
+    private boolean testWhileIdle;
+    private String  validationQuery;
     public String getUrl() {
         return url;
     }
@@ -111,7 +118,17 @@ class DruidProperties {
         this.maxActive = maxActive;
     }
 
-    public int getMinIdle() {
+    
+    
+    public int getMaxWait() {
+		return maxWait;
+	}
+
+	public void setMaxWait(int maxWait) {
+		this.maxWait = maxWait;
+	}
+
+	public int getMinIdle() {
         return minIdle;
     }
 
@@ -134,5 +151,23 @@ class DruidProperties {
     public void setTestOnBorrow(boolean testOnBorrow) {
         this.testOnBorrow = testOnBorrow;
     }
+
+	public boolean isTestWhileIdle() {
+		return testWhileIdle;
+	}
+
+	public void setTestWhileIdle(boolean testWhileIdle) {
+		this.testWhileIdle = testWhileIdle;
+	}
+
+	public String getValidationQuery() {
+		return validationQuery;
+	}
+
+	public void setValidationQuery(String validationQuery) {
+		this.validationQuery = validationQuery;
+	}
+    
+    
 }
 
