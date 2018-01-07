@@ -22,6 +22,6 @@ public interface TxlOrganDao extends BaseDao<TxlOrgan> {
      * @param borrowStatus 借阅状态
      * @param id 文件ID
      */
-	@Select("select * from TXL_ORGAN where FATHERID = #{id} ")
+	@Select("select * from TXL_ORGAN where FATHERID = #{id} order by orderid")
 	List<TxlOrgan> getSubOrg(String id);
 }

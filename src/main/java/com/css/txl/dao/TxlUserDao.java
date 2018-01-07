@@ -23,7 +23,7 @@ public interface TxlUserDao extends BaseDao<TxlUser> {
      * 根据子节点ID查询用户
      * @param id 
      */
-	@Select("select * from TXL_USER where ORGANID = #{id} ")
+	@Select("select * from TXL_USER where ORGANID = #{id} order by orderid")
 	List<TxlUser> getUserInfos(String id);
 	
 	/**

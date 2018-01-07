@@ -73,7 +73,9 @@ function createtable(obj){
 		$("#"+obj.target).html("");
 		
 		$(window).resize(function(){
-			clearTimeout(o);
+			if(!!window.o){
+				clearTimeout(o);
+			}
 			o = setTimeout(function(){
 				create();
 			},500)

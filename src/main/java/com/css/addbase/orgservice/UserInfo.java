@@ -1,5 +1,8 @@
 package com.css.addbase.orgservice;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.alibaba.fastjson.annotation.JSONField;
 
 public class UserInfo {
@@ -50,6 +53,12 @@ public class UserInfo {
 	
 	private String dept;
 	
+	@JSONField(serialize = false)
+	private String duty;//职务
+	@JSONField(serialize = false)
+	private String position;//职级
+	@JSONField(serialize = false)
+	private Map<String,String> extAttribute=new HashMap<String,String>();
 	public String getMobile() {
 		return mobile;
 	}
@@ -250,6 +259,29 @@ public class UserInfo {
 		this.timestamp = timestamp;
 	}
 
+	public String getDuty() {
+		return duty;
+	}
+
+	public void setDuty(String duty) {
+		this.duty = duty;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
+	public Map<String, String> getExtAttribute() {
+		return extAttribute;
+	}
+
+	public void setExtAttribute(Map<String, String> extAttribute) {
+		this.extAttribute = extAttribute;
+	}
+
 	public String getDept() {
 		return dept;
 	}
@@ -257,5 +289,4 @@ public class UserInfo {
 	public void setDept(String dept) {
 		this.dept = dept;
 	}
-
 }
