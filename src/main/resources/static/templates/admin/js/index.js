@@ -96,7 +96,7 @@ var pageModule = function(){
             rownumberyon:true,
             paramobj:{},
             overflowx:false,
-            pageyno:false,
+            pagesize: 12,
             loadafter:function(data){
             	if(true == data.manager){
             		$("#daoru").show();
