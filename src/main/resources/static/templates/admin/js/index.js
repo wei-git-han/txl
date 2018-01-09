@@ -10,40 +10,32 @@ var pageModule = function(){
 				$("#lxrContent").html("");
 				$.each(data, function(i,obj) {
 					var html2="";
-					//var isSc ="activelove";
 					$.each(obj.children, function(j,obj2) {
-					/*	if(obj2.isSc == "true"){
-							isSc = "haspic";
-						}else if(obj2.isSc == "false"){
-							isSc ="activelove";
-						}else{
-							isSc ="activelove";
-						}*/
-						html2+=  '<div class="center_model">'+
-						 				'	<div  style="width:100%;height:100%;position:relative">'+	
-										'	<div class="center_model_wrap">'+
-										'		<div class="model_name">'+
-										'			<div style="display:inline-block;">'+		
-										'				<span   onclick="clickfn(\''+obj2.userid+'\')"><a style="font-size:24px;">'+obj2.fullname+'</a></span><i class="fa fa-star starsc" onclick="delscfn(\''+obj2.userid+'\')"></i>'+
-										'			</div>'+
-										'		</div>'+
-										'		<div class="model_zhiwu">'+
-										'			<span>'+obj2.dept+'</span>'+
-										'		</div>'+
-										'		<div class="model_tel">'+
-										'			<img src="templates/admin/images/tel_03.png" class="imgs" />'+
-										'			<span>'+obj2.telephone+'</span>'+
-										'		</div>'+
-										'		<div class="model_phone">'+
-										'			<img src="templates/admin/images/phpne.png" class="imgs" />'+
-										'			<span>'+obj2.mobile+'</span>'+
-										'		</div>'+
-										'	</div>'+
-										'	<div class="model_adress">'+
-										'		<img src="templates/admin/images/adress_20.png" class="imgs" /><span class="adresslemit">'+obj2.address+'</span>'+
-										'	</div>'+
-										'	</div>'+
-										'</div>';
+						html2+= '<div class="center_model">'+
+				 				'	<div  style="width:100%;height:100%;position:relative">'+	
+								'	<div class="center_model_wrap">'+
+								'		<div class="model_name">'+
+								'			<div style="display:inline-block;">'+		
+								'				<span   onclick="clickfn(\''+obj2.userid+'\')"><a style="font-size:24px;">'+obj2.fullname+'</a></span><i class="fa fa-star starsc" onclick="delscfn(\''+obj2.userid+'\')"></i>'+
+								'			</div>'+
+								'		</div>'+
+								'		<div class="model_zhiwu">'+
+								'			<span>'+obj2.dept+'</span>'+
+								'		</div>'+
+								'		<div class="model_tel">'+
+								'			<img src="templates/admin/images/tel_03.png" class="imgs" />'+
+								'			<span>'+obj2.telephone+'</span>'+
+								'		</div>'+
+								'		<div class="model_phone">'+
+								'			<img src="templates/admin/images/phpne.png" class="imgs" />'+
+								'			<span>'+obj2.mobile+'</span>'+
+								'		</div>'+
+								'	</div>'+
+								'	<div class="model_adress">'+
+								'		<img src="templates/admin/images/adress_20.png" class="imgs" /><span class="adresslemit">'+obj2.address+'</span>'+
+								'	</div>'+
+								'	</div>'+
+								'</div>';
 					})	
 					$("#lxrContent").html(html2);
 				})
@@ -58,9 +50,9 @@ var pageModule = function(){
 				$.each(data, function(i,obj) {
 					$("#bmdh").append(
 						'<div class="model">'+
-							'<div class="model_title"><a style="cursor:pointer"   onclick="clickbmdhfn(\''+obj.id+'\')">'+obj.orgName+'</a><i class="fa fa-trash-o ljt" style="display:none;cursor:pointer;float: right;padding-right:5px;padding-top:3px;"  onclick="delfn(\''+obj.id+'\')"    style="float:right;cursor:pointer;"></i></div>'+
-							'<div class="model_title2"><img src="templates/admin/images/tel_03.png" class="telpic2" /><span>'+obj.orgTel+'</span></div>'+
-							'<div class="model_title2" style="width:100%;margin-top:3px;"><img src="templates/admin/images/adress_20.png" style="float:left;margin-top: 3px;" class="telpic2" /><span  style="display: block;width: 155px; text-overflow: ellipsis;overflow: hidden; white-space: nowrap;" title='+obj.orgAddress+'>'+obj.orgAddress+'</span></div>'+
+						'	<div class="model_title"><a style="cursor:pointer"   onclick="clickbmdhfn(\''+obj.id+'\')">'+obj.orgName+'</a><i class="fa fa-trash-o ljt" style="display:none;cursor:pointer;float: right;padding-right:5px;padding-top:3px;"  onclick="delfn(\''+obj.id+'\')"    style="float:right;cursor:pointer;"></i></div>'+
+						'	<div class="model_title2"><img src="templates/admin/images/tel_03.png" class="telpic2" /><span>'+obj.orgTel+'</span></div>'+
+						'	<div class="model_title2" style="width:100%;margin-top:3px;"><img src="templates/admin/images/adress_20.png" style="float:left;margin-top: 3px;" class="telpic2" /><span  style="display: block;width: 155px; text-overflow: ellipsis;overflow: hidden; white-space: nowrap;" title='+obj.orgAddress+'>'+obj.orgAddress+'</span></div>'+
 						'</div>'
 					);
 				
@@ -232,14 +224,10 @@ var pageModule = function(){
 			
 		});
 		
-		
 		$(".searchValue").keypress(function(){
 			$(".search_btn").click();
 		})
 	}
-	
-
-
 	
 	return{
 		//加载页面处理程序
@@ -328,13 +316,6 @@ function delfn(id){
 	});
 }
 
-
-/*点击回车键搜索*/
-function keySearch(){
-	/*if(event.keyCode == 13){
-		$(".search_btn").click();
-	}*/
-}
 
 var show = function(obj){
 	$("#"+obj).modal("show");
