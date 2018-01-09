@@ -1,9 +1,8 @@
 var grid=null;
 var pageModule = function(){
 	var treeid = "";
-	/*主要数据加载*/
+	/*收藏*/
 	var initLxr = function(){
-		/*联系人数据*/
 		$ajax({
 			url:lxr,
 			success:function(data){
@@ -41,8 +40,10 @@ var pageModule = function(){
 				})
 			}
 		});
-		
-		/*右侧部门电话数据*/
+	}
+
+	/*右侧部门电话数据*/
+	var bmdhfn = function(){
 		$ajax({
 			url:bmdh,
 			success:function(data){
@@ -55,61 +56,60 @@ var pageModule = function(){
 						'	<div class="model_title2" style="width:100%;margin-top:3px;"><img src="templates/admin/images/adress_20.png" style="float:left;margin-top: 3px;" class="telpic2" /><span  style="display: block;width: 155px; text-overflow: ellipsis;overflow: hidden; white-space: nowrap;" title='+obj.orgAddress+'>'+obj.orgAddress+'</span></div>'+
 						'</div>'
 					);
-				
 				})
 			}
 		})
 	}
-
+	
 	
 	var initgrid = function(){
         grid = $("#gridcont").createGrid({
-                columns:[
-                	 {display:"姓名",name:"fullname",width:"10%",align:"center",paixu:false,render:function(rowdata,n){
-                        return  '<a onclick="clickfn(\''+rowdata.userid+'\')">'+rowdata.fullname+'</a>';
-                     }},
-                     {display:"手机号",name:"mobile",width:"17%",align:"center",paixu:false,render:function(rowdata){
-                         return rowdata.mobile;                                        
-                     }},
-                     {display:"座机号",name:"telephone",width:"15%",align:"center",paixu:false,render:function(rowdata){
-                          return rowdata.telephone;                                     
-                     }},
-                     {display:"职务",name:"post",width:"10%",align:"left",paixu:false,render:function(rowdata){
-                           return rowdata.post;                                      
-                     }},
-                     {display:"房间号",name:"address",width:"20%",align:"left",paixu:false,render:function(rowdata){
-                         return rowdata.address;                                        
-                      }},
-                     {display:"部门",name:"organName",width:"15%",align:"left",paixu:false,render:function(rowdata){
-                        return rowdata.organName;                                         
-                     }},
-                     {display:"操作",name:"do",width:"13%",align:"center",paixu:false,render:function(rowdata){
-                    	 if(rowdata.isSc == 0 ){
-                    		 return '<a class="ysc" title="收藏" href="javascript:addscfn(\''+rowdata.userid+'\')"><i class="fa fa-star"></i></a>';
-                    	 }else{
-                    		 return '<a class="sc" title="取消收藏" href="javascript:delscfn(\''+rowdata.userid+'\')"><i class="fa fa-star"></i></a>';
-                    	 }
-                      }}
-                 ],
-                width:"100%",
-                checkbox: false,
-                rownumberyon:true,
-                paramobj:{},
-                overflowx:false,
-                pageyno:false,
-                loadafter:function(data){
-                	if(true == data.manager){
-                		$("#daoru").show();
-                		$("#add_bmdh").show();
-                		$(".ljt").show();
-                	}else{
-                		$("#daoru").hide();
-                		$("#add_bmdh").hide();
-                		$(".ljt").hide();
-                	}
-                },
-                url: tablegrid
-           });
+            columns:[
+            	 {display:"姓名",name:"fullname",width:"10%",align:"center",paixu:false,render:function(rowdata,n){
+                    return  '<a onclick="clickfn(\''+rowdata.userid+'\')">'+rowdata.fullname+'</a>';
+                 }},
+                 {display:"手机号",name:"mobile",width:"17%",align:"center",paixu:false,render:function(rowdata){
+                     return rowdata.mobile;                                        
+                 }},
+                 {display:"座机号",name:"telephone",width:"15%",align:"center",paixu:false,render:function(rowdata){
+                      return rowdata.telephone;                                     
+                 }},
+                 {display:"职务",name:"post",width:"10%",align:"left",paixu:false,render:function(rowdata){
+                       return rowdata.post;                                      
+                 }},
+                 {display:"房间号",name:"address",width:"20%",align:"left",paixu:false,render:function(rowdata){
+                     return rowdata.address;                                        
+                  }},
+                 {display:"部门",name:"organName",width:"15%",align:"left",paixu:false,render:function(rowdata){
+                    return rowdata.organName;                                         
+                 }},
+                 {display:"操作",name:"do",width:"13%",align:"center",paixu:false,render:function(rowdata){
+                	 if(rowdata.isSc == 0 ){
+                		 return '<a class="ysc" title="收藏" href="javascript:addscfn(\''+rowdata.userid+'\')"><i class="fa fa-star"></i></a>';
+                	 }else{
+                		 return '<a class="sc" title="取消收藏" href="javascript:delscfn(\''+rowdata.userid+'\')"><i class="fa fa-star"></i></a>';
+                	 }
+                  }}
+             ],
+            width:"100%",
+            checkbox: false,
+            rownumberyon:true,
+            paramobj:{},
+            overflowx:false,
+            pageyno:false,
+            loadafter:function(data){
+            	if(true == data.manager){
+            		$("#daoru").show();
+            		$("#add_bmdh").show();
+            		$(".ljt").show();
+            	}else{
+            		$("#daoru").hide();
+            		$("#add_bmdh").hide();
+            		$(".ljt").hide();
+            	}
+            },
+            url: tablegrid
+       });
 	}
 	
 	/*全部联系人树加载*/
@@ -189,14 +189,13 @@ var pageModule = function(){
 			}else{
 				return;
 			}
-		})
+		});
 		
 		
 		//部门电话新增
 		$("#add_bmdh").click(function(){
 			window.location.href="txl/html/bmdh_add.html";
-		})
-		
+		});
 		
 		//导入
 		$("#daoru").click(function(){
@@ -213,7 +212,6 @@ var pageModule = function(){
 			})
 		});
 		
-		
 		/*搜索*/
 		$(".search_btn").click(function(){
 			var id = $("#treeSecId").val();
@@ -221,25 +219,30 @@ var pageModule = function(){
 			$("#secName").val(searchValue);
 			grid.setparams({"orgid":id,"searchValue":searchValue});
 			grid.refresh();
-			
 		});
 		
 		$(".searchValue").keypress(function(){
 			$(".search_btn").click();
-		})
+		});
 	}
 	
 	return{
 		//加载页面处理程序
 		initControl:function(){
 			initother();
-			inittree();
-			initLxr();
+			inittree();//左侧组织机构树
+			initLxr();//中间收藏列表
+			initgrid();//列表
+			bmdhfn();//右侧部门电话
+		},
+		gridfresh:function(){
 			initgrid();
 		},
-		inittow:function(){
-			initgrid();
+		initLxrfresh:function(){
 			initLxr();
+		},
+		bmdhfnfresh:function(){
+			bmdhfn();
 		}
 	};
 }();	
@@ -265,7 +268,8 @@ var addscfn = function(id) {
 				success:function(data){
 					if(data.result=="success"){
 						newbootbox.alertInfo("收藏成功！").done(function(){
-							pageModule.inittow();
+							pageModule.initLxrfresh();
+							pageModule.gridfresh();
 						});
 					}else{
 						newbootbox.alertInfo("收藏失败！");
@@ -284,7 +288,8 @@ function delscfn(id){
 		success:function(data){
 			if(data.result=="success"){
 				newbootbox.alertInfo("取消成功！").done(function(){
-					pageModule.inittow();
+					pageModule.initLxrfresh();
+					pageModule.gridfresh();
 				});
 			}else{
 				newbootbox.alertInfo("取消失败！");
@@ -305,7 +310,7 @@ function delfn(id){
 				success:function(data){
 					if(data.result=="success"){
 						newbootbox.alertInfo("删除成功！").done(function(){
-							pageModule.inittow();
+							pageModule.bmdhfnfresh();
 						});
 					}else{
 						newbootbox.alertInfo("删除失败！");
