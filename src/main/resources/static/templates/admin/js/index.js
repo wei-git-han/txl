@@ -114,42 +114,47 @@ var pageModule = function(){
 	
 	/*全部联系人树加载*/
 	var inittree = function(){
-		$ajax({
-			url:txltree,
-			success:function(data){
-				$("#tree_2").jstree({
-				    "plugins": ["wholerow", "types"],
-				    "core": {
-				    "themes" : {
-				        "responsive": false
-				    },    
-				    "data": data,
-				    },
-				    "types" : {
-				    	"default" : {
-					        "icon" : "peoples_img"
-					    },
-					    "file" : {
-					        "icon" : "peoples_img"
-					    },
-					    "1" : {
-					        "icon" : "people_img"
-					    }
-				    }
-				});
-				
-				$("#tree_2").on("select_node.jstree", function(e,data) { 
-				    var id = $("#" + data.selected).attr("id");
-				    var searchValue = $("#searchValue").val();
-				    $("#treeSecId").val(id);
-					grid.setparams({"orgid":id,"searchValue":searchValue});
-					grid.refresh();
-				});
-				
-			}
-		})
-
+		/*
+		 * 树的格式参照data文件里的txltree.json
+		 * 如果当前节点下有子节点则children为true
+		 * 点击+号给后台传当前节点的id
+		 * 然后后台传给前端当前节点的其他子节点
+		 * */
+		$("#tree_2").jstree({
+		    "plugins": ["wholerow", "types"],
+		    "core": { 
+		    	"themes" : {
+			        "responsive": true
+			    },
+		    	"data": {
+		    		"url":"txlorgan/tree",
+		    		"data":function(node){
+		    			return {"id":node.id};
+		    		}
+		    	},
+		    },
+		    "types" : {
+		    	"default" : {
+			        "icon" : "peoples_img"
+			    },
+			    "file" : {
+			        "icon" : "peoples_img"
+			    },
+			    "1" : {
+			        "icon" : "people_img"
+			    }
+		    }
+		});
+		
+		$("#tree_2").on("select_node.jstree", function(e,data) { 
+		    var id = $("#" + data.selected).attr("id");
+		    var searchValue = $("#searchValue").val();
+		    $("#treeSecId").val(id);
+			grid.setparams({"orgid":id,"searchValue":searchValue});
+			grid.refresh();
+		});
 	}
+	
 	
 	var initother = function(){
 		//搜索划过更换图标
