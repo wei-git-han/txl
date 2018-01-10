@@ -151,7 +151,7 @@ var pageModule = function(){
 		    var searchValue = $("#searchValue").val();
 		    $("#treeSecId").val(id);
 			grid.setparams({"orgid":id,"searchValue":searchValue});
-			grid.refresh();
+			grid.loadtable();
 		});
 	}
 	
