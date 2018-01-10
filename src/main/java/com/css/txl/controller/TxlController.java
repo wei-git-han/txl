@@ -25,6 +25,7 @@ import com.css.addbase.orgservice.Organ;
 import com.css.addbase.orgservice.SyncOrgan;
 import com.css.addbase.orgservice.UserInfo;
 import com.css.base.utils.CurrentUser;
+import com.css.base.utils.PageUtils;
 import com.css.base.utils.Response;
 import com.css.base.utils.StringUtils;
 import com.css.txl.entity.TxlCollect;
@@ -34,6 +35,7 @@ import com.css.txl.service.TxlCollectService;
 import com.css.txl.service.TxlOrganService;
 import com.css.txl.service.TxlUserService;
 import com.css.txl.utils.ChineseFCUtil;
+import com.github.pagehelper.PageHelper;
 
 /**
  * 文件借阅表
@@ -101,10 +103,11 @@ public class TxlController {
 	
 	@RequestMapping(value = "/listuser")
 	@ResponseBody
-	public void listuser(Integer page, Integer limit, String orgid, String searchValue) {
-		userInfos = new ArrayList<TxlUser>();
-		JSONObject json = new JSONObject();
+	public void listuser(Integer page, Integer pagesize, String orgid, String searchValue) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String orgIds = "";
 		//查询列表数据
+		/*
 		List<TxlUser> liInfos = new ArrayList<TxlUser>();
 		if(null != orgid && !"".equals(orgid) && (null == searchValue || "".equals(searchValue))) {
 			liInfos =  getAllUser(orgid);
@@ -112,13 +115,42 @@ public class TxlController {
 			liInfos =  getOthUser(orgid, searchValue);
 		}else {
 			liInfos =  txlUserService.getNameToUser(searchValue);
+		}*/
+		if(StringUtils.isNotBlank(searchValue)){
+			map.put("search", searchValue);
 		}
+		if(StringUtils.isNotBlank(orgid) && !StringUtils.equals("root", orgid)){
+			orgIds = allOrgIds(orgid);
+			map.put("orgIds", orgIds.split(","));
+		}
+		PageHelper.startPage(page, pagesize);
+		List<TxlUser> liInfos = txlUserService.queryList(map);
 		fillSc(liInfos);
-		json.put("total", liInfos.size());
-		json.put("page", 1);
+		PageUtils pageUtil = new PageUtils(liInfos);
+		JSONObject json = new JSONObject();
+		json.put("total", pageUtil.getTotalCount());
+		json.put("page", pageUtil.getCurrPage());
 		json.put("rows", liInfos);
 		json.put("manager", CurrentUser.getIsManager(appConfig.getAppId(),appConfig.getAppSecret()));
 		Response.json(json);
+	}
+	
+	private String allOrgIds(String orgId){
+		String ret = "";
+		if(StringUtils.isNotBlank(orgId)){
+			TxlOrgan org = orgService.queryObject(orgId);
+			if(org != null){
+				ret += org.getOrganid()+",";
+				List<TxlOrgan> list = orgService.getSubOrg(org.getOrganid());
+				if(list != null && list.size() > 0){
+					for(TxlOrgan organ : list){
+						//ret.add(allOrgIds(organ.getOrganid()));
+						ret += allOrgIds(organ.getOrganid());
+					}
+				}
+			}
+		}
+		return ret;
 	}
 	/**
 	 * 把当前用户收藏的予以标记
