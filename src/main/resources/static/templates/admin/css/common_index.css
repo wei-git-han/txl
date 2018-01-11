@@ -254,6 +254,7 @@ ul {
 .center_model{
 	height:185px;
 	width:180px;
+	overflow:hidden;
 	background:#fff;
 	padding: 15px;
 	display:inline-block;
@@ -296,7 +297,18 @@ ul {
 	font-size:13px;
 	text-align: center;
 	margin-top:5px;
+	width:100%;
+	overflow:hidden;
 }
+.model_zhiwu span{
+	text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    display: inline-block;
+}
+
+
 .model_tel,.model_phone{
 	color: #6F6F6F;
 	text-align: center;

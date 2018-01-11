@@ -19,7 +19,7 @@ var pageModule = function(){
 								'			</div>'+
 								'		</div>'+
 								'		<div class="model_zhiwu">'+
-								'			<span>'+obj2.dept+'</span>'+
+								'			<span title="'+obj2.dept+'">'+obj2.dept+'</span>'+
 								'		</div>'+
 								'		<div class="model_tel">'+
 								'			<img src="templates/admin/images/tel_03.png" class="imgs" />'+
