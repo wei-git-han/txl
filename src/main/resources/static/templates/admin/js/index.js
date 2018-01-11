@@ -127,7 +127,7 @@ var pageModule = function(){
 			        "responsive": true
 			    },
 		    	"data": {
-		    		"url":"txlorgan/tree",
+		    		"url":"txlorgan/syncTree",
 		    		"data":function(node){
 		    			return {"id":node.id};
 		    		}

@@ -24,4 +24,7 @@ public interface TxlOrganDao extends BaseDao<TxlOrgan> {
      */
 	@Select("select * from TXL_ORGAN where FATHERID = #{id} order by orderid")
 	List<TxlOrgan> getSubOrg(String id);
+	
+	@Select("select ORGANID, ORGANNAME, FATHERID, ORDERID, DN,(select count(0) from TXL_ORGAN a   WHERE a.FATHERID=b.ORGANID) AS  CODE, PATH, ORGUUID, TIMESTAMP, TYPE from TXL_ORGAN b where FATHERID = #{id} order by orderid")
+	List<TxlOrgan> getSubOrgSync(String id);
 }

@@ -54,4 +54,10 @@ public class TxlOrganServiceImpl implements TxlOrganService {
 	public List<TxlOrgan> getSubOrg(String id) {
 		return txlOrganDao.getSubOrg(id);
 	}
+
+	@Override
+	public List<TxlOrgan> getSubOrgSync(String id) {
+		// TODO Auto-generated method stub
+		return txlOrganDao.getSubOrgSync(id);
+	}
 }

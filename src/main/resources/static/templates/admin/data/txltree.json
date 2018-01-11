@@ -4,6 +4,16 @@
 			"parent":"#",
 			"text": "法制局 ",
 			"children": true
+		},{
+			"id":"01",
+			"parent":"#",
+			"text": "法制局 1",
+			"children": true
+		},{
+			"id":"02",
+			"parent":"#",
+			"text": "法制局 2",
+			"children": true
 		}
 	]
 	

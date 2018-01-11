@@ -27,6 +27,7 @@ public interface TxlOrganService {
 	void deleteBatch(String[] organids);
 	
 	List<TxlOrgan> getSubOrg(String id);
+	List<TxlOrgan> getSubOrgSync(String id);
 	
 	/*int queryTotal(Map<String,Object> map);*/
 }

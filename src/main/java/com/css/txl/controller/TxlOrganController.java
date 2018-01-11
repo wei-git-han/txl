@@ -18,6 +18,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.css.base.utils.PageUtils;
 import com.github.pagehelper.PageHelper;
 import com.css.base.utils.Response;
+import com.css.base.utils.StringUtils;
 import com.css.txl.entity.TxlOrgan;
 import com.css.txl.service.TxlOrganService;
 
@@ -102,6 +103,36 @@ public class TxlOrganController {
 		json.put("opened", true);
 		list.put("state", json);
 		return list;
+	}
+	
+	@RequestMapping(value = "/syncTree")
+	@ResponseBody
+	public Object getDeptTreeSync(String id) {
+		JSONArray ja=new JSONArray();
+		if("#".equals(id)){
+			TxlOrgan organ=txlOrganService.queryObject("root");
+			JSONObject jo=new JSONObject();
+			jo.put("id",organ.getOrganid());
+			jo.put("parent","#");
+			jo.put("text",organ.getOrganname());
+			jo.put("children",true);
+			ja.add(jo);
+		}else{
+			if(StringUtils.isEmpty(id)){
+				id="root";
+			}
+			JSONObject jo=null;;
+			List<TxlOrgan> organs= txlOrganService.getSubOrgSync(id);
+			for(TxlOrgan organ:organs){
+				jo=new JSONObject();
+				jo.put("id",organ.getOrganid());
+				jo.put("parent",organ.getFatherid());
+				jo.put("text",organ.getOrganname());
+				jo.put("children",!"0".equals(organ.getCode()));
+				ja.add(jo);
+			}
+		}
+		return ja;
 	}
 	
 	public JSONObject getOrganTree(String id){
