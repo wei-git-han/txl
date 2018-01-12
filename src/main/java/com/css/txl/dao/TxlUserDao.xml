@@ -8,16 +8,16 @@
 	</select>
 
 	<select id="queryList" resultType="com.css.txl.entity.TxlUser">
-		select * from TXL_USER where 1=1
+		select T.* , (SELECT ORGANNAME FROM TXL_ORGAN WHERE ORGANID =T.ORGANID ) AS DEPT  from TXL_USER T where 1=1
 		<if test="orgIds != null">
-		 and ORGANID in 
+		 and T.ORGANID in 
 		 <foreach item="item" collection="orgIds" open="(" separator="," close=")">
 			#{item}
 		</foreach>
 		</if>
 		<if test="search != null">
-		 and (fullname like '%'||#{search}||'%'
-		or mobile like '%'||#{search}||'%')
+		 and (T.fullname like '%'||#{search}||'%'
+		or T.mobile like '%'||#{search}||'%')
 		</if>
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}

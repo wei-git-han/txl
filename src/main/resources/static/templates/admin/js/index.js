@@ -80,8 +80,8 @@ var pageModule = function(){
                  {display:"房间号",name:"address",width:"20%",align:"left",paixu:false,render:function(rowdata){
                      return rowdata.address;                                        
                   }},
-                 {display:"部门",name:"organName",width:"15%",align:"left",paixu:false,render:function(rowdata){
-                    return rowdata.organName;                                         
+                 {display:"部门",name:"dept",width:"15%",align:"left",paixu:false,render:function(rowdata){
+                    return rowdata.dept;                                         
                  }},
                  {display:"操作",name:"do",width:"13%",align:"center",paixu:false,render:function(rowdata){
                 	 if(rowdata.isSc == 0 ){
