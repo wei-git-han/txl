@@ -211,7 +211,8 @@ var pageModule = function(){
 				success:function(data){
 					$("#starttime").val(data.starttime);
 					newbootbox.alertInfo("同步数据成功！").done(function(){
-						initgrid();
+						//initgrid();
+						window.location.href=window.location.href;
 					});
 				}
 			})
