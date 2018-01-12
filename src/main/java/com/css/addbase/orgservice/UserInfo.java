@@ -42,8 +42,8 @@ public class UserInfo {
 	private String secLevel;
 	@JSONField(serialize = false)
 	private Integer failedLoginCount;
-	@JSONField(serialize = false)
-	private java.sql.Timestamp editPwdTime;
+/*	@JSONField(serialize = false)
+	private java.sql.Timestamp editPwdTime;*/
 	@JSONField(serialize = false)
 	private String mobile;
 	@JSONField(serialize = false)
@@ -235,13 +235,13 @@ public class UserInfo {
 		this.failedLoginCount = failedLoginCount;
 	}
 
-	public java.sql.Timestamp getEditPwdTime() {
+	/*public java.sql.Timestamp getEditPwdTime() {
 		return editPwdTime;
 	}
 
 	public void setEditPwdTime(java.sql.Timestamp editPwdTime) {
 		this.editPwdTime = editPwdTime;
-	}
+	}*/
 
 	public String getType() {
 		return type;

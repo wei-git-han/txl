@@ -635,7 +635,7 @@ public class TxlController {
 				txlUser.setCa(userInfo.getCa());
 				txlUser.setDept(userInfo.getDept());
 				txlUser.setDn(userInfo.getDn());
-				txlUser.setEditpwdtime(userInfo.getEditPwdTime());
+				/*txlUser.setEditpwdtime(userInfo.getEditPwdTime());*/
 				if(null != userInfo.getEndDate() && !"".equals(userInfo.getEndDate())) {
 					
 					try {
@@ -697,7 +697,7 @@ public class TxlController {
 				txlUser.setCa(userInfo.getCa());
 				txlUser.setDept(userInfo.getDept());
 				txlUser.setDn(userInfo.getDn());
-				txlUser.setEditpwdtime(userInfo.getEditPwdTime());
+				/*txlUser.setEditpwdtime(userInfo.getEditPwdTime());*/
 				if(null != userInfo.getEndDate() && !"".equals(userInfo.getEndDate())) {
 					
 					try {
