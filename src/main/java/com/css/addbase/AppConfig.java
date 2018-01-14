@@ -67,6 +67,14 @@ public class AppConfig {
 	}
 	
 	/**
+	 * 获取增量同步组织机构信息接口
+	 * @return
+	 */
+	public String getSyncDepartments() {
+		return env.getProperty("csse.mircoservice.syncdepartments");
+	}
+	
+	/**
 	 * 获取应用的appID
 	 * @return
 	 */

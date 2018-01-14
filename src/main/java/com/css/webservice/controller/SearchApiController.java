@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.css.addbase.JSONUtil;
 import com.css.addbase.PinYinUtil;
-import com.css.base.utils.CurrentUser;
 import com.css.base.utils.Response;
 import com.css.txl.service.TxlUserService;
 
@@ -38,7 +37,6 @@ public class SearchApiController {
 		sysPrint(request);
 		JSONObject obj=jsonFailed(request);
 		if(obj==null){return;}
-		String userId=CurrentUser.getUserId();
 		String[] keyWords=obj.getObject("keyWords", String[].class);
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("keywords", keyWords);

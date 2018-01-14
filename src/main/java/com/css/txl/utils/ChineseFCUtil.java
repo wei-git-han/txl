@@ -1,5 +1,4 @@
 package com.css.txl.utils;
-import com.css.base.utils.PingYinUtils;
 
 public class ChineseFCUtil {
 	private static int BEGIN = 45217;
