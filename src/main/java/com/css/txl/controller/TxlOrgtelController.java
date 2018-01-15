@@ -4,19 +4,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.stereotype.Controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.css.addbase.AppConfig;
 import com.css.base.utils.CurrentUser;
-import com.css.base.utils.PageUtils;
-import com.css.base.utils.UUIDUtils;
-import com.github.pagehelper.PageHelper;
 import com.css.base.utils.Response;
+import com.css.base.utils.UUIDUtils;
 import com.css.txl.entity.TxlOrgtel;
 import com.css.txl.service.TxlOrgtelService;
 
@@ -34,23 +31,6 @@ public class TxlOrgtelController {
 	private TxlOrgtelService txlOrgtelService;
 	@Autowired
 	private AppConfig appConfig;
-	
-	/**
-	 * 列表
-	 */
-	@ResponseBody
-	@RequestMapping("/list")
-	@RequiresPermissions("txlorgtel:list")
-	public void list(Integer page, Integer limit){
-		Map<String, Object> map = new HashMap<>();
-		PageHelper.startPage(page, limit);
-		
-		//查询列表数据
-		List<TxlOrgtel> txlOrgtelList = txlOrgtelService.queryList(map);
-		
-		PageUtils pageUtil = new PageUtils(txlOrgtelList);
-		Response.json("page",pageUtil);
-	}
 	
 	/**
 	 * 列表
