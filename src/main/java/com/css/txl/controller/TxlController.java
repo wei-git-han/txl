@@ -608,19 +608,12 @@ public class TxlController {
 				txlUserService.delete(userInfo.getUserid());
 			}else if(StringUtils.equals("1", userInfo.getType())) {
 				TxlUser txlUser = new TxlUser();
-				DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-				txlUser.setFailedlogincount(userInfo.getFailedLoginCount());
 				txlUser.setIsdelete(String.valueOf(userInfo.getIsDelete()));
-				txlUser.setIsmanager(userInfo.getIsManager());
 				txlUser.setOrderid(String.valueOf(userInfo.getOrderId()));
 				txlUser.setAccount(userInfo.getAccount());
-				txlUser.setCa(userInfo.getCa());
 				txlUser.setDept(userInfo.getDept());
-				txlUser.setDn(userInfo.getDn());
-				/*txlUser.setEditpwdtime(userInfo.getEditPwdTime());*/
-				if(null != userInfo.getEndDate() && !"".equals(userInfo.getEndDate())) {
-					txlUser.setEnddate(format.parse(userInfo.getEndDate()));
-				}
+				txlUser.setPost(userInfo.getDuty());
+				txlUser.setTelephone(userInfo.getTel());
 				if(null != userInfo.getFullname() && !"".equals(userInfo.getFullname())) {
 					txlUser.setFullname(userInfo.getFullname());
 					if(userInfo.getFullname().indexOf("首长") > 0) {
@@ -633,23 +626,13 @@ public class TxlController {
 						txlUser.setPyName(ChineseFCUtil.cn2py(userInfo.getFullname()).toUpperCase());
 					}
 				}
-				txlUser.setIp(userInfo.getIp());
 				txlUser.setMobile(userInfo.getMobile());
 				txlUser.setOrganid(userInfo.getOrganId());
 				txlUser.setPassword(userInfo.getPassword());
 				txlUser.setSeclevel(userInfo.getSecLevel());
 				txlUser.setSex(userInfo.getSex());
-				txlUser.setSn(userInfo.getSn());
-				txlUser.setSpid(userInfo.getSpId());
-				if(null != userInfo.getStartDate() && !"".equals(userInfo.getStartDate())) {
-					txlUser.setStartdate(format.parse(userInfo.getStartDate()));
-				}
-				txlUser.setTokenid(userInfo.getTokenId());
 				txlUser.setUseremail(userInfo.getUserEmail());
 				txlUser.setUserid(userInfo.getUserid());
-				txlUser.setUseruuid(userInfo.getUserUuid());
-				txlUser.setType(userInfo.getType());
-				txlUser.setTimestamp(userInfo.getTimestamp());
 				TxlUser txlUsertemp = txlUserService.queryObject(userInfo.getUserid());
                 if (txlUsertemp == null) {
                 	txlUserService.save(txlUser);
@@ -659,19 +642,12 @@ public class TxlController {
 			}else {
 				//人员新增
 				TxlUser txlUser = new TxlUser();
-				DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-				txlUser.setFailedlogincount(userInfo.getFailedLoginCount());
 				txlUser.setIsdelete(String.valueOf(userInfo.getIsDelete()));
-				txlUser.setIsmanager(userInfo.getIsManager());
 				txlUser.setOrderid(String.valueOf(userInfo.getOrderId()));
 				txlUser.setAccount(userInfo.getAccount());
-				txlUser.setCa(userInfo.getCa());
 				txlUser.setDept(userInfo.getDept());
-				txlUser.setDn(userInfo.getDn());
-				/*txlUser.setEditpwdtime(userInfo.getEditPwdTime());*/
-				if(null != userInfo.getEndDate() && !"".equals(userInfo.getEndDate())) {
-					txlUser.setEnddate(format.parse(userInfo.getEndDate()));
-				}
+				txlUser.setPost(userInfo.getDuty());
+				txlUser.setTelephone(userInfo.getTel());
 				if(null != userInfo.getFullname() && !"".equals(userInfo.getFullname())) {
 					txlUser.setFullname(userInfo.getFullname());
 					if(userInfo.getFullname().indexOf("首长") > 0) {
@@ -684,23 +660,13 @@ public class TxlController {
 						txlUser.setPyName(ChineseFCUtil.cn2py(userInfo.getFullname()).toUpperCase());
 					}
 				}
-				txlUser.setIp(userInfo.getIp());
 				txlUser.setMobile(userInfo.getMobile());
 				txlUser.setOrganid(userInfo.getOrganId());
 				txlUser.setPassword(userInfo.getPassword());
 				txlUser.setSeclevel(userInfo.getSecLevel());
 				txlUser.setSex(userInfo.getSex());
-				txlUser.setSn(userInfo.getSn());
-				txlUser.setSpid(userInfo.getSpId());
-				if(null != userInfo.getStartDate() && !"".equals(userInfo.getStartDate())) {
-					txlUser.setStartdate(format.parse(userInfo.getStartDate()));
-				}
-				txlUser.setTokenid(userInfo.getTokenId());
 				txlUser.setUseremail(userInfo.getUserEmail());
 				txlUser.setUserid(userInfo.getUserid());
-				txlUser.setUseruuid(userInfo.getUserUuid());
-				txlUser.setType(userInfo.getType());
-				txlUser.setTimestamp(userInfo.getTimestamp());
 				txlUserService.save(txlUser);
 			}
 		}

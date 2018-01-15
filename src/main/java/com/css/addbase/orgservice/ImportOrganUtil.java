@@ -127,22 +127,12 @@ public class ImportOrganUtil {
 		for (UserInfo userInfo:userInfos) {
 			TxlUser baseAppUsertemp = txlUserService.queryObject(userInfo.getUserid());
 			TxlUser txlUser=new TxlUser();
-			DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-			txlUser.setFailedlogincount(userInfo.getFailedLoginCount());
 			txlUser.setIsdelete(String.valueOf(userInfo.getIsDelete()));
-			txlUser.setIsmanager(userInfo.getIsManager());
 			txlUser.setOrderid(String.valueOf(userInfo.getOrderId()));
 			txlUser.setAccount(userInfo.getAccount());
-			txlUser.setCa(userInfo.getCa());
 			txlUser.setDept(userInfo.getDept());
-			txlUser.setDn(userInfo.getDn());
-			if(null != userInfo.getEndDate() && !"".equals(userInfo.getEndDate())) {
-				try {
-					txlUser.setEnddate(format.parse(userInfo.getEndDate()));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-			}
+			txlUser.setPost(userInfo.getDuty());
+			txlUser.setTelephone(userInfo.getTel());
 			if(null != userInfo.getFullname() && !"".equals(userInfo.getFullname())) {
 				txlUser.setFullname(userInfo.getFullname());
 				if(userInfo.getFullname().indexOf("首长") > 0) {
@@ -155,27 +145,13 @@ public class ImportOrganUtil {
 					txlUser.setPyName(ChineseFCUtil.cn2py(userInfo.getFullname()).toUpperCase());
 				}
 			}
-			txlUser.setIp(userInfo.getIp());
 			txlUser.setMobile(userInfo.getMobile());
 			txlUser.setOrganid(userInfo.getOrganId());
 			txlUser.setPassword(userInfo.getPassword());
 			txlUser.setSeclevel(userInfo.getSecLevel());
 			txlUser.setSex(userInfo.getSex());
-			txlUser.setSn(userInfo.getSn());
-			txlUser.setSpid(userInfo.getSpId());
-			if(null != userInfo.getStartDate() && !"".equals(userInfo.getStartDate())) {
-				try {
-					txlUser.setStartdate(format.parse(userInfo.getStartDate()));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-			}
-			txlUser.setTokenid(userInfo.getTokenId());
 			txlUser.setUseremail(userInfo.getUserEmail());
 			txlUser.setUserid(userInfo.getUserid());
-			txlUser.setUseruuid(userInfo.getUserUuid());
-			txlUser.setType(userInfo.getType());
-			txlUser.setTimestamp(userInfo.getTimestamp());
 			if(baseAppUsertemp!=null){
 				txlUserService.update(txlUser);
 			}else{

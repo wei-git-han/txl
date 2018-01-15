@@ -58,6 +58,8 @@ public class UserInfo {
 	@JSONField(serialize = false)
 	private String position;//职级
 	@JSONField(serialize = false)
+	private String tel;//座机号
+	@JSONField(serialize = false)
 	private Map<String,String> extAttribute=new HashMap<String,String>();
 	public String getMobile() {
 		return mobile;
@@ -288,5 +290,13 @@ public class UserInfo {
 
 	public void setDept(String dept) {
 		this.dept = dept;
+	}
+
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
 	}
 }
