@@ -2,6 +2,7 @@ package com.css.txl.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -27,4 +28,11 @@ public interface TxlOrganDao extends BaseDao<TxlOrgan> {
 	
 	@Select("select ORGANID, ORGANNAME, FATHERID, ORDERID, DN,(select count(0) from TXL_ORGAN a   WHERE a.FATHERID=b.ORGANID) AS  CODE, PATH, ORGUUID, TIMESTAMP, TYPE from TXL_ORGAN b where FATHERID = #{id} order by orderid")
 	List<TxlOrgan> getSubOrgSync(String id);
+	
+	/**
+	 * 清空组织机构
+	 * @author gengds
+	 */
+	@Delete("delete from TXL_ORGAN")
+	void clearOrgan();
 }

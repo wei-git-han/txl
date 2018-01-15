@@ -5,6 +5,7 @@ import com.css.txl.entity.TxlUser;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -43,4 +44,10 @@ public interface TxlUserDao extends BaseDao<TxlUser> {
 	int queryTotal(Map<String, Object> map);
 
 	List<TxlUser> getTxlFavorite(String userId);
+	
+	/**
+	 * 清空组织人员
+	 */
+	@Delete("delete from TXL_USER")
+	void clearUser();
 }

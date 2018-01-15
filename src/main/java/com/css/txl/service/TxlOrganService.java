@@ -29,5 +29,11 @@ public interface TxlOrganService {
 	List<TxlOrgan> getSubOrg(String id);
 	List<TxlOrgan> getSubOrgSync(String id);
 	
+	/**
+	 * 清空组织机构
+	 * @author gengds
+	 */
+	void clearOrgan();
+	
 	/*int queryTotal(Map<String,Object> map);*/
 }

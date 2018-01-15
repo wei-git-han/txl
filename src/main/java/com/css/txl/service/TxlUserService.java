@@ -1,9 +1,9 @@
 package com.css.txl.service;
 
-import com.css.txl.entity.TxlUser;
-
 import java.util.List;
 import java.util.Map;
+
+import com.css.txl.entity.TxlUser;
 
 /**
  * 
@@ -33,4 +33,9 @@ public interface TxlUserService {
 	List<TxlUser> getNameToUser(String name);
 
 	List<TxlUser> getTxlFavorite(String userId);
+	
+	/**
+	 * 清空组织人员
+	 */
+	void clearUser();
 }

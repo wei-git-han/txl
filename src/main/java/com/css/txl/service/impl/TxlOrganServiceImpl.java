@@ -60,4 +60,10 @@ public class TxlOrganServiceImpl implements TxlOrganService {
 		// TODO Auto-generated method stub
 		return txlOrganDao.getSubOrgSync(id);
 	}
+
+	@Override
+	public void clearOrgan() {
+		txlOrganDao.clearOrgan();
+		
+	}
 }

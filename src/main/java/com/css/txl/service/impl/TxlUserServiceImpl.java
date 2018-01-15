@@ -78,4 +78,9 @@ public class TxlUserServiceImpl implements TxlUserService {
 	public List<TxlUser> getTxlFavorite(String userId) {
 		return txlUserDao.getTxlFavorite(userId);
 	}
+
+	@Override
+	public void clearUser() {
+		txlUserDao.clearUser();
+	}
 }
