@@ -1,6 +1,4 @@
 package com.css.addbase.orgservice;
-
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -41,13 +39,8 @@ public class ImportOrganUtil {
 			@Override
 			public void run() {
 				try {
-					List<TxlOrgan> baseAppOrgans = txlOrganService.queryList(null);
-					if (baseAppOrgans == null || baseAppOrgans.size() == 0) {
-						importOrg("root");
-						System.out.println("首次组织机构导入成功！");
-					} else {
-						System.out.println("组织机构内已存在数据！");
-					}
+					importOrg("root");
+					System.out.println("首次组织机构导入成功！");
 				} catch (Exception e) {
 					System.out.println("首次组织机构导入成功！");
 					System.out.println(e);
