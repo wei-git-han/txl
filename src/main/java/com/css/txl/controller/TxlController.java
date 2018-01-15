@@ -1,8 +1,6 @@
 package com.css.txl.controller;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +46,7 @@ import com.github.pagehelper.PageHelper;
 public class TxlController {
 
 	@Autowired
-	private TxlOrganService orgService;
+	private TxlOrganService txlOrganService;
 	
 	@Autowired
 	private TxlUserService txlUserService;
@@ -121,10 +119,10 @@ public class TxlController {
 	private String allOrgIds(String orgId){
 		String ret = "";
 		if(StringUtils.isNotBlank(orgId)){
-			TxlOrgan org = orgService.queryObject(orgId);
+			TxlOrgan org = txlOrganService.queryObject(orgId);
 			if(org != null){
 				ret += org.getOrganid()+",";
-				List<TxlOrgan> list = orgService.getSubOrg(org.getOrganid());
+				List<TxlOrgan> list = txlOrganService.getSubOrg(org.getOrganid());
 				if(list != null && list.size() > 0){
 					for(TxlOrgan organ : list){
 						ret += allOrgIds(organ.getOrganid());
@@ -188,7 +186,7 @@ public class TxlController {
 		// 获取通讯录中已经存在的人员信息
 		List<TxlUser> liInfos = txlUserService.queryList(map);
 		// 获取通讯录中已经存在的组织机构信息
-		List<TxlOrgan> organs = orgService.queryList(map);
+		List<TxlOrgan> organs = txlOrganService.queryList(map);
 		// 如果没有数据，则进行全部同步
 		if(liInfos.size() == 0 && organs.size() == 0) {
 			List<Organ> organs2 = getAllDept();
@@ -222,21 +220,21 @@ public class TxlController {
 	}
 	
 	public List<TxlUser> getOthUser(String id, String fullname){
-		List<TxlOrgan> organs = orgService.getSubOrg(id);
+		List<TxlOrgan> organs = txlOrganService.getSubOrg(id);
 		List<TxlUser> sysUsers = txlUserService.getOthUsers(id, fullname);
 		for (TxlUser sysUser:sysUsers) {
 			String depts ="";
 			if("root".equals(id)) {
-				dept = orgService.queryObject(id).getOrganname();
+				dept = txlOrganService.queryObject(id).getOrganname();
 			}else {
-				TxlOrgan wrgan = orgService.queryObject(sysUser.getOrganid());
+				TxlOrgan wrgan = txlOrganService.queryObject(sysUser.getOrganid());
 				while(!"root".equals(wrgan.getOrganid())){
 					if("".equals(depts)) {
 						depts = wrgan.getOrganname();
 					}else {
 						depts = depts + "," + wrgan.getOrganname();
 					}
-					wrgan = orgService.queryObject( wrgan.getFatherid());
+					wrgan = txlOrganService.queryObject( wrgan.getFatherid());
 				}
 				String[] deptL = depts.split(",");
 				if(deptL.length>1) {
@@ -261,21 +259,21 @@ public class TxlController {
 	}
 	
 	public List<TxlUser> getAllUser(String id){
-		List<TxlOrgan> organs = orgService.getSubOrg(id);
+		List<TxlOrgan> organs = txlOrganService.getSubOrg(id);
 		List<TxlUser> sysUsers = txlUserService.getUserInfos(id);
 		for (TxlUser sysUser:sysUsers) {
 			String depts ="";
 			if("root".equals(id)) {
-				dept = orgService.queryObject(id).getOrganname();
+				dept = txlOrganService.queryObject(id).getOrganname();
 			}else {
-				TxlOrgan wrgan = orgService.queryObject(sysUser.getOrganid());
+				TxlOrgan wrgan = txlOrganService.queryObject(sysUser.getOrganid());
 				while(!"root".equals(wrgan.getOrganid())){
 					if("".equals(depts)) {
 						depts = wrgan.getOrganname();
 					}else {
 						depts = depts + "," + wrgan.getOrganname();
 					}
-					wrgan = orgService.queryObject( wrgan.getFatherid());
+					wrgan = txlOrganService.queryObject( wrgan.getFatherid());
 				}
 				String[] deptL = depts.split(",");
 				if(deptL.length>1) {
@@ -399,16 +397,16 @@ public class TxlController {
 
 			String depts = "";
 			if ("root".equals(txlUser.getOrganid())) {
-				dept = orgService.queryObject(txlUser.getOrganid()).getOrganname();
+				dept = txlOrganService.queryObject(txlUser.getOrganid()).getOrganname();
 			} else {
-				TxlOrgan wrgan = orgService.queryObject(txlUser.getOrganid());
+				TxlOrgan wrgan = txlOrganService.queryObject(txlUser.getOrganid());
 				while (!"root".equals(wrgan.getOrganid())) {
 					if ("".equals(depts)) {
 						depts = wrgan.getOrganname();
 					} else {
 						depts = depts + "," + wrgan.getOrganname();
 					}
-					wrgan = orgService.queryObject(wrgan.getFatherid());
+					wrgan = txlOrganService.queryObject(wrgan.getFatherid());
 				}
 				String[] deptL = depts.split(",");
 				if (deptL.length > 1) {
@@ -483,16 +481,16 @@ public class TxlController {
 			
 			String depts ="";
 			if("root".equals(txlUser.getOrganid())) {
-				dept = orgService.queryObject(txlUser.getOrganid()).getOrganname();
+				dept = txlOrganService.queryObject(txlUser.getOrganid()).getOrganname();
 			}else {
-				TxlOrgan wrgan = orgService.queryObject(txlUser.getOrganid());
+				TxlOrgan wrgan = txlOrganService.queryObject(txlUser.getOrganid());
 				while(!"root".equals(wrgan.getOrganid())){
 					if("".equals(depts)) {
 						depts = wrgan.getOrganname();
 					}else {
 						depts = depts + "," + wrgan.getOrganname();
 					}
-					wrgan = orgService.queryObject( wrgan.getFatherid());
+					wrgan = txlOrganService.queryObject( wrgan.getFatherid());
 				}
 				String[] deptL = depts.split(",");
 				if(deptL.length>1) {
@@ -566,7 +564,7 @@ public class TxlController {
 		for(Organ organ:organs) {
 			
 			if(StringUtils.equals("0", organ.getType())) {
-				orgService.delete(organ.getOrganId());
+				txlOrganService.delete(organ.getOrganId());
 			} else if (StringUtils.equals("1", organ.getType())){
 				TxlOrgan txlOrgan = new TxlOrgan();
 				txlOrgan.setCode(organ.getCode());
@@ -579,11 +577,11 @@ public class TxlController {
 				txlOrgan.setOrguuid(organ.getOrguuid());
 				txlOrgan.setType(organ.getType());
 				txlOrgan.setTimestamp(organ.getTimestamp());
-				TxlOrgan txlOrgantemp = orgService.queryObject(organ.getOrganId());
+				TxlOrgan txlOrgantemp = txlOrganService.queryObject(organ.getOrganId());
 				if (txlOrgantemp == null) {
-					orgService.save(txlOrgan);
+					txlOrganService.save(txlOrgan);
 				} else {
-					orgService.update(txlOrgan);
+					txlOrganService.update(txlOrgan);
 				} 
 			}else {
 				TxlOrgan txlOrgan = new TxlOrgan();
@@ -597,7 +595,7 @@ public class TxlController {
 				txlOrgan.setOrguuid(organ.getOrguuid());
 				txlOrgan.setType(organ.getType());
 				txlOrgan.setTimestamp(organ.getTimestamp());
-				orgService.save(txlOrgan);
+				txlOrganService.save(txlOrgan);
 			}
 		}
     }
