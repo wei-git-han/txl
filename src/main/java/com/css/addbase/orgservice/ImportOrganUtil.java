@@ -19,7 +19,7 @@ import com.css.txl.utils.ChineseFCUtil;
  * @author gengds
  */
 @Component
-@RequestMapping("/org")
+@RequestMapping("/app/org")
 public class ImportOrganUtil {
 	
 	@Autowired
