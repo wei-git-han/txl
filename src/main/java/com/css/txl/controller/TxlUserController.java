@@ -129,6 +129,10 @@ public class TxlUserController {
 	public void getUser(HttpServletRequest request, String id) {
 		JSONObject json = new JSONObject();
 		TxlUser txlUser = txlUserService.queryObject(id);
+		TxlOrgan txlOrgan = txlOrganService.queryObject(txlUser.getOrganid());
+		if (txlOrgan != null) {
+			txlUser.setOrganName(txlOrgan.getOrganname());
+		}
 		json.put("manager", CurrentUser.getIsManager(appConfig.getAppId(),appConfig.getAppSecret()));
 		json.put("txlOrgtel", txlUser);
 		Response.json(json);
