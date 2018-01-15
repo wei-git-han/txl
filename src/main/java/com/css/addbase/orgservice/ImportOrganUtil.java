@@ -63,17 +63,27 @@ public class ImportOrganUtil {
 	 * 手动导入组织机构路径
 	 */
 	@ResponseBody
-	@RequestMapping("/import.htm")
-	public void importOrgan() {
+	@RequestMapping("/delete.htm")
+	public void deleteOrgan() {
 		try {
 			txlOrganService.clearOrgan();
 			txlUserService.clearUser();
-			importOrg("root");
-			System.out.println("首次组织机构导入成功！");
-			Response.json("织机构导入成功！");
+			Response.json("清空组织结构成功");
 		} catch (Exception e) {
-			System.out.println("首次组织机构导入成功！");
-			System.out.println(e);
+			Response.json(e);
+		}
+	}
+	/**
+	 * 手动导入组织机构路径
+	 */
+	@ResponseBody
+	@RequestMapping("/import.htm")
+	public void importOrgan() {
+		try {
+			importOrg("root");
+			Response.json("更新组织机构成功！");
+		} catch (Exception e) {
+			Response.json(e);
 		}
 	}
 	

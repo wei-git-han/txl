@@ -113,6 +113,28 @@ function authen(){
         }
     });
    }
+
+	function deleteOrgan() {
+		$.ajax({
+			url : "/org/delete.htm",
+			type : 'GET',
+			success : function(data) {
+				$('#orgText').text(JSON.stringify(data));
+			},
+			error : function(error) {}
+		});
+	}
+
+	function importOrgan() {
+		$.ajax({
+			url : "/org/import.htm",
+			type : 'GET',
+			success : function(data) {
+				$('#orgText').text(JSON.stringify(data));
+			},
+			error : function(error) {}
+		});
+	}
 </script>
 </head>
 <body>
@@ -128,7 +150,10 @@ function authen(){
 <button type="button" onclick="getUser()">获取用户信息</button>
 <button type="button" onclick="logout()">注销Token</button>
 <button type="button" onclick="loginApplication()">登录应用</button>
-<!--<button type="button" onclick="authen()">延长Token有效期</button>-->
+<br/><br/>
+<button type="button" onclick="deleteOrgan()">清空组织机构</button>
+<button type="button" onclick="importOrgan()">更新组织机构</button>
+<div><label>组织机构操作返回结果: </label><label id="orgText"></label></div>
 
 </body>
 </html>
