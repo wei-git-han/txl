@@ -116,7 +116,7 @@ function authen(){
 
 	function deleteOrgan() {
 		$.ajax({
-			url : "/org/delete.htm",
+			url : "/app/org/delete.htm",
 			type : 'GET',
 			success : function(data) {
 				$('#orgText').text(JSON.stringify(data));
@@ -127,7 +127,7 @@ function authen(){
 
 	function importOrgan() {
 		$.ajax({
-			url : "/org/import.htm",
+			url : "/app/org/import.htm",
 			type : 'GET',
 			success : function(data) {
 				$('#orgText').text(JSON.stringify(data));
