@@ -71,7 +71,7 @@ public class SearchApiController {
 	private static String[] toArray(String kds) {
 		kds=unicode2String(kds);
 		System.out.println("【keyWords】"+kds);
-		String pattern="'([^ ']+)'";
+		String pattern="([^ \"]+)";
 		Pattern p=Pattern.compile(pattern);
 		Matcher m=p.matcher(kds);
 		List<String> keyWords=new ArrayList<String>();
@@ -86,7 +86,7 @@ public class SearchApiController {
 	 * @return
 	 */
 	public static String unicode2String(String unicodeStr){
-		Pattern p=Pattern.compile("(\\\\u(\\p{XDigit}{4}))");
+		Pattern p=Pattern.compile("(\\\\(\\p{XDigit}{4}))");
 		char ch;
 		Matcher m=p.matcher(unicodeStr);
 		StringBuffer sb=new StringBuffer();
