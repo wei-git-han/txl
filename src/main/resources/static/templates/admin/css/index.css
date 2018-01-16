@@ -124,7 +124,19 @@
 }
 
 #add_bmdh{
-	display:none; float:right;margin-right:13px;margin-top: -5px;height:26px;border:none;border:1px solid #5498EB;color: #5498EB;
+	display:none; 
+	float:right;
+	margin-right:13px;
+	margin-top: -5px;
+	height:26px;
+	border:none;
+	border:1px solid #5498EB;
+	color: #5498EB;
+}
+
+#add_bmdh:hover{
+	background:#5498EB; 
+	color: #fff; 
 }
 
 #bmdh{
@@ -135,9 +147,21 @@
 	width:100%;
 }
 
+#daoru{
+	float: right;
+	background:#fff; 
+	margin-right: 10px; 
+	color: #5498EB; 
+	height: 26px;
+	line-height: 21px;
+	border: none;
+	border: 1px solid #5498e8; 
+	display: none;
+}
 
-
-
-
+#daoru:hover{
+	background:#5498EB; 
+	color: #fff; 
+}
 
 
