@@ -226,8 +226,7 @@ ul {
 	right: 215px;
 	height: 100%;
 	background: #EEEEEE;
-	padding:20px;
-	padding-top:10px;
+	padding:10px 20px;
 }
 
 .main_center_wrap {
@@ -253,12 +252,12 @@ ul {
 
 .center_model{
 	height:185px;
-	width:180px;
+	/* width:180px; */
 	overflow:hidden;
 	background:#fff;
 	padding: 15px 10px;
 	display:inline-block;
-	margin-right: 10px;
+	margin-right:10px;
 	margin-bottom:10px;
 	padding-bottom:0px;
 }
@@ -338,7 +337,7 @@ ul {
 	position: absolute;
 	left:18px;
 	display: inline-block;
-	width:100%;
+	width:90%;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;

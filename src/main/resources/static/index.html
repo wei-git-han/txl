@@ -25,7 +25,7 @@
 				<p>通讯录</p>
 				<div class="top_part">
 					<input type="text" name="searchValue"   class="searchValue"  id="searchValue" value=""  placeholder="请输入姓名、号码进行查询" />
-					<img src="templates/admin/images/search-normal.png" class="search_btn"/>
+					<img src="templates/admin/images/search-normal.png" title="搜索" class="search_btn"/>
 				</div>
 			</div>
 		</div>
@@ -47,32 +47,32 @@
 					<div class="main_center_wrap">
 						<!--开始，无结果的时候把里面的内容清空-->
 						<!-- <div class="scroller" style="height:100%;"> -->
-							<div style="height:100%;width:100%;position:relative;">
+							<div class="divrelative">
 								<div class="center_content">
 									<div class="center_content_main">
-											<div style="width:100%;height:231px;position:absolute;overflow:hidden;">
-												<div style="width:100%;height:100%;position:relative;">
-													<div style="height:36px;line-height:36px;width:100%;position:absolute;">
+											<div class="pagestyle1">
+												<div class="divrelative">
+													<div class="pagestyle2">
 														<p class="center_title" style="vertical-align: middle;"><i class="fa fa-star" style="color:#5498EB"></i> 收藏</p>
 													</div>
-													<div style="height:100%;width:100%;padding-top:36px;">
-														<div style="height:100%;width:100%;position:relative;overflow:hidden">
-															<div  style="height:100%;width:35px;position:absolute;left:0px;">
-																<div style="height:100%;width:100%;padding-bottom:10px;">
-																	<div  style="height:100%;width:100%;position:relative;line-height:185px;text-align: center;">
-																			<i class="fa  fa-chevron-left"  style="font-size:20px;color:#B6B6B6;cursor:pointer;" id="leftbtn"></i>
+													<div class="pagestyle3">
+														<div class="pagestyle4">
+															<div class="pagestyle5">
+																<div class="pagestyle6">
+																	<div class="pagestyle7">
+																		<i class="fa  fa-chevron-left"  style="font-size:20px;color:#B6B6B6;cursor:pointer;" id="leftbtn"></i>
 																	</div>
 																</div>
 															</div>
-															<div  style="height:100%;width:35px;position:absolute;right:0px;">
+															<div class="pagestyle8">
 																<div style="height:100%;width:100%;padding-bottom:10px;">
-																	<div  style="height:100%;width:100%;position:relative;line-height:185px;text-align: center;z-index:999">
-																			<i class="fa  fa-chevron-right"  style="font-size:20px;color:#B6B6B6;cursor:pointer;" id="rightbtn"></i>
+																	<div  class="pagestyle9">
+																		<i class="fa  fa-chevron-right"  style="font-size:20px;color:#B6B6B6;cursor:pointer;" id="rightbtn"></i>
 																	</div>
 																</div>
 															</div>
-															<div  style="position:absolute;left:35px;right:35px;height:100%;">
-																<div style="width:100%;height:100%;position:relative;white-space: nowrap;overflow:hidden;">
+															<div class="pagestyle10">
+																<div class="pagestyle11">
 																	<div  class="lxrContent"  id="lxrContent"   style="position: absolute;left: 0px;">
 																		<!--动态加载-->
 																	</div>
@@ -87,7 +87,7 @@
 												<div style="width:100%;height:100%;position:relative;">
 														<div style="height:36px;line-height:36px;width:100%;position:absolute;">
 															<!-- <button  id="addsc" type="button"  style=" float: right; margin-right: 10px; color: #5498EB; height: 26px;line-height: 21px; background: none;border: none;border: 1px solid #5498e8;">收藏 <i class="fa fa-plus" style="color:#5498EB"></i></button> -->
-															<button  id="daoru" type="button"  style=" float: right; margin-right: 10px; color: #5498EB; height: 26px;line-height: 21px; background: none;border: none;border: 1px solid #5498e8; display: none;">导入 <i class="fa fa-sign-in" style="color:#5498EB"></i></button>  
+															<button  id="daoru" type="button"  style=" float: right; margin-right: 10px; color: #5498EB; height: 26px;line-height: 21px;background: none;border: none;border: 1px solid #5498e8; display: none;">导入 <i class="fa fa-sign-in" style="color:#5498EB"></i></button>  
 														</div>
 														<div style="height:100%;width:100%;padding-top:40px;">
 															<div style="height:100%;width:100%;position:relative;">
@@ -107,16 +107,15 @@
 							<p>无搜索结果!</p>
 						</div>
 						-->
-
 					</div>		
 				</div>
 				<div class="main_right">
 					<div class="main_right_wrap">
-						<p class="right_title" style="width:100%;"><span>特殊电话</span><button  id="add_bmdh"  style="display:none; float:right;margin-right:13px;margin-top: -5px;border:none;border:1px solid #5498EB"><i class="fa fa-plus"  style="color:#5498EB"></i></button></p>
+						<p class="right_title"><span>特殊电话</span><button  id="add_bmdh">新增 <i class="fa fa-plus"  style="color:#5498EB"></i></button></p>
 						<div class="right_part">
 							<div class="right_part_wrap">
 								<div class="scroller" style="height:100%;padding-right:10px;">
-									<div id="bmdh" style="overflow:hidden">
+									<div id="bmdh">
 										
 									</div>
 								</div>

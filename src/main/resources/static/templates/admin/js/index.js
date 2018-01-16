@@ -1,3 +1,14 @@
+var clientWidth = document.body.clientWidth; //浏览器宽度 alert(clientWidth) 1680
+var scWidth = $(".lxrContent").parent().width();
+var nolywidht = parseInt(scWidth/190);//盒子的个数
+var thisWidth = scWidth/nolywidht-10; //每个盒子的宽度
+
+$(window).resize(function(){
+	 window.location.reload(); 
+})
+
+
+
 var grid=null;
 var pageModule = function(){
 	var treeid = "";
@@ -10,12 +21,12 @@ var pageModule = function(){
 				$.each(data, function(i,obj) {
 					var html2="";
 					$.each(obj.children, function(j,obj2) {
-						html2+= '<div class="center_model">'+
+						html2+= '<div class="center_model" style="width:'+thisWidth+'px;">'+
 				 				'	<div  style="width:100%;height:100%;position:relative">'+	
 								'	<div class="center_model_wrap">'+
 								'		<div class="model_name">'+
 								'			<div style="display:inline-block;">'+		
-								'				<span   onclick="clickfn(\''+obj2.userid+'\')"><a style="font-size:24px;">'+obj2.fullname+'</a></span><i class="fa fa-star starsc" onclick="delscfn(\''+obj2.userid+'\')"></i>'+
+								'				<span onclick="clickfn(\''+obj2.userid+'\')"><a style="font-size:24px;">'+obj2.fullname+'</a></span><i class="fa fa-star starsc" onclick="delscfn(\''+obj2.userid+'\')"></i>'+
 								'			</div>'+
 								'		</div>'+
 								'		<div class="model_zhiwu">'+
@@ -83,7 +94,7 @@ var pageModule = function(){
                  {display:"部门",name:"dept",width:"15%",align:"left",paixu:false,render:function(rowdata){
                     return rowdata.dept;                                         
                  }},
-                 {display:"操作",name:"do",width:"13%",align:"center",paixu:false,render:function(rowdata){
+                 {display:"收藏",name:"do",width:"13%",align:"center",paixu:false,render:function(rowdata){
                 	 if(rowdata.isSc == 0 ){
                 		 return '<a class="ysc" title="收藏" href="javascript:addscfn(\''+rowdata.userid+'\')"><i class="fa fa-star"></i></a>';
                 	 }else{
@@ -167,10 +178,10 @@ var pageModule = function(){
 		/*左按钮*/
 		$("#leftbtn").click(function(){
 			var left  =  parseInt($(".lxrContent").css("left"));
-			if(left<=-190){
-				left+=190;
+			if(left<=-(thisWidth+10)){
+				left+=(thisWidth+10);
 				$(".lxrContent").css("left",left+"px");
-			}else if(left>-190 || left<0){
+			}else if(left>-(thisWidth+10) || left<0){
 				left+=Math.abs(left);
 				$(".lxrContent").css("left",left+"px");
 			}else{
@@ -183,14 +194,17 @@ var pageModule = function(){
 			var left  =  parseInt($(".lxrContent").css("left"));
 			var width1 = $(".lxrContent").width();
 			var width2 = $(".lxrContent").parent().width();
+			
 			if(Math.abs(width1)>(width2+Math.abs(left))){
 				var left1= width1-width2-Math.abs(left);
-				if(left1>=190){
-					left-=190;
+				
+				if(left1>=(thisWidth+10)){
+					left-=(thisWidth+10);
 				}else{
 					left-=left1;
 				}
 				$(".lxrContent").css("left",left+"px");
+				
 			}else{
 				return;
 			}
@@ -275,7 +289,8 @@ var addscfn = function(id) {
 					if(data.result=="success"){
 						newbootbox.alertInfo("收藏成功！").done(function(){
 							pageModule.initLxrfresh();
-							pageModule.gridfresh();
+							//pageModule.gridfresh();
+							$(".search_btn").click();
 						});
 					}else{
 						newbootbox.alertInfo("收藏失败！");
@@ -295,7 +310,8 @@ function delscfn(id){
 			if(data.result=="success"){
 				newbootbox.alertInfo("取消成功！").done(function(){
 					pageModule.initLxrfresh();
-					pageModule.gridfresh();
+					//pageModule.gridfresh();
+					$(".search_btn").click();
 				});
 			}else{
 				newbootbox.alertInfo("取消失败！");
