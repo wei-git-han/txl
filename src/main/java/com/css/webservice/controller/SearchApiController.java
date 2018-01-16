@@ -44,7 +44,7 @@ public class SearchApiController {
 			map.put("zm", "1");
 		}
 		int total=txlUserService.queryTotal(map);
-		String link="/index.html";
+		String link="/index.html?";
 		JSONObject result=JSONUtil.resultSuccess(total,appId, link);
 		Response.json(result);
 	}
