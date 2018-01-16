@@ -135,6 +135,46 @@ function authen(){
 			error : function(error) {}
 		});
 	}
+	function startTimer() {
+		$.ajax({
+			url : "/app/timer/start.htm",
+			type : 'GET',
+			success : function(data) {
+				$("#startTimer").attr("style","display:none");
+				$("#cancelTimer").attr("style","display:blank");
+				$('#orgText').text("定时同步已启动");
+			},
+			error : function(error) {}
+		});
+	}
+	function cancelTimer() {
+		$.ajax({
+			url : "/app/timer/cancel.htm",
+			type : 'GET',
+			success : function(data) {
+				$("#startTimer").attr("style","display:blank");
+				$("#cancelTimer").attr("style","display:none");
+				$('#orgText').text("定时同步已停止");
+			},
+			error : function(error) {}
+		});
+	}
+	$(function () {
+		$.ajax({
+			url : "/app/timer/status.htm",
+			type : 'GET',
+			success : function(data) {
+				if (data.status == true) {
+					$("#startTimer").attr("style","display:none");
+					$("#cancelTimer").attr("style","display:blank");
+				} else {
+					$("#startTimer").attr("style","display:blank");
+					$("#cancelTimer").attr("style","display:none");
+				}
+			},
+			error : function(error) {}
+		});
+	});
 </script>
 </head>
 <body>
@@ -153,7 +193,9 @@ function authen(){
 <br/><br/>
 <button type="button" onclick="deleteOrgan()">清空组织机构</button>
 <button type="button" onclick="importOrgan()">更新组织机构</button>
-<div><label>组织机构操作返回结果: </label><label id="orgText"></label></div>
+<button type="button" onclick="startTimer()" style="display:none" id="startTimer">启动定时同步</button>
+<button type="button" onclick="cancelTimer()" style="display:none" id="cancelTimer">停止定时同步</button>
+<div><label>返回结果: </label><label id="orgText"></label></div>
 
 </body>
 </html>
