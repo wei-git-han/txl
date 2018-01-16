@@ -8,6 +8,7 @@ var pageModule = function(){
 			url:returndata,
 			data:{id:id},
 			success:function(data){
+				$("#tt").html(data.txlOrgtel.fullname);
 				setformdata(data.txlOrgtel);
 				if(true == data.manager){
 					$("#address").removeAttr("disabled");
