@@ -4,10 +4,8 @@ var nolywidht = parseInt(scWidth/190);//盒子的个数
 var thisWidth = scWidth/nolywidht-10; //每个盒子的宽度
 
 $(window).resize(function(){
-	 window.location.reload(); 
+	window.location.href="index.html";
 })
-
-
 
 var grid=null;
 var pageModule = function(){
@@ -79,13 +77,13 @@ var pageModule = function(){
             	 {display:"姓名",name:"fullname",width:"10%",align:"center",paixu:false,render:function(rowdata,n){
                     return  '<a onclick="clickfn(\''+rowdata.userid+'\')">'+rowdata.fullname+'</a>';
                  }},
-                 {display:"手机号",name:"mobile",width:"17%",align:"center",paixu:false,render:function(rowdata){
+                 {display:"手机号",name:"mobile",width:"15%",align:"center",paixu:false,render:function(rowdata){
                      return rowdata.mobile;                                        
                  }},
                  {display:"座机号",name:"telephone",width:"15%",align:"center",paixu:false,render:function(rowdata){
                       return rowdata.telephone;                                     
                  }},
-                 {display:"职务",name:"post",width:"10%",align:"left",paixu:false,render:function(rowdata){
+                 {display:"职务",name:"post",width:"15%",align:"left",paixu:false,render:function(rowdata){
                        return rowdata.post;                                      
                  }},
                  {display:"房间号",name:"address",width:"20%",align:"left",paixu:false,render:function(rowdata){
@@ -94,7 +92,7 @@ var pageModule = function(){
                  {display:"部门",name:"dept",width:"15%",align:"left",paixu:false,render:function(rowdata){
                     return rowdata.dept;                                         
                  }},
-                 {display:"收藏",name:"do",width:"13%",align:"center",paixu:false,render:function(rowdata){
+                 {display:"收藏",name:"do",width:"10%",align:"center",paixu:false,render:function(rowdata){
                 	 if(rowdata.isSc == 0 ){
                 		 return '<a class="ysc" title="收藏" href="javascript:addscfn(\''+rowdata.userid+'\')"><i class="fa fa-star"></i></a>';
                 	 }else{
