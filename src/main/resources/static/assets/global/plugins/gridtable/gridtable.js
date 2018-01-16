@@ -473,6 +473,7 @@ function createtable(obj){
 				next_Element.unbind("click");
 				next_Element.click(function(){
 					if(loadfg!=0){
+						$("#gridcont_hdtable th input[name=gridcont_checkth]").attr("checked",false);
 						newpage=newpage+1;
 						ajaxtable();
 					}
@@ -482,6 +483,7 @@ function createtable(obj){
 			prev_Element.unbind("click");
 			prev_Element.click(function(){
 				if(loadfg!=0){
+					$("#gridcont_hdtable th input[name=gridcont_checkth]").attr("checked",false);
 					newpage=newpage-1;
 					ajaxtable();
 				}
@@ -496,6 +498,7 @@ function createtable(obj){
 				next_Element.unbind("click");
 				next_Element.click(function(){
 					if(loadfg!=0){
+						$("#gridcont_hdtable th input[name=gridcont_checkth]").attr("checked",false);
 						newpage=newpage+1;
 						ajaxtable();
 					}
@@ -506,23 +509,33 @@ function createtable(obj){
 		refresh_Element.click(function(){
 			if(loadfg!=0){
 				pageval = parseInt($("#"+obj.target+"_newpage").val(),10);
+				var pagenum = /^[0-9]*$/;	
+				if(!pagenum.test(pageval)){
+					newbootbox.alertInfo("请输入数字！");
+					return ;
+				}
 				if(pageval>totalpage){
-					newbootbox.alert("输入的页数超过总页数，请重新输入！")
+					newbootbox.alertInfo("输入的页数超过总页数，请重新输入！");
+					return ;
 				}
-				if(pageval<1){
-					newbootbox.alert("输入数据不能为负数，请重新输入！")
+				if(pageval=="0"){
+					newbootbox.alertInfo("输入数据不能0，请重新输入！");
+					return ;
 				}
-				else{
-					newpage = pageval;
-					ajaxtable();
+				if(pageval<0){
+					newbootbox.alertInfo("输入数据不能为负数，请重新输入！");
+					return ;
 				}
 				
+				$("#gridcont_hdtable th input[name=gridcont_checkth]").attr("checked",false);
+				newpage = pageval;
+				ajaxtable();
 			}
 		});
 		
 		$("."+obj.target+"pbtn1").click(function(){
 			getCheckRow();//调用下面的方法
-			
+			$("#gridcont_hdtable th input[name=gridcont_checkth]").attr("checked",false);
 			if(loadfg!=0){
 				newpage = parseInt(this.text);
 				ajaxtable();
