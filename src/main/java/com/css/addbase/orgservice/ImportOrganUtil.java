@@ -32,7 +32,6 @@ public class ImportOrganUtil {
 	private OrgService orgService;
 	
 	
-	
 	public ImportOrganUtil() {
 		Timer timer = new Timer(true);
 		timer.schedule(new TimerTask(){
@@ -40,9 +39,8 @@ public class ImportOrganUtil {
 			public void run() {
 				try {
 					importOrg("root");
-					System.out.println("首次组织机构导入成功！");
+					System.out.println("组织机构导入成功！");
 				} catch (Exception e) {
-					System.out.println("首次组织机构导入成功！");
 					System.out.println(e);
 				}
 			}
@@ -50,7 +48,7 @@ public class ImportOrganUtil {
 	}
 	
 	/**
-	 * 手动导入组织机构路径
+	 * 清空组织机构
 	 */
 	@ResponseBody
 	@RequestMapping("/delete.htm")
@@ -64,7 +62,7 @@ public class ImportOrganUtil {
 		}
 	}
 	/**
-	 * 手动导入组织机构路径
+	 * 导入组织机构
 	 */
 	@ResponseBody
 	@RequestMapping("/import.htm")
