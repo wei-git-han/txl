@@ -63,7 +63,7 @@ public class SyncOrganUtil {
 		if (timer == null) {
 			 timer = new Timer();
 		}
-		timer.scheduleAtFixedRate(getInstance(), 120000,600000);
+		timer.scheduleAtFixedRate(getInstance(), 120000,300000);
 	}
 	/**
 	 * 获取定时任务
@@ -91,7 +91,7 @@ public class SyncOrganUtil {
 		if (!status) {
 			timer.purge();
 			timer = new Timer();
-			timer.scheduleAtFixedRate(getInstance(), 120000,600000);
+			timer.scheduleAtFixedRate(getInstance(), 120000,300000);
 		}
 	}
 	/**
