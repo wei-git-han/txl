@@ -48,8 +48,8 @@ public class UserInfo {
 	private String mobile;
 	@JSONField(serialize = false)
 	private String type;
-	@JSONField(serialize = false)
-	private Long timestamp;
+/*	@JSONField(serialize = false)
+	private Long timestamp;*/
 	
 	private String dept;
 	
@@ -253,13 +253,13 @@ public class UserInfo {
 		this.type = type;
 	}
 
-	public Long getTimestamp() {
+/*	public Long getTimestamp() {
 		return timestamp;
 	}
 
 	public void setTimestamp(Long timestamp) {
 		this.timestamp = timestamp;
-	}
+	}*/
 
 	public String getDuty() {
 		return duty;
