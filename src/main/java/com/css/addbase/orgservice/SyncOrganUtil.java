@@ -195,7 +195,7 @@ public class SyncOrganUtil {
     		if(StringUtils.equals("0", userInfo.getType())) {
     			//人员删除
 				//txlUserService.delete(userInfo.getUserid());
-			}else if(StringUtils.equals("1", userInfo.getType()) || StringUtils.equals("２", userInfo.getType())) {
+			}else if(StringUtils.equals("1", userInfo.getType()) || StringUtils.equals("2", userInfo.getType())) {
 				//人员编辑
 				TxlUser txlUser = new TxlUser();
 				txlUser.setIsdelete(String.valueOf(userInfo.getIsDelete()));
