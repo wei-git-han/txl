@@ -116,11 +116,8 @@ public class TxlUserController {
 				JSONObject dutyJson = new JSONObject();
 				dutyJson.put("xingming", txlUser.getFullname());
 				dutyJson.put("shouji", txlUser.getMobile());
-				if(null != txlUser.getTelephone() && !"".equals(txlUser.getTelephone())) {
-					dutyJson.put("zuoji", txlUser.getTelephone());
-				}else {
-					dutyJson.put("zuoji", "");
-				}
+				dutyJson.put("zuoji", txlUser.getTelephone() == null ? "" : txlUser.getTelephone());
+				dutyJson.put("address", txlUser.getAddress() == null ? "" : txlUser.getAddress());
 				jsons.add(dutyJson);
 			}
 		}
