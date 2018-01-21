@@ -83,13 +83,13 @@ var pageModule = function(){
                  {display:"座机号",name:"telephone",width:"15%",align:"center",paixu:false,render:function(rowdata){
                       return rowdata.telephone;                                     
                  }},
-                 {display:"职务",name:"post",width:"15%",align:"left",paixu:false,render:function(rowdata){
+                 {display:"职务",name:"post",width:"15%",align:"center",paixu:false,render:function(rowdata){
                        return rowdata.post;                                      
                  }},
-                 {display:"房间号",name:"address",width:"20%",align:"left",paixu:false,render:function(rowdata){
+                 {display:"房间号",name:"address",width:"15%",align:"center",paixu:false,render:function(rowdata){
                      return rowdata.address;                                        
                   }},
-                 {display:"部门",name:"dept",width:"15%",align:"left",paixu:false,render:function(rowdata){
+                 {display:"部门",name:"dept",width:"20%",align:"center",paixu:false,render:function(rowdata){
                     return rowdata.dept;                                         
                  }},
                  {display:"收藏",name:"do",width:"10%",align:"center",paixu:false,render:function(rowdata){

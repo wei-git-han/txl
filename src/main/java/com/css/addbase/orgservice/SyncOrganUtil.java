@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.apache.commons.codec.binary.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -15,6 +14,7 @@ import com.css.addbase.AppConfig;
 import com.css.addbase.orgservice.Organ;
 import com.css.addbase.orgservice.UserInfo;
 import com.css.base.utils.Response;
+import com.css.base.utils.StringUtils;
 import com.css.txl.entity.TxlOrgan;
 import com.css.txl.entity.TxlUser;
 import com.css.txl.service.TxlOrganService;
@@ -202,7 +202,7 @@ public class SyncOrganUtil {
 				txlUser.setOrderid(String.valueOf(userInfo.getOrderId()));
 				txlUser.setAccount(userInfo.getAccount());
 				txlUser.setDept(userInfo.getDept());
-				txlUser.setPost(userInfo.getDuty());
+				txlUser.setPost(StringUtils.isNotEmpty(userInfo.getDuty()) ? userInfo.getDuty().split(";")[1]:"");
 				txlUser.setTelephone(userInfo.getTel());
 				if(null != userInfo.getFullname() && !"".equals(userInfo.getFullname())) {
 					txlUser.setFullname(userInfo.getFullname());
