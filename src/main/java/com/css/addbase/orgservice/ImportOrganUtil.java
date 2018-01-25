@@ -130,7 +130,7 @@ public class ImportOrganUtil {
 			txlUser.setOrderid(String.valueOf(userInfo.getOrderId()));
 			txlUser.setAccount(userInfo.getAccount());
 			txlUser.setDept(userInfo.getDept());
-			txlUser.setPost(StringUtils.isNotEmpty(userInfo.getDuty()) ? userInfo.getDuty().split(";")[1]:"");
+			txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
 			txlUser.setTelephone(userInfo.getTel());
 			if(null != userInfo.getFullname() && !"".equals(userInfo.getFullname())) {
 				txlUser.setFullname(userInfo.getFullname());
