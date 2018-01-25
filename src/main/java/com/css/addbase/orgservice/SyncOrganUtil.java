@@ -134,16 +134,19 @@ public class SyncOrganUtil {
 					SyncOrgan.class, new Object[0]);
 			starttime = syncOrgan.getTimestamp();
 			List<Organ> organs = syncOrgan.getOrg();
+			int syncNum = 0;
 			if (organs != null && organs.size() > 0) {
 				SyncOrgan(organs);
+				syncNum += organs.size();
 				System.out.println("同步部门数:"+organs.size());
 			}
 			List<UserInfo> userInfos= syncOrgan.getUser();
 			if (userInfos != null && userInfos.size() > 0) {
 				SyncUser(userInfos);
+				syncNum += userInfos.size();
 				System.out.println("同步用户数:"+userInfos.size());
 			}
-			System.out.println("组织机构同步成功：同步数：0");
+			System.out.println("组织机构同步成功：同步总数："+syncNum);
 		} catch (Exception e) {
 			System.out.println("组织机构同步失败");
 			System.out.println(e);
@@ -202,7 +205,7 @@ public class SyncOrganUtil {
 				txlUser.setOrderid(String.valueOf(userInfo.getOrderId()));
 				txlUser.setAccount(userInfo.getAccount());
 				txlUser.setDept(userInfo.getDept());
-				txlUser.setPost(StringUtils.isNotEmpty(userInfo.getDuty()) ? userInfo.getDuty().split(";")[1]:"");
+				txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
 				txlUser.setTelephone(userInfo.getTel());
 				if(null != userInfo.getFullname() && !"".equals(userInfo.getFullname())) {
 					txlUser.setFullname(userInfo.getFullname());
