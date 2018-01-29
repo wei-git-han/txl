@@ -101,7 +101,7 @@ var pageModule = function(){
                 	 }
                   }},
                   {display:"隐藏",name:"do",width:"8%",align:"center",paixu:false,render:function(rowdata){
-                 	 if(rowdata.isShow !='1' ){
+                 	 if(rowdata.isShow==1||rowdata.isShow==''){
                  		 return '<a class="ysc" title="隐藏" href="javascript:addycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
                  	 }else{
                  		 return '<a class="sc" title="取消隐藏" href="javascript:delycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
@@ -405,7 +405,7 @@ var addycfn = function(id) {
      	callback1:function(){
      		$ajax({
 				url:isShowUrl,
-				data:{id:id,isShow:'1'},
+				data:{id:id,isShow:'0'},
 				success:function(data){
 					if(data.result=="success"){
 						newbootbox.alertInfo("隐藏成功！").done(function(){
@@ -424,7 +424,7 @@ var addycfn = function(id) {
 function delycfn(id){
 	$ajax({
 		url:isShowUrl,
-		data:{id:id,isShow:'0'},
+		data:{id:id,isShow:'1'},
 		success:function(data){
 			if(data.result=="success"){
 				newbootbox.alertInfo("隐藏成功！").done(function(){
