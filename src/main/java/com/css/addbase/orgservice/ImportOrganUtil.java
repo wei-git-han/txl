@@ -134,16 +134,8 @@ public class ImportOrganUtil {
 			txlUser.setTelephone(userInfo.getTel());
 			if(null != userInfo.getFullname() && !"".equals(userInfo.getFullname())) {
 				txlUser.setFullname(userInfo.getFullname());
-				if(userInfo.getFullname().indexOf("首长") > 0) {
-					txlUser.setPyName(ChineseFCUtil.cn2py(String.valueOf(userInfo.getFullname().charAt(0))).toUpperCase()+"SZ");
-				}else if(userInfo.getFullname().indexOf("局长") > 0) {
-					txlUser.setPyName(ChineseFCUtil.cn2py(String.valueOf(userInfo.getFullname().charAt(0))).toUpperCase()+"JZ");
-				}else if(userInfo.getFullname().indexOf("处长") > 0) {
-					txlUser.setPyName(ChineseFCUtil.cn2py(String.valueOf(userInfo.getFullname().charAt(0))).toUpperCase()+"CZ");
-				}else {
-					txlUser.setPyName(ChineseFCUtil.cn2py(userInfo.getFullname()).toUpperCase());
+				txlUser.setPyName(userInfo.getFullname().replaceAll("首长","SZ").replaceAll("处长","CZ").replaceAll("局长","JZ"));
 				}
-			}
 			txlUser.setMobile(userInfo.getMobile());
 			txlUser.setOrganid(userInfo.getOrganId());
 			txlUser.setPassword(userInfo.getPassword());

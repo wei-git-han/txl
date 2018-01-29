@@ -103,9 +103,16 @@ public class TxlController {
 			orgIds = allOrgIds(orgid);
 			map.put("orgIds", orgIds.split(","));
 		}
+		boolean isManager= CurrentUser.getIsManager(appConfig.getAppId(),appConfig.getAppSecret());
+		if(!isManager){
+			map.put("isShow","1");//1代表显示的，0和空为隐藏
+		}
 		PageHelper.startPage(page, pagesize);
 		List<TxlUser> liInfos = txlUserService.queryList(map);
 		fillSc(liInfos);
+		if(!isManager){
+			makeShow(liInfos);
+		}
 		PageUtils pageUtil = new PageUtils(liInfos);
 		JSONObject json = new JSONObject();
 		json.put("total", pageUtil.getTotalCount());
@@ -153,6 +160,30 @@ public class TxlController {
 			}
 		}
 	}
+	//根据设置处理是否显示手机和电话
+	private void makeShow(List<TxlUser> liInfos) {
+		for(TxlUser user:liInfos){
+			if(StringUtils.isNotBlank(user.getRights())){
+				String rights=user.getRights();
+				if(rights.indexOf("1")==-1){
+					user.setMobile("");
+				}
+				if(rights.indexOf("2")==-1){
+					user.setTelephone("");
+				}
+				if(rights.indexOf("3")==-1){
+					user.setPost("");
+				}
+				if(rights.indexOf("4")==-1){
+					user.setAddress("");
+				}
+			}else{
+				continue;
+			}
+		}
+		
+	}
+	
 
 //	@RequestMapping(value = "/orguser")
 //	@ResponseBody
@@ -192,7 +223,36 @@ public class TxlController {
 		}
 		Response.json("result","success");
 	}
-	
+	/**
+	 * 设置用户显示或者隐藏
+	 */
+	@RequestMapping(value = "/showUser")
+	@ResponseBody
+	public void showUser(String id,String isShow) {
+		for(String userid:id.split(",")){
+		TxlUser user=txlUserService.queryObject(id);
+		user.setIsShow(isShow);
+		txlUserService.update(user);
+		}
+		Response.json("result","success");
+	}
+	/**
+	 * 设置用户显示或者隐藏
+	 */
+	@RequestMapping(value = "/setRights")
+	@ResponseBody
+	public void setUserRights(String uids,String menus) {
+		if(StringUtils.isBlank(menus)){
+			menus="0000";
+		}
+		menus=menus.replaceAll(",","").replaceAll(" ","");
+		for(String id:uids.split(",")){
+			TxlUser user=txlUserService.queryObject(id);
+			user.setRights(menus);
+			txlUserService.update(user);
+		}
+		Response.json("result","success");
+	}
 	public JSONArray getJson(List<TxlUser> liInfos) {
 		// 获取收藏
 		List<TxlUser> scList = new ArrayList<TxlUser>();
@@ -533,5 +593,4 @@ public class TxlController {
 //	
 //	return userInfos;
 //}
-	
 }

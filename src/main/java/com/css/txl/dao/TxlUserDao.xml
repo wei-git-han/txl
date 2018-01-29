@@ -17,7 +17,11 @@
 		</if>
 		<if test="search != null">
 		 and (T.fullname like '%'||#{search}||'%'
-		or T.mobile like '%'||#{search}||'%')
+		or T.mobile like '%'||#{search}||'%'
+		OR T.PYNAME like '%'||UCASE(GETPY(#{search}))||'%') 
+		</if>
+		<if test="isShow!=null">
+		  and (T.IS_SHOW =#{isShow} or T.IS_SHOW is null )
 		</if>
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
@@ -76,7 +80,9 @@
 			"POST", 
 			"TELEPHONE", 
 			"ADDRESS",
-			"PYNAME"
+			"PYNAME",
+			IS_SHOW,
+			RIGHTS
 		)
 		values
 		(
@@ -109,7 +115,9 @@
 			#{post}, 
 			#{telephone}, 
 			#{address},
-			#{pyName}
+			UCASE(GETPY(#{pyName})),
+			#{isShow},
+			#{rights}
 		)
 	</insert>
 	 
@@ -144,7 +152,9 @@
 			<if test="post != null">"POST" = #{post}, </if>
 			<if test="telephone != null">"TELEPHONE" = #{telephone}, </if>
 			<if test="address != null">"ADDRESS" = #{address},</if>
-			<if test="pyName != null">"PYNAME" = #{pyName}</if>
+			<if test="pyName != null">"PYNAME" = UCASE(GETPY(#{pyName})),</if>
+			<if test="isShow != null">"IS_SHOW" = #{isShow},</if>
+			<if test="rights != null">"RIGHTS" = #{rights}</if>
 		</set>
 		where USERID = #{userid}
 	</update>

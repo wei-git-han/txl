@@ -69,6 +69,21 @@ public class TxlUserController {
 			txlUser.setOrganName(txlOrgan.getOrganname());
 		}
 		json.put("manager", CurrentUser.getIsManager(appConfig.getAppId(),appConfig.getAppSecret()));
+		if(StringUtils.isNotBlank(txlUser.getRights())){
+			String rights=txlUser.getRights();
+			if(rights.indexOf("1")==-1){
+				txlUser.setMobile("");
+			}
+			if(rights.indexOf("2")==-1){
+				txlUser.setTelephone("");
+			}
+			if(rights.indexOf("3")==-1){
+				txlUser.setPost("");
+			}
+			if(rights.indexOf("4")==-1){
+				txlUser.setAddress("");
+			}
+		}
 		json.put("txlOrgtel", txlUser);
 		Response.json(json);
 	}

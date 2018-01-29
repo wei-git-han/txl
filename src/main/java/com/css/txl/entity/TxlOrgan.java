@@ -33,6 +33,7 @@ public class TxlOrgan implements Serializable {
 	private Long timestamp;
 	//
 	private String type;
+	private String isShow;
 
 	/**
 	 * 设置：
@@ -174,5 +175,13 @@ public class TxlOrgan implements Serializable {
 	 */
 	public String getType() {
 		return type;
+	}
+
+	public String getIsShow() {
+		return isShow;
+	}
+
+	public void setIsShow(String isShow) {
+		this.isShow = isShow;
 	}
 }

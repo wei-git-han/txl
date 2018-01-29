@@ -56,14 +56,20 @@ public class TxlOrganServiceImpl implements TxlOrganService {
 	}
 
 	@Override
-	public List<TxlOrgan> getSubOrgSync(String id) {
+	public List<TxlOrgan> getSubOrgSync(Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		return txlOrganDao.getSubOrgSync(id);
+		return txlOrganDao.getSubOrgSync(map);
 	}
 
 	@Override
 	public void clearOrgan() {
 		txlOrganDao.clearOrgan();
 		
+	}
+
+	@Override
+	public void hideUser(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		txlOrganDao.hideUser(map);
 	}
 }

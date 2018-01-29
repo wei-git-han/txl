@@ -27,7 +27,7 @@ public interface TxlOrganService {
 	void deleteBatch(String[] organids);
 	
 	List<TxlOrgan> getSubOrg(String id);
-	List<TxlOrgan> getSubOrgSync(String id);
+	List<TxlOrgan> getSubOrgSync(Map<String, Object> map);
 	
 	/**
 	 * 清空组织机构
@@ -36,4 +36,5 @@ public interface TxlOrganService {
 	void clearOrgan();
 	
 	/*int queryTotal(Map<String,Object> map);*/
+	void hideUser(Map<String, Object> map);
 }

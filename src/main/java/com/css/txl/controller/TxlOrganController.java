@@ -1,6 +1,8 @@
 package com.css.txl.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,6 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.css.addbase.AppConfig;
+import com.css.base.utils.CurrentUser;
+import com.css.base.utils.Response;
 import com.css.base.utils.StringUtils;
 import com.css.txl.entity.TxlOrgan;
 import com.css.txl.service.TxlOrganService;
@@ -27,6 +32,8 @@ import com.css.txl.service.TxlOrganService;
 public class TxlOrganController {
 	@Autowired
 	private TxlOrganService txlOrganService;
+	@Autowired
+	private AppConfig appConfig;
 	
 	@RequestMapping(value = "/tree")
 	@ResponseBody
@@ -55,7 +62,13 @@ public class TxlOrganController {
 				id="root";
 			}
 			JSONObject jo=null;;
-			List<TxlOrgan> organs= txlOrganService.getSubOrgSync(id);
+			boolean isManager= CurrentUser.getIsManager(appConfig.getAppId(),appConfig.getAppSecret());
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("id",id);
+			if(!isManager){
+				map.put("isShow","1");
+			}
+			List<TxlOrgan> organs= txlOrganService.getSubOrgSync(map);
 			for(TxlOrgan organ:organs){
 				jo=new JSONObject();
 				jo.put("id",organ.getOrganid());
@@ -68,6 +81,22 @@ public class TxlOrganController {
 		return ja;
 	}
 	
+	/**根据传来的值显示或者隐藏组织机构节点
+	 * isShow 1：隐藏
+	 * @param id
+	 * @param isShow
+	 */
+	@RequestMapping(value = "/showOrgan")
+	@ResponseBody
+	public void showOrgan(String id,String isShow) {
+		TxlOrgan organ=txlOrganService.queryObject(id);
+		organ.setIsShow(isShow);
+		txlOrganService.update(organ);
+		//隐藏oran下所有user
+		Map<String,Object> map =new HashMap<String,Object>();
+		txlOrganService.hideUser(map);
+		Response.json("result","success");
+	}
 	public JSONObject getOrganTree(String id){
 		JSONObject result = new JSONObject();
 		JSONArray jsons = new JSONArray();
@@ -86,5 +115,4 @@ public class TxlOrganController {
 		}
 		return result;
 	}
-	
 }

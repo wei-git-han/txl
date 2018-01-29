@@ -101,7 +101,7 @@ var pageModule = function(){
                 	 }
                   }},
                   {display:"隐藏",name:"do",width:"8%",align:"center",paixu:false,render:function(rowdata){
-                 	 if(rowdata.isSc == 0 ){
+                 	 if(rowdata.isShow !='1' ){
                  		 return '<a class="ysc" title="隐藏" href="javascript:addycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
                  	 }else{
                  		 return '<a class="sc" title="取消隐藏" href="javascript:delycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
@@ -331,15 +331,15 @@ function yesfn(){
 	$.each(r, function(i) {
 		rs.push(r[i].defaultValue);
 	});
-	if(rs.toString().length < 1){
+	/*if(rs.toString().length < 1){
 		newbootbox.alertInfo('请选择栏目进行授权！');
 		return;
-	}
+	}*/
 	var datas=grid.getcheckrow();
 	var ids=[];
 	if(datas.length>0){
 		$(datas).each(function(i){
-			ids[i]=this.id;
+			ids[i]=this.userid;
 		});
 	}else{
 		newbootbox.alertInfo("请选择人员进行授权！");
@@ -404,8 +404,8 @@ var addycfn = function(id) {
      	message: "是否确定隐藏？？",
      	callback1:function(){
      		$ajax({
-				url:addorupd,
-				data:{id:id},
+				url:isShowUrl,
+				data:{id:id,isShow:'1'},
 				success:function(data){
 					if(data.result=="success"){
 						newbootbox.alertInfo("隐藏成功！").done(function(){
@@ -423,8 +423,8 @@ var addycfn = function(id) {
 
 function delycfn(id){
 	$ajax({
-		url:delSc,
-		data:{id:id},
+		url:isShowUrl,
+		data:{id:id,isShow:'0'},
 		success:function(data){
 			if(data.result=="success"){
 				newbootbox.alertInfo("隐藏成功！").done(function(){

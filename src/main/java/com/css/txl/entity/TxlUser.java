@@ -77,6 +77,10 @@ public class TxlUser implements Serializable {
 	private String orgName;
 	// 是否收藏
 	private String isSc;
+	//是否显示
+	private String isShow;
+	//显示权限代码
+	private String rights;
 	
 	//
 	private String pyName;
@@ -499,5 +503,21 @@ public class TxlUser implements Serializable {
 
 	public void setOrgName(String orgName) {
 		this.orgName = orgName;
+	}
+
+	public String getIsShow() {
+		return isShow;
+	}
+
+	public void setIsShow(String isShow) {
+		this.isShow = isShow;
+	}
+
+	public String getRights() {
+		return rights;
+	}
+
+	public void setRights(String rights) {
+		this.rights = rights;
 	}
 }

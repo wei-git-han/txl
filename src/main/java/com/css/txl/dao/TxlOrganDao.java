@@ -1,10 +1,12 @@
 package com.css.txl.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.css.base.dao.BaseDao;
 import com.css.txl.entity.TxlOrgan;
@@ -26,8 +28,8 @@ public interface TxlOrganDao extends BaseDao<TxlOrgan> {
 	@Select("select * from TXL_ORGAN where FATHERID = #{id} order by orderid")
 	List<TxlOrgan> getSubOrg(String id);
 	
-	@Select("select ORGANID, ORGANNAME, FATHERID, ORDERID, DN,(select count(0) from TXL_ORGAN a   WHERE a.FATHERID=b.ORGANID) AS  CODE, PATH, ORGUUID, TIMESTAMP, TYPE from TXL_ORGAN b where FATHERID = #{id} order by orderid")
-	List<TxlOrgan> getSubOrgSync(String id);
+	//@Select("select ORGANID, ORGANNAME, FATHERID, ORDERID, DN,(select count(0) from TXL_ORGAN a   WHERE a.FATHERID=b.ORGANID) AS  CODE, PATH, ORGUUID, TIMESTAMP, TYPE from TXL_ORGAN b where FATHERID = #{id} order by orderid")
+	List<TxlOrgan> getSubOrgSync(Map<String, Object> map);
 	
 	/**
 	 * 清空组织机构
@@ -35,4 +37,6 @@ public interface TxlOrganDao extends BaseDao<TxlOrgan> {
 	 */
 	@Delete("delete from TXL_ORGAN")
 	void clearOrgan();
+	@Update("update txl_organ set isShow=#{isShow} where organid=#{organId}")
+	void hideUser(Map<String, Object> map);
 }

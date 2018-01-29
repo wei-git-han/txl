@@ -63,9 +63,9 @@ public class ChineseFCUtil {
 		
 	}
 	
-//	public static void main(String[] args) throws Exception{
-//		System.out.println(cn2py("荀攸").toUpperCase());
-//		System.out.println(PingYinUtils.getInstance().getSelling("荀攸"));
-//	}  
+	public static void main(String[] args) throws Exception{
+	System.out.println(cn2py("管理员").toUpperCase());
+		//System.out.println(PingYinUtils.getInstance().getSelling("荀攸"));
+	}  
 	
 }

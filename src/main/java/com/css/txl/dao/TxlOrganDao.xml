@@ -13,7 +13,14 @@
 			limit #{offset}, #{limit}
 		</if>
 	</select>
-	
+	<select id="getSubOrgSync" resultType="com.css.txl.entity.TxlOrgan">
+		select ORGANID, ORGANNAME, FATHERID, ORDERID, DN,(select count(0) from TXL_ORGAN a   WHERE a.FATHERID=b.ORGANID) AS  CODE, PATH, ORGUUID, TIMESTAMP, TYPE 
+		  from TXL_ORGAN b where FATHERID = #{id}
+		  <if test="isShow !=null">
+		  and isShow=#{isShow}
+		  </if>
+		   order by orderid
+	</select>
  	<select id="queryTotal" resultType="int">
 		select count(*) from TXL_ORGAN 
 	</select>
@@ -31,7 +38,8 @@
 			"PATH", 
 			"ORGUUID", 
 			"TIMESTAMP", 
-			"TYPE"
+			"TYPE",
+			"IS_SHOW"
 		)
 		values
 		(
@@ -45,7 +53,8 @@
 			#{path}, 
 			#{orguuid}, 
 			#{timestamp}, 
-			#{type}
+			#{type},
+			 #{isShow}
 		)
 	</insert>
 	 
@@ -62,6 +71,7 @@
 			<if test="orguuid != null">"ORGUUID" = #{orguuid}, </if>
 			<if test="timestamp != null">"TIMESTAMP" = #{timestamp}, </if>
 			<if test="type != null">"TYPE" = #{type}</if>
+			<if test="isShow != null">"IS_SHOW" = #{isShow}</if>
 		</set>
 		where ORGANID = #{organid}
 	</update>
