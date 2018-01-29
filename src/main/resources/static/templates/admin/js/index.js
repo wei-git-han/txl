@@ -7,6 +7,7 @@ $(window).resize(function(){
 	window.location.href="index.html";
 })
 
+var cbox=true;
 var grid=null;
 var pageModule = function(){
 	var treeid = "";
@@ -86,7 +87,7 @@ var pageModule = function(){
                  {display:"职务",name:"post",width:"15%",align:"center",paixu:false,render:function(rowdata){
                        return rowdata.post;                                      
                  }},
-                 {display:"房间号",name:"address",width:"15%",align:"center",paixu:false,render:function(rowdata){
+                 {display:"房间号",name:"address",width:"7%",align:"center",paixu:false,render:function(rowdata){
                      return rowdata.address;                                        
                   }},
                  {display:"部门",name:"dept",width:"20%",align:"center",paixu:false,render:function(rowdata){
@@ -98,20 +99,30 @@ var pageModule = function(){
                 	 }else{
                 		 return '<a class="sc" title="取消收藏" href="javascript:delscfn(\''+rowdata.userid+'\')"><i class="fa fa-star"></i></a>';
                 	 }
-                  }}
+                  }},
+                  {display:"隐藏",name:"do",width:"8%",align:"center",paixu:false,render:function(rowdata){
+                 	 if(rowdata.isSc == 0 ){
+                 		 return '<a class="ysc" title="隐藏" href="javascript:addycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
+                 	 }else{
+                 		 return '<a class="sc" title="取消隐藏" href="javascript:delycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
+                 	 }
+                   }}
              ],
             width:"100%",
-            checkbox: false,
+            checkbox:true,
             rownumberyon:true,
             paramobj:{},
             overflowx:false,
             pagesize: 12,
             loadafter:function(data){
             	if(true == data.manager){
+            		 checkbox = cbox;
             		$("#daoru").show();
+            		 $("#plszqx").show();
             		$("#add_bmdh").show();
             		$(".ljt").show();
             	}else{
+            		checkbox != cbox;
             		$("#daoru").hide();
             		$("#add_bmdh").hide();
             		$(".ljt").hide();
@@ -121,6 +132,42 @@ var pageModule = function(){
        });
 	}
 	
+	var initMenuview = function(){
+		$ajax({
+			url:menuview,
+			type:"GET",
+			success:function(data){
+				if(!data){return;}
+				var lis='<div class="newpage13">设置功能权限</div>';
+				for(var i=0;i<data.rows.length;){
+					lis+='<div class="newpage13"><div class="checkbox-list">';
+					var obj=data.rows[i];
+					lis+='<label class="checkbox-inline checkbox-inline1">';
+					lis+='<input type="checkbox" id="" name="sqmenubox" value="'+obj.id+'"/>'+obj.menuName+'</label>';
+					if(data.rows[i+1]){
+						var obj=data.rows[i+1];
+						lis+='<label class="checkbox-inline checkbox-inline1">';
+						lis+='<input type="checkbox" id="" name="sqmenubox" value="'+obj.id+'"/>'+obj.menuName+'</label>';
+					}
+					if(data.rows[i+2]){
+						var obj=data.rows[i+2];
+						lis+='<label class="checkbox-inline checkbox-inline1">';
+						lis+='<input type="checkbox" id="" name="sqmenubox" value="'+obj.id+'"/>'+obj.menuName+'</label>';
+					}
+					if(data.rows[i+3]){
+						var obj=data.rows[i+3];
+						lis+='<label class="checkbox-inline checkbox-inline1">';
+						lis+='<input type="checkbox" id="" name="sqmenubox" value="'+obj.id+'"/>'+obj.menuName+'</label>';
+					}
+					lis+='</div></div>';
+					i+=4;
+				}
+				lis+='<div class="newpage13"><button class="btn btn-primary btn-button1 pull-right" onclick=yesfn()>确定</button><button class="btn btn-primary btn-button1 pull-right" onclick=cancelqfn()>取消</button></div>';
+				$('#menuview').html(lis);
+			}
+		});
+		
+	}
 	/*全部联系人树加载*/
 	var inittree = function(){
 		/*
@@ -207,7 +254,19 @@ var pageModule = function(){
 				return;
 			}
 		});
-		
+		//批量设置权限
+		$("#plszqx").click(function(){
+			var datas=grid.getcheckrow();
+			var ids=[];
+			if(datas.length>0){
+				$(datas).each(function(i){
+					ids[i]=this.id;
+				});
+				$("#menuview").slideToggle(50);
+			}else{
+				newbootbox.alertInfo("请选择人员进行授权！");
+			}
+		});
 		
 		//部门电话新增
 		$("#add_bmdh").click(function(){
@@ -252,6 +311,7 @@ var pageModule = function(){
 			initLxr();//中间收藏列表
 			initgrid();//列表
 			bmdhfn();//右侧部门电话
+			initMenuview();
 		},
 		gridfresh:function(){
 			initgrid();
@@ -265,6 +325,45 @@ var pageModule = function(){
 	};
 }();	
 
+function yesfn(){
+	var r = $('input[name="sqmenubox"]:checked');
+	var rs = [];
+	$.each(r, function(i) {
+		rs.push(r[i].defaultValue);
+	});
+	if(rs.toString().length < 1){
+		newbootbox.alertInfo('请选择栏目进行授权！');
+		return;
+	}
+	var datas=grid.getcheckrow();
+	var ids=[];
+	if(datas.length>0){
+		$(datas).each(function(i){
+			ids[i]=this.id;
+		});
+	}else{
+		newbootbox.alertInfo("请选择人员进行授权！");
+	}
+	$ajax({
+		url: yesurl,
+		type: "GET",
+		data: {"uids":ids.toString(),"menus": rs.toString()},
+		success: function(data) {
+			if(data.result == "success") {
+				$("#menuview").slideUp(50);
+				newbootbox.alertInfo('保存成功！').done(function(){
+					grid.refresh();
+				});
+			}else{
+				newbootbox.alertInfo("保存失败！");
+			}
+		}
+	})
+}
+function cancelqfn(){
+	$("#menuview").slideUp(50);
+	//$.uniform.update($("input[type='checkbox']").empty());
+}
 //点击人员姓名进行编辑
 function clickfn(id){
 	window.location.href="txl/html/txl_add.html?id="+id;
@@ -298,21 +397,43 @@ var addscfn = function(id) {
      	}
    });
 }
+//隐藏
+var addycfn = function(id) {
+	newbootbox.confirm({
+     	title:"提示",
+     	message: "是否确定隐藏？？",
+     	callback1:function(){
+     		$ajax({
+				url:addorupd,
+				data:{id:id},
+				success:function(data){
+					if(data.result=="success"){
+						newbootbox.alertInfo("隐藏成功！").done(function(){
+							pageModule.initLxrfresh();
+							$(".search_btn").click();
+						});
+					}else{
+						newbootbox.alertInfo("隐藏失败！");
+					}
+				}
+			})
+     	}
+   });
+}
 
-
-function delscfn(id){
+function delycfn(id){
 	$ajax({
 		url:delSc,
 		data:{id:id},
 		success:function(data){
 			if(data.result=="success"){
-				newbootbox.alertInfo("取消成功！").done(function(){
+				newbootbox.alertInfo("隐藏成功！").done(function(){
 					pageModule.initLxrfresh();
 					//pageModule.gridfresh();
 					$(".search_btn").click();
 				});
 			}else{
-				newbootbox.alertInfo("取消失败！");
+				newbootbox.alertInfo("隐藏失败！");
 			}
 		}
 	})
