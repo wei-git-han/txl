@@ -69,7 +69,7 @@ public class TxlOrganController {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("id",id);
 			if(!isManager){
-				map.put("isShow","0");
+				map.put("isShow","1");
 			}
 			List<TxlOrgan> organs= txlOrganService.getSubOrgSync(map);
 			for(TxlOrgan organ:organs){
