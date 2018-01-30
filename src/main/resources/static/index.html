@@ -31,7 +31,8 @@
 		</div>
 		<div class="wrap_content">
 			<div class="main_content">
-				<div class="main_left">
+				<div class="main_left" id="treeDiv">
+				    <div style="position:absolute;right:0;top:0px;bottom:0px;height:100%;width:10px;background:transparent;z-index:500;cursor:e-resize" id="moveDiv"></div>
 					<div class="main_left_wrap">
 						<p class="left_title" style="padding-left:6px;"><img src="templates/admin/images/tab_n.png" class="imgs" style="float: left;" />&nbsp;<a style="float: left;margin-left: 5px;">全部联系人</a></p>
 						<div class="left_tree">
@@ -43,7 +44,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="main_center">
+				<div class="main_center" id="contentDiv">
 					<div class="main_center_wrap">
 						<!--开始，无结果的时候把里面的内容清空-->
 						<!-- <div class="scroller" style="height:100%;"> -->

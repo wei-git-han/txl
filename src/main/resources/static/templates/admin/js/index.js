@@ -12,7 +12,6 @@ var currentOrgid=getUrlParam("currentOrgid");
 var cbox=true;
 var grid=null;
 var pageModule = function(){
-	var treeid = "";
 	/*收藏*/
 	var initLxr = function(){
 		$ajax({
@@ -130,7 +129,7 @@ var pageModule = function(){
                  	 if(rowdata.isShow=="1"||rowdata.isShow==""){
                  		return '<a class="sc" title="隐藏" href="javascript:addycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
                  	 }else{
-                 		return '<a class="ysc" title="显示" href="javascript:delycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
+                 		return '<a class="ysc" title="取消隐藏" href="javascript:delycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
                  	 }
                    }}
              ],
@@ -234,9 +233,9 @@ var pageModule = function(){
 				return;
 			};
 			if(isShow == "0"){
-				$("#"+id+"> a").append('<span class="jstree_caozuo" style="margin-left:10px;color: #4182D2;cursor: pointer;"><i class="fa fa-eye xsbtn"></i></span>');
+				$("#"+id+"> a").append('<span class="jstree_caozuo" title="取消隐藏" style="margin-left:10px;color: #666;cursor: pointer;"><i class="fa fa-eye xsbtn"></i></span>');
 			}else{
-				$("#"+id+"> a").append('<span class="jstree_caozuo" style="margin-left:10px;color: #666;cursor: pointer;"><i class="fa fa-eye ycbtn"></i></span>');
+				$("#"+id+"> a").append('<span class="jstree_caozuo" title="隐藏" style="margin-left:10px;color: #4182D2;cursor: pointer;"><i class="fa fa-eye ycbtn"></i></span>');
 			};
 			$(".ycbtn").click(function(){
 				newbootbox.confirm({
@@ -516,13 +515,13 @@ function delycfn(id){
 		data:{id:id,isShow:'1'},
 		success:function(data){
 			if(data.result=="success"){
-				newbootbox.alertInfo("显示成功！").done(function(){
+				newbootbox.alertInfo("取消隐藏成功！").done(function(){
 					pageModule.gridfresh();
 					//pageModule.gridfresh();
 					$(".search_btn").click();
 				});
 			}else{
-				newbootbox.alertInfo("显示失败！");
+				newbootbox.alertInfo("取消隐藏失败！");
 			}
 		}
 	})
