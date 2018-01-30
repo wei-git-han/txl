@@ -8,7 +8,7 @@ jQuery.fn.extend({
 //创建表格
 function createtable(obj){
 	//当前页号
-	var newpage = 1;
+	var newpage = obj.newpage;
 	//每页条数
 	var pagesize = obj.pagesize;
 	//总条数

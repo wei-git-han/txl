@@ -93,14 +93,11 @@ public class TxlController {
 	
 	@RequestMapping(value = "/listuser")
 	@ResponseBody
-	public void listuser(Integer page, Integer pagesize, String orgid, String searchValue,Integer currentPage,String currentOrgid) {
+	public void listuser(Integer page, Integer pagesize, String orgid, String searchValue,String currentOrgid) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String orgIds = "";
 		if(StringUtils.isNotBlank(searchValue)){
 			map.put("search", searchValue);
-		}
-		if(currentPage!=null&&currentPage!=0){
-			page=currentPage;
 		}
 		if(StringUtils.isNotBlank(currentOrgid)){
 			orgid=currentOrgid;

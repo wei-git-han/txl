@@ -17,7 +17,7 @@
 		select ORGANID, ORGANNAME,IS_SHOW, FATHERID, ORDERID, DN,(select count(0) from TXL_ORGAN a   WHERE a.FATHERID=b.ORGANID) AS  CODE, PATH, ORGUUID, TIMESTAMP, TYPE 
 		  from TXL_ORGAN b where FATHERID = #{id}
 		  <if test="isShow !=null">
-		  and is_Show=#{isShow} or is_show is null
+		  and (is_Show=#{isShow} or is_show is null )
 		  </if>
 		   order by orderid
 	</select>

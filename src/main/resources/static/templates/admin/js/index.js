@@ -7,7 +7,7 @@ $(window).resize(function(){
 	window.location.href="index.html";
 })
 
-var currentPage=getUrlParam("currentPage");
+var currentPage=getUrlParam("currentPage")||1;
 var currentOrgid=getUrlParam("currentOrgid");
 var cbox=true;
 var grid=null;
@@ -127,7 +127,7 @@ var pageModule = function(){
                 	 }
                   }},
                   {display:"隐藏",name:"do",width:"10%",align:"center",paixu:false,render:function(rowdata){
-                 	 if(rowdata.isShow==1||rowdata.isShow==''){
+                 	 if(rowdata.isShow=="1"||rowdata.isShow==""){
                  		return '<a class="sc" title="隐藏" href="javascript:addycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
                  	 }else{
                  		return '<a class="ysc" title="显示" href="javascript:delycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
@@ -137,8 +137,9 @@ var pageModule = function(){
             width:"100%",
             checkbox:cbox,
             rownumberyon:true,
-            paramobj:{"currentPage":currentPage,"currentOrgid":currentOrgid},
+            paramobj:{"orgid":currentOrgid},
             overflowx:false,
+            newpage:currentPage,
             pagesize: 12,
             loadafter:function(data){
             	currentPage = $("#gridcont_newpage").val();
