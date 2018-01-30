@@ -10,6 +10,7 @@ $(window).resize(function(){
 var currentPage=getUrlParam("currentPage")||1;
 var currentOrgid=getUrlParam("currentOrgid");
 var cbox=true;
+var show=true;
 var grid=null;
 var pageModule = function(){
 	/*收藏*/
@@ -79,12 +80,14 @@ var pageModule = function(){
 			success:function(data){
 				if(true == data.manager){
 		   		 	cbox = true;
+		   		 	show = true;
 		   		 	$("#daoru").show();
         	   		$("#plszqx").show();
         	   		$("#add_bmdh").show();
         	   		$(".ljt").show();
 			   	}else{
 			   		cbox = false;
+			   		show = false;
 			   		$("#daoru").hide();
            	   		$("#add_bmdh").hide();
            	   		$(".ljt").hide();
@@ -103,13 +106,13 @@ var pageModule = function(){
             	 {display:"姓名",name:"fullname",width:"10%",align:"center",paixu:false,render:function(rowdata,n){
                     return  '<a onclick="clickfn(\''+rowdata.userid+'\')">'+rowdata.fullname+'</a>';
                  }},
-                 {display:"手机号",name:"mobile",width:"15%",align:"center",paixu:false,render:function(rowdata){
+                 {display:"手机号",name:"mobile",width:"17%",align:"center",paixu:false,render:function(rowdata){
                      return rowdata.mobile;                                        
                  }},
-                 {display:"座机号",name:"telephone",width:"12%",align:"center",paixu:false,render:function(rowdata){
+                 {display:"座机号",name:"telephone",width:"15%",align:"center",paixu:false,render:function(rowdata){
                       return rowdata.telephone;                                     
                  }},
-                 {display:"职务",name:"post",width:"12%",align:"center",paixu:false,render:function(rowdata){
+                 {display:"职务",name:"post",width:"17%",align:"center",paixu:false,render:function(rowdata){
                        return rowdata.post;                                      
                  }},
                  {display:"房间号",name:"address",width:"10%",align:"center",paixu:false,render:function(rowdata){
@@ -118,20 +121,22 @@ var pageModule = function(){
                  {display:"部门",name:"dept",width:"21%",align:"left",paixu:false,render:function(rowdata){
                     return rowdata.dept;                                         
                  }},
-                 {display:"收藏",name:"do",width:"10%",align:"center",paixu:false,render:function(rowdata){
+                 {display:"操作",name:"caozuo",width:"10%",align:"center",paixu:false,render:function(rowdata){
+                	 var caozuo="";
                 	 if(rowdata.isSc == 0 ){
-                		 return '<a class="ysc" title="收藏" href="javascript:addscfn(\''+rowdata.userid+'\')"><i class="fa fa-star"></i></a>';
+                		 caozuo = '<a class="ysc" style="margin-right:10px;" title="收藏" href="javascript:addscfn(\''+rowdata.userid+'\')"><i class="fa fa-star"></i></a>';
                 	 }else{
-                		 return '<a class="sc" title="取消收藏" href="javascript:delscfn(\''+rowdata.userid+'\')"><i class="fa fa-star"></i></a>';
+                		 caozuo = '<a class="sc" style="margin-right:10px;" title="取消收藏" href="javascript:delscfn(\''+rowdata.userid+'\')"><i class="fa fa-star"></i></a>';
                 	 }
-                  }},
-                  {display:"隐藏",name:"do",width:"10%",align:"center",paixu:false,render:function(rowdata){
-                 	 if(rowdata.isShow=="1"||rowdata.isShow==""){
-                 		return '<a class="sc" title="隐藏" href="javascript:addycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
-                 	 }else{
-                 		return '<a class="ysc" title="取消隐藏" href="javascript:delycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
-                 	 }
-                   }}
+                	 if(show){
+                		 if(rowdata.isShow=="1"||rowdata.isShow==""){
+                			 caozuo += '<a class="sc" title="隐藏" href="javascript:addycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
+                      	 }else{
+                      		caozuo += '<a class="ysc" title="取消隐藏" href="javascript:delycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
+                      	 }
+                	 }
+                   	 return caozuo;                                         
+                  }}
              ],
             width:"100%",
             checkbox:cbox,
@@ -225,17 +230,20 @@ var pageModule = function(){
 			grid.setparams({"orgid":id,"searchValue":searchValue});
 			grid.loadtable();
 		});
+	
 		$("#tree_2").on("hover_node.jstree", function(e,data) {
-			$(".jstree_caozuo").remove();
-			var id = data.node.id;
-			var isShow = data.node.original.isShow;
-			if(id == "root"){
-				return;
-			};
-			if(isShow == "0"){
-				$("#"+id+"> a").append('<span class="jstree_caozuo" title="取消隐藏" style="margin-left:10px;color: #666;cursor: pointer;"><i class="fa fa-eye xsbtn"></i></span>');
-			}else{
-				$("#"+id+"> a").append('<span class="jstree_caozuo" title="隐藏" style="margin-left:10px;color: #4182D2;cursor: pointer;"><i class="fa fa-eye ycbtn"></i></span>');
+			if(show){
+				$(".jstree_caozuo").remove();
+				var id = data.node.id;
+				var isShow = data.node.original.isShow;
+				if(id == "root"){
+					return;
+				};
+				if(isShow == "0"){
+					$("#"+id+"> a").append('<span class="jstree_caozuo" title="取消隐藏" style="margin-left:10px;color: #666;cursor: pointer;"><i class="fa fa-eye xsbtn"></i></span>');
+				}else{
+					$("#"+id+"> a").append('<span class="jstree_caozuo" title="隐藏" style="margin-left:10px;color: #4182D2;cursor: pointer;"><i class="fa fa-eye ycbtn"></i></span>');
+				};
 			};
 			$(".ycbtn").click(function(){
 				newbootbox.confirm({
