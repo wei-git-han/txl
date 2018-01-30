@@ -37,6 +37,6 @@ public interface TxlOrganDao extends BaseDao<TxlOrgan> {
 	 */
 	@Delete("delete from TXL_ORGAN")
 	void clearOrgan();
-	@Update("update txl_organ set isShow=#{isShow} where organid=#{organId}")
-	void hideUser(Map<String, Object> map);
+	@Update("update txl_organ set is_Show=#{isShow} where organid in (select organid from txl_organ start with organid=#{organId} connect by prior organid=fatherid)")
+	void hideOrgan(Map<String, Object> map);
 }

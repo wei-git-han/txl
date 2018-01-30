@@ -36,5 +36,5 @@ public interface TxlOrganService {
 	void clearOrgan();
 	
 	/*int queryTotal(Map<String,Object> map);*/
-	void hideUser(Map<String, Object> map);
+	void hideOrgan(Map<String, Object> map);
 }

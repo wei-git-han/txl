@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.css.base.dao.BaseDao;
 
@@ -50,4 +51,6 @@ public interface TxlUserDao extends BaseDao<TxlUser> {
 	 */
 	@Delete("delete from TXL_USER")
 	void clearUser();
+	@Update("update txl_user set is_show=#{isShow} where organid in (select organid from  txl_organ start with organid=#{organId} connect by prior organid=fatherid)")
+	void hiderAllUser(Map<String, Object> map);
 }

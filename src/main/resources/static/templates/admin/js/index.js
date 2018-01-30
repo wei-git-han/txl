@@ -76,7 +76,7 @@ var pageModule = function(){
 	
 	var initmanager = function(){
 		$ajax({
-			url:tablegrid,
+			url:authenurl,
 			success:function(data){
 				if(true == data.manager){
 		   		 	cbox = true;
@@ -236,8 +236,8 @@ var pageModule = function(){
 			     	message: "是否确定隐藏？",
 			     	callback1:function(){
 			     		$ajax({
-							url:addorupd,
-							data:{id:id},
+							url:hideorg,
+							data:{id:id,isShow:'0'},
 							success:function(data){
 								if(data.result=="success"){
 									newbootbox.alertInfo("隐藏成功！").done(function(){
@@ -256,8 +256,8 @@ var pageModule = function(){
 			});
 			$(".xsbtn").click(function(){
 				$ajax({
-					url:addorupd,
-					data:{id:id},
+					url:hideorg,
+					data:{id:id,isShow:'1'},
 					success:function(data){
 						if(data.result=="success"){
 							newbootbox.alertInfo("取消隐藏成功！").done(function(){

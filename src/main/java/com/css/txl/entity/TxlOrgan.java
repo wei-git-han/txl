@@ -33,7 +33,7 @@ public class TxlOrgan implements Serializable {
 	private Long timestamp;
 	//
 	private String type;
-	private String isShow;
+	private String isShow;//1或空显示，0隐藏
 
 	/**
 	 * 设置：

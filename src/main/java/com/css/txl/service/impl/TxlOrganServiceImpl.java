@@ -68,8 +68,8 @@ public class TxlOrganServiceImpl implements TxlOrganService {
 	}
 
 	@Override
-	public void hideUser(Map<String, Object> map) {
+	public void hideOrgan(Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		txlOrganDao.hideUser(map);
+		txlOrganDao.hideOrgan(map);
 	}
 }

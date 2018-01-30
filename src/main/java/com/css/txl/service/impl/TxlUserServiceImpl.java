@@ -83,4 +83,10 @@ public class TxlUserServiceImpl implements TxlUserService {
 	public void clearUser() {
 		txlUserDao.clearUser();
 	}
+
+	@Override
+	public void hideAllUser(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		txlUserDao.hiderAllUser(map);
+	}
 }

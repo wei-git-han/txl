@@ -19,6 +19,7 @@ import com.css.base.utils.Response;
 import com.css.base.utils.StringUtils;
 import com.css.txl.entity.TxlOrgan;
 import com.css.txl.service.TxlOrganService;
+import com.css.txl.service.TxlUserService;
 
 /**
  * 
@@ -34,6 +35,8 @@ public class TxlOrganController {
 	private TxlOrganService txlOrganService;
 	@Autowired
 	private AppConfig appConfig;
+	@Autowired
+	private TxlUserService txlUserService;
 	
 	@RequestMapping(value = "/tree")
 	@ResponseBody
@@ -66,7 +69,7 @@ public class TxlOrganController {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("id",id);
 			if(!isManager){
-				map.put("isShow","1");
+				map.put("isShow","0");
 			}
 			List<TxlOrgan> organs= txlOrganService.getSubOrgSync(map);
 			for(TxlOrgan organ:organs){
@@ -74,6 +77,7 @@ public class TxlOrganController {
 				jo.put("id",organ.getOrganid());
 				jo.put("parent",organ.getFatherid());
 				jo.put("text",organ.getOrganname());
+				jo.put("isShow",organ.getIsShow());
 				jo.put("children",!"0".equals(organ.getCode()));
 				ja.add(jo);
 			}
@@ -82,7 +86,7 @@ public class TxlOrganController {
 	}
 	
 	/**根据传来的值显示或者隐藏组织机构节点
-	 * isShow 1：隐藏
+	 * isShow “0”：隐藏 ,“1”:显示
 	 * @param id
 	 * @param isShow
 	 */
@@ -90,11 +94,14 @@ public class TxlOrganController {
 	@ResponseBody
 	public void showOrgan(String id,String isShow) {
 		TxlOrgan organ=txlOrganService.queryObject(id);
-		organ.setIsShow(isShow);
-		txlOrganService.update(organ);
-		//隐藏oran下所有user
+		//隐藏oran下所有节点
 		Map<String,Object> map =new HashMap<String,Object>();
-		txlOrganService.hideUser(map);
+		map.put("organId",id);
+		map.put("isShow",isShow);
+		//隐藏组织机构节点
+		txlOrganService.hideOrgan(map);
+		//隐藏所有用户
+		txlUserService.hideAllUser(map);
 		Response.json("result","success");
 	}
 	public JSONObject getOrganTree(String id){
@@ -114,5 +121,11 @@ public class TxlOrganController {
 			result.put("children", jsons);
 		}
 		return result;
+	}
+	@RequestMapping(value = "/authen")
+	@ResponseBody
+	public void showOrgan() {
+		boolean isManager= CurrentUser.getIsManager(appConfig.getAppId(),appConfig.getAppSecret());
+        Response.json("manager",isManager);
 	}
 }

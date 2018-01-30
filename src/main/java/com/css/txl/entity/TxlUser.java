@@ -78,7 +78,7 @@ public class TxlUser implements Serializable {
 	// 是否收藏
 	private String isSc;
 	//是否显示
-	private String isShow;
+	private String isShow;//1或空显示，0隐藏
 	//显示权限代码
 	private String rights;
 	

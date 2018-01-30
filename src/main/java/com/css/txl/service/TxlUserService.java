@@ -38,4 +38,8 @@ public interface TxlUserService {
 	 * 清空组织人员
 	 */
 	void clearUser();
+	/**
+	 * 根据organId隐藏组织机构所有的下级用户
+	 */
+	void hideAllUser(Map<String,Object> map);
 }
