@@ -233,9 +233,9 @@ var pageModule = function(){
 				return;
 			};
 			if(isShow == "0"){
-				$("#"+id+"> a").append('<span class="jstree_caozuo spanset" style=""><i class="fa fa-eye xsbtn"></i></span>');
+				$("#"+id+"> a").append('<span class="jstree_caozuo" style="margin-left:10px;color: #4182D2;cursor: pointer;"><i class="fa fa-eye xsbtn"></i></span>');
 			}else{
-				$("#"+id+"> a").append('<span class="jstree_caozuo spanset" style=""><i class="fa fa-eye ycbtn"></i></span>');
+				$("#"+id+"> a").append('<span class="jstree_caozuo" style="margin-left:10px;color: #666;cursor: pointer;"><i class="fa fa-eye ycbtn"></i></span>');
 			};
 			$(".ycbtn").click(function(){
 				newbootbox.confirm({
@@ -375,6 +375,7 @@ var pageModule = function(){
 		$(".searchValue").keypress(function(){
 			$(".search_btn").click();
 		});
+		bindResize(document.getElementById("moveDiv"),document.getElementById("treeDiv"),document.getElementById("contentDiv"));
 	}
 	
 	return{
@@ -405,10 +406,6 @@ function yesfn(){
 	$.each(r, function(i) {
 		rs.push(r[i].defaultValue);
 	});
-	/*if(rs.toString().length < 1){
-		newbootbox.alertInfo('请选择栏目进行授权！');
-		return;
-	}*/
 	var datas=grid.getcheckrow();
 	var ids=[];
 	if(datas.length>0){
@@ -559,4 +556,43 @@ var show = function(obj){
 }
 var hide = function(obj){
 	$("#"+obj).modal("hide");
+}
+function bindResize(el,el1,el2){
+	var els = el1.style;
+	var els2 = el2.style;
+	x=y=0;
+	$(el).mousedown(function(e){
+		x=e.clientX-el1.offsetWidth;
+		//y=e.clientY-el.offsetHeight;
+		if(el.setCapture){
+			el.setCapture();
+			el.onmousemove = function(ev){
+				mouseMove(ev||event);
+			};
+			el.onmouseup = mouseUp;
+		}else{
+			$(document).bind("mousemove",mouseMove).bind("mouseup",mouseUp);
+		}
+		e.preventDefault();
+	})
+	function mouseMove(e){
+		var w1= e.clientX-x;
+		if(w1<=215){
+			w1 = "215px";
+		};
+		if(w1>=250){
+			w1 = "250px";
+		};
+		els.width = w1+"px";
+		//els.height = (e.clientY-y)+"px";
+		els2.paddingLeft = (w1)+"px";
+	};
+	function mouseUp(e){
+		if(el.releaseCapture){
+			el.releaseCapture();
+			el.onmousemove = el.onmouseup = null ;
+		}else{
+			$(document).unbind("mousemove",mouseMove).unbind("mouseup",mouseUp);
+		}
+	}
 }
