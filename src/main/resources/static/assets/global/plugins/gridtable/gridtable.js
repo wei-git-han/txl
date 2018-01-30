@@ -616,6 +616,13 @@ function createtable(obj){
 			ajaxtable();
 		}
 	}
+	//定位页面，重载数据
+	this.loadtable2 = function(p){
+		if(loadfg!=0){
+			newpage = p;
+			ajaxtable();
+		}
+	}
 	
 	this.setpagesize = function(n){
 		pagesize = n;

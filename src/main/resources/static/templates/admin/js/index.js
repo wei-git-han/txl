@@ -7,8 +7,8 @@ $(window).resize(function(){
 	window.location.href="index.html";
 })
 
-var currentPage=getUrlParam("currentPage")||1;
-var currentOrgid=getUrlParam("currentOrgid")||"root";
+var currentPage=getUrlParam("currentPage");
+var currentOrgid=getUrlParam("currentOrgid");
 var cbox=true;
 var grid=null;
 var pageModule = function(){
@@ -91,6 +91,9 @@ var pageModule = function(){
            	   		$(".ljt").hide();
 			   	};
 			   	initgrid();
+			   	if(currentPage!=null && typeof(currentPage) !="undefined"){
+			   		grid.loadtable2(currentPage);
+			   	};
 			}
 		});
 	}
@@ -134,10 +137,10 @@ var pageModule = function(){
             width:"100%",
             checkbox:cbox,
             rownumberyon:true,
-            paramobj:{"page":currentPage,"orgid":currentOrgid},
+            paramobj:{"currentPage":currentPage,"currentOrgid":currentOrgid},
             overflowx:false,
             pagesize: 12,
-            loadafter:function(){
+            loadafter:function(data){
             	currentPage = $("#gridcont_newpage").val();
             },
             url: tablegrid
