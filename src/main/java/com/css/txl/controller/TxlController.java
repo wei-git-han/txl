@@ -373,8 +373,11 @@ public class TxlController {
 			}else {
 				txlUser.setDept(dept);
 			}
-			
-			scList.add(txlUser);
+			if(CurrentUser.getIsManager(appConfig.getAppId(),appConfig.getAppSecret())){
+				scList.add(txlUser);
+			}else if(!"0".equals(txlUser.getIsShow())){
+				scList.add(txlUser);
+			}
 		}
 		JSONArray jsons = new JSONArray();
 		JSONObject json = new JSONObject();
