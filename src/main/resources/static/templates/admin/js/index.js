@@ -125,9 +125,9 @@ var pageModule = function(){
                   }},
                   {display:"隐藏",name:"do",width:"10%",align:"center",paixu:false,render:function(rowdata){
                  	 if(rowdata.isShow==1||rowdata.isShow==''){
-                 		 return '<a class="ysc" title="隐藏" href="javascript:addycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
+                 		return '<a class="sc" title="隐藏" href="javascript:addycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
                  	 }else{
-                 		 return '<a class="sc" title="取消隐藏" href="javascript:delycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
+                 		return '<a class="ysc" title="显示" href="javascript:delycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
                  	 }
                    }}
              ],
@@ -464,6 +464,23 @@ var addscfn = function(id) {
      	}
    });
 }
+function delscfn(id){
+	$ajax({
+		url:delSc,
+		data:{id:id},
+		success:function(data){
+			if(data.result=="success"){
+				newbootbox.alertInfo("取消成功！").done(function(){
+					pageModule.initLxrfresh();
+					//pageModule.gridfresh();
+					$(".search_btn").click();
+				});
+			}else{
+				newbootbox.alertInfo("取消失败！");
+			}
+		}
+	})
+}
 //隐藏
 var addycfn = function(id) {
 	newbootbox.confirm({
@@ -494,13 +511,13 @@ function delycfn(id){
 		data:{id:id,isShow:'1'},
 		success:function(data){
 			if(data.result=="success"){
-				newbootbox.alertInfo("隐藏成功！").done(function(){
+				newbootbox.alertInfo("显示成功！").done(function(){
 					pageModule.gridfresh();
 					//pageModule.gridfresh();
 					$(".search_btn").click();
 				});
 			}else{
-				newbootbox.alertInfo("隐藏失败！");
+				newbootbox.alertInfo("显示失败！");
 			}
 		}
 	})
