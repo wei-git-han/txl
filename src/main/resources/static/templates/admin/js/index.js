@@ -6,7 +6,9 @@ var thisWidth = scWidth/nolywidht-10; //每个盒子的宽度
 $(window).resize(function(){
 	window.location.href="index.html";
 })
-
+var selfId="";
+var tihuanId="";
+var parentId="root";
 var cbox=true;
 var grid=null;
 var pageModule = function(){
@@ -72,6 +74,27 @@ var pageModule = function(){
 	}
 	
 	
+	var initmanager = function(){
+		$ajax({
+			url:tablegrid,
+			success:function(data){
+				if(true == data.manager){
+		   		 	cbox = true;
+		   		 	$("#daoru").show();
+        	   		$("#plszqx").show();
+        	   		$("#add_bmdh").show();
+        	   		$(".ljt").show();
+			   	}else{
+			   		cbox = false;
+			   		$("#daoru").hide();
+           	   		$("#add_bmdh").hide();
+           	   		$(".ljt").hide();
+			   	};
+			   	initgrid();
+			}
+		});
+	}
+	
 	var initgrid = function(){
         grid = $("#gridcont").createGrid({
             columns:[
@@ -109,25 +132,11 @@ var pageModule = function(){
                    }}
              ],
             width:"100%",
-            checkbox:true,
+            checkbox:cbox,
             rownumberyon:true,
             paramobj:{},
             overflowx:false,
             pagesize: 12,
-            loadafter:function(data){
-            	if(true == data.manager){
-            		 checkbox = cbox;
-            		$("#daoru").show();
-            		 $("#plszqx").show();
-            		$("#add_bmdh").show();
-            		$(".ljt").show();
-            	}else{
-            		checkbox != cbox;
-            		$("#daoru").hide();
-            		$("#add_bmdh").hide();
-            		$(".ljt").hide();
-            	}
-            },
             url: tablegrid
        });
 	}
@@ -208,6 +217,64 @@ var pageModule = function(){
 		    $("#treeSecId").val(id);
 			grid.setparams({"orgid":id,"searchValue":searchValue});
 			grid.loadtable();
+		});
+		$("#tree_2").on("hover_node.jstree", function(e,data) {
+			$(".jstree_caozuo").remove();
+			var id = data.node.id;
+			var isShow = data.node.original.isShow;
+			if(id == "root"){
+				return;
+			};
+			if(isShow == "0"){
+				$("#"+id+"> a").append('<span class="jstree_caozuo" style="margin-left:10px;color: #ccc;cursor: pointer;"><i class="fa fa-eye xsbtn"></i></span>');
+			}else{
+				$("#"+id+"> a").append('<span class="jstree_caozuo" style="margin-left:10px;color: #4182D2;cursor: pointer;"><i class="fa fa-eye ycbtn"></i></span>');
+			};
+			$(".ycbtn").click(function(){
+				newbootbox.confirm({
+			     	title:"提示",
+			     	message: "是否确定隐藏？",
+			     	callback1:function(){
+			     		$ajax({
+							url:addorupd,
+							data:{id:id},
+							success:function(data){
+								if(data.result=="success"){
+									newbootbox.alertInfo("隐藏成功！").done(function(){
+										$("#tree_2").jstree().destroy();  //把树节点删除
+										inittree();
+										initgrid();
+										$(".search_btn").click();
+									});
+								}else{
+									newbootbox.alertInfo("隐藏失败！");
+								}
+							}
+						})
+			     	}
+			   });
+			});
+			$(".xsbtn").click(function(){
+				$ajax({
+					url:addorupd,
+					data:{id:id},
+					success:function(data){
+						if(data.result=="success"){
+							newbootbox.alertInfo("取消隐藏成功！").done(function(){
+								$("#tree_2").jstree().destroy();  //把树节点删除
+								inittree();
+								initgrid();
+								$(".search_btn").click();
+							});
+						}else{
+							newbootbox.alertInfo("取消隐藏失败！");
+						}
+					}
+				})
+			});
+		});
+		$("#tree_2").on("dehover_node.jstree", function(e,data) {
+			$(".jstree_caozuo").remove();
 		});
 	}
 	
@@ -309,7 +376,7 @@ var pageModule = function(){
 			initother();
 			inittree();//左侧组织机构树
 			initLxr();//中间收藏列表
-			initgrid();//列表
+			initmanager();//列表
 			bmdhfn();//右侧部门电话
 			initMenuview();
 		},
@@ -377,7 +444,7 @@ function clickbmdhfn(id){
 var addscfn = function(id) {
 	newbootbox.confirm({
      	title:"提示",
-     	message: "是否确定收藏？？",
+     	message: "是否确定收藏？",
      	callback1:function(){
      		$ajax({
 				url:addorupd,
@@ -401,7 +468,7 @@ var addscfn = function(id) {
 var addycfn = function(id) {
 	newbootbox.confirm({
      	title:"提示",
-     	message: "是否确定隐藏？？",
+     	message: "是否确定隐藏？",
      	callback1:function(){
      		$ajax({
 				url:isShowUrl,
@@ -409,7 +476,7 @@ var addycfn = function(id) {
 				success:function(data){
 					if(data.result=="success"){
 						newbootbox.alertInfo("隐藏成功！").done(function(){
-							pageModule.initLxrfresh();
+							pageModule.gridfresh();
 							$(".search_btn").click();
 						});
 					}else{
@@ -428,7 +495,7 @@ function delycfn(id){
 		success:function(data){
 			if(data.result=="success"){
 				newbootbox.alertInfo("隐藏成功！").done(function(){
-					pageModule.initLxrfresh();
+					pageModule.gridfresh();
 					//pageModule.gridfresh();
 					$(".search_btn").click();
 				});
