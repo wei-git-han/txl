@@ -6,9 +6,9 @@ var thisWidth = scWidth/nolywidht-10; //每个盒子的宽度
 $(window).resize(function(){
 	window.location.href="index.html";
 })
-var selfId="";
-var tihuanId="";
-var parentId="root";
+
+var currentPage=getUrlParam("currentPage")||1;
+var currentOrgid=getUrlParam("currentOrgid")||"root";
 var cbox=true;
 var grid=null;
 var pageModule = function(){
@@ -134,9 +134,12 @@ var pageModule = function(){
             width:"100%",
             checkbox:cbox,
             rownumberyon:true,
-            paramobj:{},
+            paramobj:{"page":currentPage,"orgid":currentOrgid},
             overflowx:false,
             pagesize: 12,
+            loadafter:function(){
+            	currentPage = $("#gridcont_newpage").val();
+            },
             url: tablegrid
        });
 	}
@@ -214,6 +217,7 @@ var pageModule = function(){
 		$("#tree_2").on("select_node.jstree", function(e,data) { 
 		    var id = $("#" + data.selected).attr("id");
 		    var searchValue = $("#searchValue").val();
+		    currentOrgid = id;
 		    $("#treeSecId").val(id);
 			grid.setparams({"orgid":id,"searchValue":searchValue});
 			grid.loadtable();
@@ -433,7 +437,7 @@ function cancelqfn(){
 }
 //点击人员姓名进行编辑
 function clickfn(id){
-	window.location.href="txl/html/txl_add.html?id="+id;
+	window.location.href="txl/html/txl_add.html?id="+id+"&currentOrgid="+currentOrgid+"&currentPage="+currentPage;
 }
 //点击部门名称进行编辑
 function clickbmdhfn(id){

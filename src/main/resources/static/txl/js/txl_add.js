@@ -1,4 +1,6 @@
 var id=getUrlParam("id");
+var currentPage=getUrlParam("currentPage");
+var currentOrgid=getUrlParam("currentOrgid");
 var returndata = {"url":"/txluser/getUser","dataType":"text"};
 var savetip ={"url":"/txluser/updateUser","dataType":"text"};
 var pageModule = function(){
@@ -54,10 +56,10 @@ var pageModule = function(){
 		})
 		//返回上一层
 		$("#return").click(function(){
-			window.location.href="../../index.html";
+			window.location.href="../../index.html?currentOrgid="+currentOrgid+"&currentPage="+currentPage;
 		});
 		$("#quxiao").click(function(){
-			window.location.href="../../index.html";
+			window.location.href="../../index.html?currentOrgid="+currentOrgid+"&currentPage="+currentPage;
 		});
 		
 		//表单验证
@@ -72,7 +74,7 @@ var pageModule = function(){
 					success:function(data){
 						if (data.result == "success") {
 							newbootbox.alertInfo("保存成功！").done(function(){
-								window.location.href="../../index.html";
+								window.location.href="../../index.html?currentOrgid="+currentOrgid+"&currentPage="+currentPage;
 							});
 						}else{
 							newbootbox.alertInfo("保存失败！")
