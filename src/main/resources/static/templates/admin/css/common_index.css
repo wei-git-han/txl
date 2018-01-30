@@ -160,6 +160,7 @@ ul {
 .main_right {
 	position: absolute;
 	right: 0px;
+	top:0;
 	width: 215px;
 	z-index: 99;
 	background: #DCDCDC;
@@ -221,18 +222,16 @@ ul {
 }
 
 .main_center {
-	position: absolute;
-	left: 215px;
-	right: 215px;
+	padding: 10px 215px;
 	height: 100%;
 	background: #EEEEEE;
-	padding:10px 20px;
 }
 
 .main_center_wrap {
 	height: 100%;
 	width: 100%;
 	position: relative;
+	padding:0 20px;
 }
 .center_title{
 	/* position: absolute; */
