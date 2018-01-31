@@ -259,7 +259,6 @@ var pageModule = function(){
 										$("#tree_2").jstree().destroy();  //把树节点删除
 										inittree();
 										initgrid();
-										$(".search_btn").click();
 									});
 								}else{
 									newbootbox.alertInfo("隐藏失败！");
@@ -279,7 +278,6 @@ var pageModule = function(){
 								$("#tree_2").jstree().destroy();  //把树节点删除
 								inittree();
 								initgrid();
-								$(".search_btn").click();
 							});
 						}else{
 							newbootbox.alertInfo("取消隐藏失败！");
