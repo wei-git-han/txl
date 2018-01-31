@@ -394,7 +394,7 @@ var pageModule = function(){
 			initLxr();//中间收藏列表
 			initmanager();//列表
 			bmdhfn();//右侧部门电话
-			initMenuview();
+			initMenuview();//设置功能权限
 		},
 		gridfresh:function(){
 			initgrid();
