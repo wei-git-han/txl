@@ -18,7 +18,8 @@
 		<if test="search != null">
 		 and (T.fullname like '%'||#{search}||'%'
 		or T.mobile like '%'||#{search}||'%'
-		OR T.PYNAME like '%'||UCASE(GETPY(#{search}))||'%') 
+		OR T.PYNAME like '%'||UCASE(GETPY(#{search}))||'%'
+		or t.address like '%'||#{search}||'%' ) 
 		</if>
 		<if test="isShow!=null">
 		  and (T.IS_SHOW =#{isShow} or T.IS_SHOW is null )
