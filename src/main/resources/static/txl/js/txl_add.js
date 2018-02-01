@@ -47,7 +47,9 @@ var pageModule = function(){
 		},function(){
 			$(this).attr("src","../images/back-normal.png");
 		});
-		
+		if (currentOrgid == '' || currentOrgid == 'null' || currentOrgid == null) {
+			currentOrgid = 'root';
+		}
 		$("#woman").click(function(){
 			$(".headpic").attr("src","../../templates/admin/images/personn.png");
 		})
