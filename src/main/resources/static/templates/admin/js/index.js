@@ -93,9 +93,6 @@ var pageModule = function(){
            	   		$(".ljt").hide();
 			   	};
 			   	initgrid();
-			   	if(currentPage!=null && typeof(currentPage) !="undefined"){
-			   		grid.loadtable2(currentPage);
-			   	};
 			}
 		});
 	}
@@ -378,14 +375,9 @@ var pageModule = function(){
 			grid.refresh();
 		});
 		
-		/*$(".searchValue").keypress(function(){
+		$(".searchValue").keypress(function(){
 			$(".search_btn").click();
-		});*/
-		
-		$(".searchValue").on("input",function(event){
-			$(".search_btn").click();
-        });
-		
+		});
 		bindResize(document.getElementById("moveDiv"),document.getElementById("treeDiv"),document.getElementById("contentDiv"));
 	}
 	
@@ -528,6 +520,7 @@ function delycfn(id){
 			if(data.result=="success"){
 				newbootbox.alertInfo("取消隐藏成功！").done(function(){
 					pageModule.gridfresh();
+					//pageModule.gridfresh();
 					$(".search_btn").click();
 				});
 			}else{
