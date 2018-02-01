@@ -5,8 +5,6 @@ jQuery.fn.extend({
 		return gridobj;
 	}
 });
-
-var checkedarr = [];
 //创建表格
 function createtable(obj){
 	//当前页号
@@ -75,8 +73,9 @@ function createtable(obj){
 		$("#"+obj.target).html("");
 		
 		$(window).resize(function(){
-			o=window.o||'';
-			clearTimeout(o);
+			if(!!window.o){
+				clearTimeout(o);
+			}
 			o = setTimeout(function(){
 				create();
 			},500)
@@ -106,16 +105,7 @@ function createtable(obj){
 					$('input[name='+obj.target+'_checktd]').prop("checked","checked");
 				}else{
 					$('input[name='+obj.target+'_checktd]').removeAttr("checked");
-				};
-				/*if(this.checked==true){
-					$('input[name='+obj.target+'_checktd]').each(function(){
-						this.checked=true;
-					})
-				}else{
-					$('input[name='+obj.target+'_checktd]').each(function(){
-						this.checked=false;
-					})
-				}*/
+				}
 			})
 			hdtable.find("thead").find("tr").append(checkth);
 		}
@@ -262,11 +252,6 @@ function createtable(obj){
 					data = eval("("+data+")");
 				}
 				rowsdata = data.rows;
-				if(rowsdata.length==0){
-					$("#"+obj.target+"_hdtablediv").height((parseInt(getvalue(obj.headheight,"headheight"))+3)+"px");
-				}else{
-					$("#"+obj.target+"_hdtablediv").height(getvalue(obj.headheight,"headheight"));
-				};
 				$.each(rowsdata,function(i){
 					var data = rowsdata[i];
 					var trobj = $('<tr style="box-sizing:border-box"></tr>');
@@ -428,7 +413,7 @@ function createtable(obj){
 											'<font style="font-size:12px;float:left;">共<font id="'+obj.target+'_totol">0</font>条信息，</font>'+
 											'<font style="font-size:12px;float:left;">每页<font id="'+obj.target+'_limit">0</font>条。</font>'+
 											'<a style="font-size:12px;float:left;" id="'+obj.target+'_refresh">跳转</a>'+
-											'<input type="text" maxlength="6" style="border:1px solid #cccccc;float:left;width:40px;height:17px;font-size:12px;margin-left:10px;text-align:center;" value="'+newpage+'" id="'+obj.target+'_newpage"></input>'+
+											'<input type="text" maxlength="6" style="border:1px solid #cccccc;float:left;width:40px;height:20px;margin-left:10px;text-align:center;" value="'+newpage+'" id="'+obj.target+'_newpage"></input>'+
 											'<font style="font-size:12px;margin-left:5px;float:left;">/</font>'+
 											'<font style="font-size:12px;margin-left:5px;float:left;" id="'+obj.target+'_totolpage">1</font>'+
 											'<font style="font-size:12px;margin-left:5px;float:left;">页</font>'+
@@ -549,14 +534,15 @@ function createtable(obj){
 		});
 		
 		$("."+obj.target+"pbtn1").click(function(){
-			//getCheckRow();//调用下面的方法
+			getCheckRow();//调用下面的方法
 			$("#gridcont_hdtable th input[name=gridcont_checkth]").attr("checked",false);
 			if(loadfg!=0){
 				newpage = parseInt(this.text);
 				ajaxtable();
+				
 			}
 		})
-		//getRowIds();
+		getRowIds();
 		loadfg = 1;
 	}
 
@@ -596,16 +582,7 @@ function createtable(obj){
 		}
 		return checkdata;
 	} 
-	//获取当前页的所有选中行的id
-	this.getcheckedIds=function(){
-		var rows=this.getcheckrow();
-		if(!rows||rows.length<=0){return [];}
-		var ids=[];
-		for(var i in rows){
-			ids.push(rows[i].id);
-		}
-		return ids;
-	};
+	
 	
 	//获取当前页所有id
 	this.getrowids = function(){
@@ -628,22 +605,6 @@ function createtable(obj){
 		return checkdata;
 	} 
 	
-	this.getCheckRow = function(){
-		var datas = this.getcheckrow();
-		$.each(datas, function(i,obj) {
-			checkedarr.push(obj.id);
-		});
-	}
-	
-	this.getRowIds = function(){
-		var rowids = this.getrowids(); //所有id
-		for(var i=0;i<rowids.length;i++){
-			if(checkedarr.toString().indexOf(rowids[i].id)>0){
-				$('input[name='+rowids[i].id+'_checktd]').attr("checked","checked");
-			}
-		}
-	}
-	
 	this.setparams = function(obj){
 		params = obj;
 	}
@@ -652,6 +613,13 @@ function createtable(obj){
 	this.loadtable = function(){
 		if(loadfg!=0){
 			newpage = 1;
+			ajaxtable();
+		}
+	}
+	//定位页面，重载数据
+	this.loadtable2 = function(p){
+		if(loadfg!=0){
+			newpage = p;
 			ajaxtable();
 		}
 	}
@@ -666,3 +634,40 @@ function createtable(obj){
 	
 	create();
 }
+
+
+
+
+
+
+
+
+var checkedarr = [];
+function getCheckRow(){
+	var datas = grid.getcheckrow();
+	$.each(datas, function(i,obj) {
+		checkedarr.push(obj.id);
+	});
+}
+
+
+
+function getRowIds(){
+	var rowids = grid.getrowids(); //所有id
+	for(var i=0;i<rowids.length;i++){
+		if(checkedarr.toString().indexOf(rowids[i].id)>0){
+			$('input[name='+rowids[i].id+'_checktd]').attr("checked","checked");
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
