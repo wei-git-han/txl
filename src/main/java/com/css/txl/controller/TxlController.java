@@ -102,6 +102,9 @@ public class TxlController {
 		if(StringUtils.isNotBlank(currentOrgid)){
 			orgid=currentOrgid;
 		}
+		if(StringUtils.isBlank(orgid)||"null".equals(orgid)){
+			orgid="root";
+		}
 		if(StringUtils.isNotBlank(orgid) && !StringUtils.equals("root", orgid)){
 			orgIds = allOrgIds(orgid);
 			map.put("orgIds", orgIds.split(","));
