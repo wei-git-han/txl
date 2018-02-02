@@ -501,7 +501,6 @@ var addycfn = function(id) {
 					if(data.result=="success"){
 						newbootbox.alertInfo("隐藏成功！").done(function(){
 							pageModule.gridfresh();
-							$(".search_btn").click();
 						});
 					}else{
 						newbootbox.alertInfo("隐藏失败！");
@@ -520,8 +519,6 @@ function delycfn(id){
 			if(data.result=="success"){
 				newbootbox.alertInfo("取消隐藏成功！").done(function(){
 					pageModule.gridfresh();
-					//pageModule.gridfresh();
-					$(".search_btn").click();
 				});
 			}else{
 				newbootbox.alertInfo("取消隐藏失败！");
