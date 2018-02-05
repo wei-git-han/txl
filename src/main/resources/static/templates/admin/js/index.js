@@ -375,9 +375,9 @@ var pageModule = function(){
 			grid.refresh();
 		});
 		
-		$(".searchValue").keypress(function(){
+		$(".searchValue").on("input",function(event){
 			$(".search_btn").click();
-		});
+        });
 		bindResize(document.getElementById("moveDiv"),document.getElementById("treeDiv"),document.getElementById("contentDiv"));
 	}
 	
