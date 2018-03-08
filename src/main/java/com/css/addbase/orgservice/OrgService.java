@@ -116,7 +116,7 @@ public class OrgService {
 	 */
 	public Organ[] getSubOrg(String id, boolean invalid, boolean sublevel) {
 		try {
-			StringBuffer url = new StringBuffer(appConfig.getZuul() + appConfig.getOrg() +"/department/" + id + "/children");
+			StringBuffer url = new StringBuffer(appConfig.getZuul() + appConfig.getOrg() +"/department/" + id + "/subdepartments");
 			if ((invalid) || (sublevel)) {
 				url.append("?");
 				if (invalid) {
@@ -133,7 +133,7 @@ public class OrgService {
 		} catch (Exception e) {
 			System.out.println(e);
 			AppConfig.accessToken = "";
-			StringBuffer url = new StringBuffer(appConfig.getZuul() + appConfig.getOrg() +"/department/" + id + "/children");
+			StringBuffer url = new StringBuffer(appConfig.getZuul() + appConfig.getOrg() +"/department/" + id + "/subdepartments");
 			if ((invalid) || (sublevel)) {
 				url.append("?");
 				if (invalid) {
