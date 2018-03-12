@@ -830,7 +830,7 @@ var newbootbox = {
 $("body").keydown(function(event){
 	var event = event || window.event;
 	if(event.keyCode == "13"){
-		$(".search").click();
+		$(".search_btn").click();
 	}
 })
 

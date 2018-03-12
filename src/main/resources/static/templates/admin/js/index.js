@@ -375,9 +375,9 @@ var pageModule = function(){
 			grid.refresh();
 		});
 		
-		$(".searchValue").on("input",function(event){
+		/*$(".searchValue").on("input",function(event){
 			$(".search_btn").click();
-        });
+        });*/
 		bindResize(document.getElementById("moveDiv"),document.getElementById("treeDiv"),document.getElementById("contentDiv"));
 	}
 	
@@ -596,3 +596,9 @@ function bindResize(el,el1,el2){
 		}
 	}
 }
+
+function keyss(){
+	$(".search_btn").click();
+}
+
+

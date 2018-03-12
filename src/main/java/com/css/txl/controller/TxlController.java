@@ -30,6 +30,7 @@ import com.css.txl.entity.TxlUser;
 import com.css.txl.service.TxlCollectService;
 import com.css.txl.service.TxlOrganService;
 import com.css.txl.service.TxlUserService;
+import com.css.txl.utils.PinYinUtil;
 import com.github.pagehelper.PageHelper;
 
 /**
@@ -98,6 +99,9 @@ public class TxlController {
 		String orgIds = "";
 		if(StringUtils.isNotBlank(searchValue)){
 			map.put("search", searchValue);
+		}
+		if(PinYinUtil.hasZm(searchValue)){
+			map.put("zm",searchValue);
 		}
 		if(StringUtils.isNotBlank(currentOrgid)){
 			orgid=currentOrgid;
