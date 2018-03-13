@@ -11,7 +11,7 @@ public class PinYinUtil {
 	 if(StringUtils.isEmpty(keywords)) {
 		 return false;
 	 }else {
-		 return  keywords.matches(".*[a-zA-Z]+.*");
+		 return  keywords.matches("[a-zA-Z]+");
 	 }
  }
  /**
