@@ -33,6 +33,8 @@ import com.css.txl.service.TxlUserService;
 import com.css.txl.utils.PinYinUtil;
 import com.github.pagehelper.PageHelper;
 
+import dm.jdbc.util.StringUtil;
+
 /**
  * 文件借阅表
  * 
@@ -95,6 +97,7 @@ public class TxlController {
 	@RequestMapping(value = "/listuser")
 	@ResponseBody
 	public void listuser(Integer page, Integer pagesize, String orgid, String searchValue,String currentOrgid) {
+		searchValue=searchValue.replace(" ","");
 		Map<String, Object> map = new HashMap<String, Object>();
 		String orgIds = "";
 		if(StringUtils.isNotBlank(searchValue)){
