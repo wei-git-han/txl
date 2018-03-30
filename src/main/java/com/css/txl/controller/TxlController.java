@@ -97,14 +97,14 @@ public class TxlController {
 	@RequestMapping(value = "/listuser")
 	@ResponseBody
 	public void listuser(Integer page, Integer pagesize, String orgid, String searchValue,String currentOrgid) {
-		searchValue=searchValue.replace(" ","");
 		Map<String, Object> map = new HashMap<String, Object>();
 		String orgIds = "";
-		if(StringUtils.isNotBlank(searchValue)){
+		if (StringUtils.isNotBlank(searchValue)) {
+			searchValue = searchValue.replace(" ","");
 			map.put("search", searchValue);
-		}
-		if(PinYinUtil.hasZm(searchValue)){
-			map.put("zm",searchValue);
+			if(PinYinUtil.hasZm(searchValue)){
+				map.put("zm",searchValue);
+			}
 		}
 		if(StringUtils.isNotBlank(currentOrgid)){
 			orgid=currentOrgid;

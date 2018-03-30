@@ -1,1 +1,8 @@
+/gradle-app.setting
+/.settings/
+.gradle/
 /bin/
+.project
+build/
+.classpath
+/ui/
