@@ -72,6 +72,8 @@ public class TxlController {
 	public List<Organ> listOrgan = new ArrayList<>();
 
 	public List<UserInfo> listUserInfo = new ArrayList<>();
+	
+	private Map<String,String> agents=new HashMap<String,String>();
 
 	int i = 0;
 	String dept = "";
@@ -203,14 +205,18 @@ public class TxlController {
 
 	// 获取局级组织机构名称
 	private void gernOrgs(List<TxlUser> liInfos) {
-		TxlOrgan organ=null;
+		TxlOrgan organ = null;
 		for (TxlUser user : liInfos) {
-			if(!"root".equals(user.getOrganid())) {
+			if (!"root".equals(user.getOrganid()) &&agents.get(user.getOrganid()) != null) {
+				user.setDept("【" +agents.get(user.getOrganid()) + "】 " + user.getDept()); 
+			} else if(!"root".equals(user.getOrganid())) {
 				organ = getSecLevel(user.getOrganid());
-				if(user.getDept().indexOf(organ.getOrganname())==-1) {
-					user.setDept("【"+organ.getOrganname()+"】 "+user.getDept());
+				agents.put(user.getOrganid(),organ.getOrganname());
+				if (user.getDept().indexOf(organ.getOrganname()) == -1) {
+					user.setDept("【" + organ.getOrganname() + "】 " + user.getDept());
 				}
 			}
+
 		}
 	}
 
@@ -250,6 +256,8 @@ public class TxlController {
 	@RequestMapping(value = "/syncdate")
 	@ResponseBody
 	public void syncdate() {
+		//清空组织机构缓存
+		agents=new HashMap<String,String>();
 		Map<String, Object> map = new HashMap<>();
 		// 获取通讯录中已经存在的人员信息
 		List<TxlUser> liInfos = txlUserService.queryList(map);
