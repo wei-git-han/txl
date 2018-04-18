@@ -39,7 +39,7 @@ import dm.jdbc.util.StringUtil;
  * 文件借阅表
  * 
  * @author 中软信息系统工程有限公司
- * @email 
+ * @email
  * @date 2017-10-11 17:31:34
  */
 @Controller
@@ -48,44 +48,44 @@ public class TxlController {
 
 	@Autowired
 	private TxlOrganService txlOrganService;
-	
+
 	@Autowired
 	private TxlUserService txlUserService;
-	
+
 	@Autowired
 	private TxlCollectService txlCollectService;
-	
+
 	@Autowired
 	private ImportOrganUtil importOrganUtil;
-	
+
 	@Autowired
 	private SyncOrganUtil syncOrganUtil;
-	
+
 	@Autowired
 	private OrgService service;
 
 	@Autowired
 	private AppConfig appConfig;
-	
+
 	public List<TxlUser> userInfos;
-	
+
 	public List<Organ> listOrgan = new ArrayList<>();
 
 	public List<UserInfo> listUserInfo = new ArrayList<>();
-	
+
 	int i = 0;
 	String dept = "";
-	
-//	@RequestMapping(value = "/alluser")
-//	@ResponseBody
-//	public void alluser(HttpServletRequest request) {
-//		userInfos = new ArrayList<TxlUser>();
-//		List<TxlUser> liInfos=  getAllUser("root");
-//		JSONArray jsons = new JSONArray();
-//		jsons = getJson(liInfos);
-//		Response.json(jsons);
-//	}
-//	
+
+	// @RequestMapping(value = "/alluser")
+	// @ResponseBody
+	// public void alluser(HttpServletRequest request) {
+	// userInfos = new ArrayList<TxlUser>();
+	// List<TxlUser> liInfos= getAllUser("root");
+	// JSONArray jsons = new JSONArray();
+	// jsons = getJson(liInfos);
+	// Response.json(jsons);
+	// }
+	//
 	@RequestMapping(value = "/scuser")
 	@ResponseBody
 	public void scuser(HttpServletRequest request) {
@@ -93,57 +93,58 @@ public class TxlController {
 		jsons = getScJson();
 		Response.json(jsons);
 	}
-	
+
 	@RequestMapping(value = "/listuser")
 	@ResponseBody
-	public void listuser(Integer page, Integer pagesize, String orgid, String searchValue,String currentOrgid) {
+	public void listuser(Integer page, Integer pagesize, String orgid, String searchValue, String currentOrgid) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String orgIds = "";
 		if (StringUtils.isNotBlank(searchValue)) {
-			searchValue = searchValue.replace(" ","");
+			searchValue = searchValue.replace(" ", "");
 			map.put("search", searchValue);
-			if(PinYinUtil.hasZm(searchValue)){
-				map.put("zm",searchValue);
+			if (PinYinUtil.hasZm(searchValue)) {
+				map.put("zm", searchValue);
 			}
 		}
-		if(StringUtils.isNotBlank(currentOrgid)){
-			orgid=currentOrgid;
+		if (StringUtils.isNotBlank(currentOrgid)) {
+			orgid = currentOrgid;
 		}
-		if(StringUtils.isBlank(orgid)||"null".equals(orgid)){
-			orgid="root";
+		if (StringUtils.isBlank(orgid) || "null".equals(orgid)) {
+			orgid = "root";
 		}
-		if(StringUtils.isNotBlank(orgid) && !StringUtils.equals("root", orgid)){
+		if (StringUtils.isNotBlank(orgid) && !StringUtils.equals("root", orgid)) {
 			orgIds = allOrgIds(orgid);
 			map.put("orgIds", orgIds.split(","));
 		}
-		boolean isManager= CurrentUser.getIsManager(appConfig.getAppId(),appConfig.getAppSecret());
-		if(!isManager){
-			map.put("isShow","1");//1代表显示的，0和空为隐藏
+		boolean isManager = CurrentUser.getIsManager(appConfig.getAppId(), appConfig.getAppSecret());
+		if (!isManager) {
+			map.put("isShow", "1");// 1代表显示的，0和空为隐藏
 		}
 		PageHelper.startPage(page, pagesize);
 		List<TxlUser> liInfos = txlUserService.queryList(map);
 		fillSc(liInfos);
-		if(!isManager){
+		if (!isManager) {
 			makeShow(liInfos);
 		}
+		gernOrgs(liInfos);
 		PageUtils pageUtil = new PageUtils(liInfos);
 		JSONObject json = new JSONObject();
 		json.put("total", pageUtil.getTotalCount());
 		json.put("page", pageUtil.getCurrPage());
 		json.put("rows", liInfos);
-		json.put("manager", CurrentUser.getIsManager(appConfig.getAppId(),appConfig.getAppSecret()));
+		json.put("manager", CurrentUser.getIsManager(appConfig.getAppId(), appConfig.getAppSecret()));
 		Response.json(json);
 	}
-	
-	private String allOrgIds(String orgId){
+
+	private String allOrgIds(String orgId) {
 		String ret = "";
-		if(StringUtils.isNotBlank(orgId)){
+		if (StringUtils.isNotBlank(orgId)) {
 			TxlOrgan org = txlOrganService.queryObject(orgId);
-			if(org != null){
-				ret += org.getOrganid()+",";
+			if (org != null) {
+				ret += org.getOrganid() + ",";
 				List<TxlOrgan> list = txlOrganService.getSubOrg(org.getOrganid());
-				if(list != null && list.size() > 0){
-					for(TxlOrgan organ : list){
+				if (list != null && list.size() > 0) {
+					for (TxlOrgan organ : list) {
 						ret += allOrgIds(organ.getOrganid());
 					}
 				}
@@ -151,21 +152,23 @@ public class TxlController {
 		}
 		return ret;
 	}
+
 	/**
 	 * 把当前用户收藏的予以标记
+	 * 
 	 * @param liInfos
 	 */
 	private void fillSc(List<TxlUser> liInfos) {
-		if(liInfos==null||liInfos.size()<=0){
+		if (liInfos == null || liInfos.size() <= 0) {
 			return;
 		}
 		List<TxlCollect> collects = txlCollectService.getCollect(CurrentUser.getUserId());
-		if(collects!=null&&collects.size()>0){
-			for(TxlCollect c:collects){
-				String scuserId=c.getCollectUserid();
-				for(TxlUser user:liInfos){
-					String userId=user.getUserid();
-					if(scuserId.equals(userId)){
+		if (collects != null && collects.size() > 0) {
+			for (TxlCollect c : collects) {
+				String scuserId = c.getCollectUserid();
+				for (TxlUser user : liInfos) {
+					String userId = user.getUserid();
+					if (scuserId.equals(userId)) {
 						user.setIsSc("true");
 						break;
 					}
@@ -173,49 +176,74 @@ public class TxlController {
 			}
 		}
 	}
-	//根据设置处理是否显示手机和电话
+
+	// 根据设置处理是否显示手机和电话
 	private void makeShow(List<TxlUser> liInfos) {
-		for(TxlUser user:liInfos){
-			if(StringUtils.isNotBlank(user.getRights())){
-				String rights=user.getRights();
-				if(rights.indexOf("1")==-1){
+		for (TxlUser user : liInfos) {
+			if (StringUtils.isNotBlank(user.getRights())) {
+				String rights = user.getRights();
+				if (rights.indexOf("1") == -1) {
 					user.setMobile("");
 				}
-				if(rights.indexOf("2")==-1){
+				if (rights.indexOf("2") == -1) {
 					user.setTelephone("");
 				}
-				if(rights.indexOf("3")==-1){
+				if (rights.indexOf("3") == -1) {
 					user.setPost("");
 				}
-				if(rights.indexOf("4")==-1){
+				if (rights.indexOf("4") == -1) {
 					user.setAddress("");
 				}
-			}else{
+			} else {
 				continue;
 			}
 		}
-		
-	}
-	
 
-//	@RequestMapping(value = "/orguser")
-//	@ResponseBody
-//	public void orguser(HttpServletRequest request, String orgid, String fullname) {
-//		userInfos = new ArrayList<TxlUser>();
-//		List<TxlUser> liInfos = new ArrayList<TxlUser>();
-//		if(null != orgid && !"".equals(orgid) && (null == fullname || "".equals(fullname))) {
-//			liInfos =  getAllUser(orgid);
-//		}else if(null != orgid && !"".equals(orgid) && (null != fullname || !"".equals(fullname))) {
-//			liInfos =  getOthUser(orgid, fullname);
-//		}else {
-//			liInfos =  txlUserService.getNameToUser(fullname);
-//		}
-//		
-//		JSONArray jsons = new JSONArray();
-//		jsons = getJson(liInfos);
-//		Response.json(jsons);
-//	}
-	
+	}
+
+	// 获取局级组织机构名称
+	private void gernOrgs(List<TxlUser> liInfos) {
+		TxlOrgan organ=null;
+		for (TxlUser user : liInfos) {
+			if(!"root".equals(user.getOrganid())) {
+				organ = getSecLevel(user.getOrganid());
+				if(user.getDept().indexOf(organ.getOrganname())==-1) {
+					user.setDept("【"+organ.getOrganname()+"】 "+user.getDept());
+				}
+			}
+		}
+	}
+
+	// 获取二级组织机构
+	private TxlOrgan getSecLevel(String orgId) {
+		TxlOrgan organ = txlOrganService.queryObject(orgId);
+		if (organ != null && !"root".equals(organ.getFatherid())) {
+			organ = getSecLevel(organ.getFatherid());
+		}
+		return organ;
+	}
+
+	// @RequestMapping(value = "/orguser")
+	// @ResponseBody
+	// public void orguser(HttpServletRequest request, String orgid, String
+	// fullname) {
+	// userInfos = new ArrayList<TxlUser>();
+	// List<TxlUser> liInfos = new ArrayList<TxlUser>();
+	// if(null != orgid && !"".equals(orgid) && (null == fullname ||
+	// "".equals(fullname))) {
+	// liInfos = getAllUser(orgid);
+	// }else if(null != orgid && !"".equals(orgid) && (null != fullname ||
+	// !"".equals(fullname))) {
+	// liInfos = getOthUser(orgid, fullname);
+	// }else {
+	// liInfos = txlUserService.getNameToUser(fullname);
+	// }
+	//
+	// JSONArray jsons = new JSONArray();
+	// jsons = getJson(liInfos);
+	// Response.json(jsons);
+	// }
+
 	/**
 	 * 组织机构导入
 	 */
@@ -228,44 +256,47 @@ public class TxlController {
 		// 获取通讯录中已经存在的组织机构信息
 		List<TxlOrgan> organs = txlOrganService.queryList(map);
 		// 如果没有数据，则进行全部同步
-		if(liInfos.size() == 0 && organs.size() == 0) {
+		if (liInfos.size() == 0 && organs.size() == 0) {
 			importOrganUtil.importOrg("root");
 		} else {
 			// 如果存在组织机构或者人员信息，则需要进行部分同步
 			syncOrganUtil.SyncOrgan();
 		}
-		Response.json("result","success");
+		Response.json("result", "success");
 	}
+
 	/**
 	 * 设置用户显示或者隐藏
 	 */
 	@RequestMapping(value = "/showUser")
 	@ResponseBody
-	public void showUser(String id,String isShow) {
-		for(String userid:id.split(",")){
-		TxlUser user=txlUserService.queryObject(id);
-		user.setIsShow(isShow);
-		txlUserService.update(user);
+	public void showUser(String id, String isShow) {
+		for (String userid : id.split(",")) {
+			TxlUser user = txlUserService.queryObject(id);
+			user.setIsShow(isShow);
+			txlUserService.update(user);
 		}
-		Response.json("result","success");
+		Response.json("result", "success");
 	}
+
 	/**
 	 * 设置用户显示或者隐藏
 	 */
 	@RequestMapping(value = "/setRights")
 	@ResponseBody
-	public void setUserRights(String uids,String menus) {
-		if(StringUtils.isBlank(menus)){
-			menus="0000";
+	public void setUserRights(String uids, String menus) {
+		if (StringUtils.isBlank(menus)) {
+			menus = "0000";
 		}
-		menus=menus.replaceAll(",","").replaceAll(" ","");
-		for(String id:uids.split(",")){
-			TxlUser user=txlUserService.queryObject(id);
+		menus = menus.replaceAll(",", "").replaceAll(" ", "");
+		for (String id : uids.split(",")) {
+			TxlUser user = txlUserService.queryObject(id);
 			user.setRights(menus);
 			txlUserService.update(user);
 		}
-		Response.json("result","success");
+		Response.json("result", "success");
 	}
+
 	public JSONArray getJson(List<TxlUser> liInfos) {
 		// 获取收藏
 		List<TxlUser> scList = new ArrayList<TxlUser>();
@@ -347,45 +378,46 @@ public class TxlController {
 		}
 		return jsons;
 	}
-	
-	
+
 	public JSONArray getScJson() {
-		//获取收藏
-		List<TxlUser> scList= new ArrayList<TxlUser>();
+		// 获取收藏
+		List<TxlUser> scList = new ArrayList<TxlUser>();
 		List<TxlCollect> collects = txlCollectService.getCollect(CurrentUser.getUserId());
-		for(TxlCollect collect:collects) {
+		for (TxlCollect collect : collects) {
 			TxlUser txlUser = txlUserService.queryObject(collect.getCollectUserid());
-			if(txlUser==null){continue;}
+			if (txlUser == null) {
+				continue;
+			}
 			txlUser.setIsSc("true");
-			
-			String depts ="";
-			if("root".equals(txlUser.getOrganid())) {
+
+			String depts = "";
+			if ("root".equals(txlUser.getOrganid())) {
 				dept = txlOrganService.queryObject(txlUser.getOrganid()).getOrganname();
-			}else {
+			} else {
 				TxlOrgan wrgan = txlOrganService.queryObject(txlUser.getOrganid());
-				while(!"root".equals(wrgan.getOrganid())){
-					if("".equals(depts)) {
+				while (!"root".equals(wrgan.getOrganid())) {
+					if ("".equals(depts)) {
 						depts = wrgan.getOrganname();
-					}else {
+					} else {
 						depts = depts + "," + wrgan.getOrganname();
 					}
-					wrgan = txlOrganService.queryObject( wrgan.getFatherid());
+					wrgan = txlOrganService.queryObject(wrgan.getFatherid());
 				}
 				String[] deptL = depts.split(",");
-				if(deptL.length>1) {
-					dept = deptL[deptL.length-1] + " | " +deptL[deptL.length-2];
-				}else if(deptL.length == 1){
-					dept = deptL[deptL.length-1 ];
+				if (deptL.length > 1) {
+					dept = deptL[deptL.length - 1] + " | " + deptL[deptL.length - 2];
+				} else if (deptL.length == 1) {
+					dept = deptL[deptL.length - 1];
 				}
 			}
-			if(null != txlUser.getPost() && !"".equals(txlUser.getPost())) {
-				txlUser.setDept(dept +" | "+txlUser.getPost());
-			}else {
+			if (null != txlUser.getPost() && !"".equals(txlUser.getPost())) {
+				txlUser.setDept(dept + " | " + txlUser.getPost());
+			} else {
 				txlUser.setDept(dept);
 			}
-			if(CurrentUser.getIsManager(appConfig.getAppId(),appConfig.getAppSecret())){
+			if (CurrentUser.getIsManager(appConfig.getAppId(), appConfig.getAppSecret())) {
 				scList.add(txlUser);
-			}else if(!"0".equals(txlUser.getIsShow())){
+			} else if (!"0".equals(txlUser.getIsShow())) {
 				scList.add(txlUser);
 			}
 		}
@@ -397,9 +429,10 @@ public class TxlController {
 		jsons.add(json);
 		return jsons;
 	}
-	
+
 	/**
 	 * 获取所有的组织机构
+	 * 
 	 * @return
 	 */
 	public List<Organ> getAllDept() {
@@ -407,45 +440,47 @@ public class TxlController {
 		resultOrgan = getAllOrgan("root", resultOrgan);
 		return resultOrgan;
 	}
+
 	/**
 	 * 获取所有的组织机构
+	 * 
 	 * @return
 	 */
-	public List<Organ> getAllOrgan(String id, List<Organ> resultOrgan){
-		if("root".equals(id)) {
+	public List<Organ> getAllOrgan(String id, List<Organ> resultOrgan) {
+		if ("root".equals(id)) {
 			Organ organ = service.getOrgan(id);
 			resultOrgan.add(organ);
 		}
 		Organ[] organs = service.getSubOrg(id);
-		for (Organ sysOrgan:organs) {
+		for (Organ sysOrgan : organs) {
 			resultOrgan.add(sysOrgan);
 			getAllOrgan(sysOrgan.getOrganId(), resultOrgan);
 		}
 		return resultOrgan;
 	}
-	
+
 	/**
 	 * 返回首字母
 	 */
-	private static String getPYIndexStr(String strChinese,boolean bUpCase) {
+	private static String getPYIndexStr(String strChinese, boolean bUpCase) {
 		try {
 			StringBuffer buffer = new StringBuffer();
-			byte b[] = strChinese.getBytes("GBK");//把中文转化为byte数组
-			for(int i=0; i<b.length; i++) {
-				if((b[i]&255)>128) {
-					int char1=b[i++]&255;
-					char1 <<=8;
-					int chart =char1+(b[i]&255);
-					buffer.append(getPYIndexChar((char)chart,bUpCase));
+			byte b[] = strChinese.getBytes("GBK");// 把中文转化为byte数组
+			for (int i = 0; i < b.length; i++) {
+				if ((b[i] & 255) > 128) {
+					int char1 = b[i++] & 255;
+					char1 <<= 8;
+					int chart = char1 + (b[i] & 255);
+					buffer.append(getPYIndexChar((char) chart, bUpCase));
 					continue;
 				}
-				char c =(char)b[i];
-				if(!Character.isJavaIdentifierPart(c))
-					c='A';
+				char c = (char) b[i];
+				if (!Character.isJavaIdentifierPart(c))
+					c = 'A';
 				buffer.append(c);
 			}
 			return buffer.toString();
-		}catch (Exception e) {
+		} catch (Exception e) {
 		}
 		return null;
 	}
@@ -453,160 +488,160 @@ public class TxlController {
 	/**
 	 * 得到首字母
 	 */
-	private static char getPYIndexChar(char strChinese,boolean bUpCase) {
+	private static char getPYIndexChar(char strChinese, boolean bUpCase) {
 		int charGBK = strChinese;
 		char result;
-		/*if(charGBK>=45217 && charGBK <=45252)
+		/*
+		 * if(charGBK>=45217 && charGBK <=45252) result = 'A'; else
+		 */
+		if (charGBK >= 45217 && charGBK <= 45252)
 			result = 'A';
-		else*/
-		if(charGBK>=45217 && charGBK <=45252)
-			result = 'A';
-		else if(charGBK>=45253 && charGBK <=45760)
+		else if (charGBK >= 45253 && charGBK <= 45760)
 			result = 'B';
-		else if(charGBK>=45761 && charGBK <=46317)
+		else if (charGBK >= 45761 && charGBK <= 46317)
 			result = 'C';
-		else if(charGBK>=46318 && charGBK <=46825)
+		else if (charGBK >= 46318 && charGBK <= 46825)
 			result = 'D';
-		else if(charGBK>=46826 && charGBK <=47009)
+		else if (charGBK >= 46826 && charGBK <= 47009)
 			result = 'E';
-		else if(charGBK>=47010 && charGBK <=47296)
+		else if (charGBK >= 47010 && charGBK <= 47296)
 			result = 'F';
-		else if(charGBK>=47297 && charGBK <=47613)
+		else if (charGBK >= 47297 && charGBK <= 47613)
 			result = 'G';
-		else if(charGBK>=47614 && charGBK <=48118)
+		else if (charGBK >= 47614 && charGBK <= 48118)
 			result = 'H';
-		else if(charGBK>=48119 && charGBK <=49061)
+		else if (charGBK >= 48119 && charGBK <= 49061)
 			result = 'J';
-		else if(charGBK>=49062 && charGBK <=49323)
+		else if (charGBK >= 49062 && charGBK <= 49323)
 			result = 'K';
-		else if(charGBK>=49324 && charGBK <=49895)
+		else if (charGBK >= 49324 && charGBK <= 49895)
 			result = 'L';
-		else if(charGBK>=49896 && charGBK <=50370)
+		else if (charGBK >= 49896 && charGBK <= 50370)
 			result = 'M';
-		else if(charGBK>=50371 && charGBK <=50613)
+		else if (charGBK >= 50371 && charGBK <= 50613)
 			result = 'N';
-		else if(charGBK>=50614 && charGBK <=50621)
+		else if (charGBK >= 50614 && charGBK <= 50621)
 			result = 'O';
-		else if(charGBK>=50622 && charGBK <=50905)
+		else if (charGBK >= 50622 && charGBK <= 50905)
 			result = 'P';
-		else if(charGBK>=50906 && charGBK <=51386)
+		else if (charGBK >= 50906 && charGBK <= 51386)
 			result = 'Q';
-		else if(charGBK>=51387 && charGBK <=51445)
+		else if (charGBK >= 51387 && charGBK <= 51445)
 			result = 'R';
-		else if(charGBK>=51446 && charGBK <=52217)
+		else if (charGBK >= 51446 && charGBK <= 52217)
 			result = 'S';
-		else if(charGBK>=52218 && charGBK <=52697)
+		else if (charGBK >= 52218 && charGBK <= 52697)
 			result = 'T';
-		else if(charGBK>=52698 && charGBK <=52979)
+		else if (charGBK >= 52698 && charGBK <= 52979)
 			result = 'W';
-		else if(charGBK>=52980 && charGBK <=53688)
+		else if (charGBK >= 52980 && charGBK <= 53688)
 			result = 'X';
-		else if(charGBK>=53689 && charGBK <=54480)
+		else if (charGBK >= 53689 && charGBK <= 54480)
 			result = 'Y';
-		else if(charGBK>=54481 && charGBK <=55289)
+		else if (charGBK >= 54481 && charGBK <= 55289)
 			result = 'Z';
 		else
-			/*result = (char)(65+(new Random()).nextInt(25));*/
+			/* result = (char)(65+(new Random()).nextInt(25)); */
 			result = 1;
-		if(!bUpCase) {
-			result =Character.toLowerCase(result);
+		if (!bUpCase) {
+			result = Character.toLowerCase(result);
 		}
 		return result;
 	}
 
-//	public List<UserInfo> getAllUsers() {
-//	List<UserInfo> resultUserInfo = new ArrayList<>();
-//	resultUserInfo=  getAllUsers("root", resultUserInfo);
-//	return resultUserInfo;
-//}
+	// public List<UserInfo> getAllUsers() {
+	// List<UserInfo> resultUserInfo = new ArrayList<>();
+	// resultUserInfo= getAllUsers("root", resultUserInfo);
+	// return resultUserInfo;
+	// }
 
-//public List<UserInfo> getAllUsers(String id, List<UserInfo> resultUserInfo){
-//	Organ[] organs = service.getSubOrg(id);
-//	UserInfo[] sysUsers = service.getUserInfos(id);
-//	for (UserInfo sysUser:sysUsers) {
-//		resultUserInfo.add(sysUser);
-//	}
-//	for (Organ sysOrgan:organs) {
-//		getAllUsers(sysOrgan.getOrganId(), resultUserInfo);
-//	}
-//	return resultUserInfo;
-//}
-	
-//	public List<TxlUser> getOthUser(String id, String fullname){
-//	List<TxlOrgan> organs = txlOrganService.getSubOrg(id);
-//	List<TxlUser> sysUsers = txlUserService.getOthUsers(id, fullname);
-//	for (TxlUser sysUser:sysUsers) {
-//		String depts ="";
-//		if("root".equals(id)) {
-//			dept = txlOrganService.queryObject(id).getOrganname();
-//		}else {
-//			TxlOrgan wrgan = txlOrganService.queryObject(sysUser.getOrganid());
-//			while(!"root".equals(wrgan.getOrganid())){
-//				if("".equals(depts)) {
-//					depts = wrgan.getOrganname();
-//				}else {
-//					depts = depts + "," + wrgan.getOrganname();
-//				}
-//				wrgan = txlOrganService.queryObject( wrgan.getFatherid());
-//			}
-//			String[] deptL = depts.split(",");
-//			if(deptL.length>1) {
-//				dept = deptL[deptL.length-1] + " | " +deptL[deptL.length-2];
-//			}else if(deptL.length == 1){
-//				dept = deptL[deptL.length-1 ];
-//			}
-//		}
-//		if(null != sysUser.getPost() && !"".equals(sysUser.getPost())) {
-//			sysUser.setDept(dept +" | "+sysUser.getPost());
-//		}else {
-//			sysUser.setDept(dept);
-//		}
-//		userInfos.add(sysUser);
-//	}
-//	
-//	for (TxlOrgan sysOrgan:organs) {
-//		getOthUser(sysOrgan.getOrganid(), fullname);
-//	}
-//	
-//	return userInfos;
-//}
-//
-//public List<TxlUser> getAllUser(String id){
-//	List<TxlOrgan> organs = txlOrganService.getSubOrg(id);
-//	List<TxlUser> sysUsers = txlUserService.getUserInfos(id);
-//	for (TxlUser sysUser:sysUsers) {
-//		String depts ="";
-//		if("root".equals(id)) {
-//			dept = txlOrganService.queryObject(id).getOrganname();
-//		}else {
-//			TxlOrgan wrgan = txlOrganService.queryObject(sysUser.getOrganid());
-//			while(!"root".equals(wrgan.getOrganid())){
-//				if("".equals(depts)) {
-//					depts = wrgan.getOrganname();
-//				}else {
-//					depts = depts + "," + wrgan.getOrganname();
-//				}
-//				wrgan = txlOrganService.queryObject( wrgan.getFatherid());
-//			}
-//			String[] deptL = depts.split(",");
-//			if(deptL.length>1) {
-//				dept = deptL[deptL.length-1] + " | " +deptL[deptL.length-2];
-//			}else if(deptL.length == 1){
-//				dept = deptL[deptL.length-1 ];
-//			}
-//		}
-//		if(null != sysUser.getPost() && !"".equals(sysUser.getPost())) {
-//			sysUser.setDept(dept +" | "+sysUser.getPost());
-//		}else {
-//			sysUser.setDept(dept);
-//		}
-//		userInfos.add(sysUser);
-//	}
-//	
-//	for (TxlOrgan sysOrgan:organs) {
-//		getAllUser(sysOrgan.getOrganid());
-//	}
-//	
-//	return userInfos;
-//}
+	// public List<UserInfo> getAllUsers(String id, List<UserInfo> resultUserInfo){
+	// Organ[] organs = service.getSubOrg(id);
+	// UserInfo[] sysUsers = service.getUserInfos(id);
+	// for (UserInfo sysUser:sysUsers) {
+	// resultUserInfo.add(sysUser);
+	// }
+	// for (Organ sysOrgan:organs) {
+	// getAllUsers(sysOrgan.getOrganId(), resultUserInfo);
+	// }
+	// return resultUserInfo;
+	// }
+
+	// public List<TxlUser> getOthUser(String id, String fullname){
+	// List<TxlOrgan> organs = txlOrganService.getSubOrg(id);
+	// List<TxlUser> sysUsers = txlUserService.getOthUsers(id, fullname);
+	// for (TxlUser sysUser:sysUsers) {
+	// String depts ="";
+	// if("root".equals(id)) {
+	// dept = txlOrganService.queryObject(id).getOrganname();
+	// }else {
+	// TxlOrgan wrgan = txlOrganService.queryObject(sysUser.getOrganid());
+	// while(!"root".equals(wrgan.getOrganid())){
+	// if("".equals(depts)) {
+	// depts = wrgan.getOrganname();
+	// }else {
+	// depts = depts + "," + wrgan.getOrganname();
+	// }
+	// wrgan = txlOrganService.queryObject( wrgan.getFatherid());
+	// }
+	// String[] deptL = depts.split(",");
+	// if(deptL.length>1) {
+	// dept = deptL[deptL.length-1] + " | " +deptL[deptL.length-2];
+	// }else if(deptL.length == 1){
+	// dept = deptL[deptL.length-1 ];
+	// }
+	// }
+	// if(null != sysUser.getPost() && !"".equals(sysUser.getPost())) {
+	// sysUser.setDept(dept +" | "+sysUser.getPost());
+	// }else {
+	// sysUser.setDept(dept);
+	// }
+	// userInfos.add(sysUser);
+	// }
+	//
+	// for (TxlOrgan sysOrgan:organs) {
+	// getOthUser(sysOrgan.getOrganid(), fullname);
+	// }
+	//
+	// return userInfos;
+	// }
+	//
+	// public List<TxlUser> getAllUser(String id){
+	// List<TxlOrgan> organs = txlOrganService.getSubOrg(id);
+	// List<TxlUser> sysUsers = txlUserService.getUserInfos(id);
+	// for (TxlUser sysUser:sysUsers) {
+	// String depts ="";
+	// if("root".equals(id)) {
+	// dept = txlOrganService.queryObject(id).getOrganname();
+	// }else {
+	// TxlOrgan wrgan = txlOrganService.queryObject(sysUser.getOrganid());
+	// while(!"root".equals(wrgan.getOrganid())){
+	// if("".equals(depts)) {
+	// depts = wrgan.getOrganname();
+	// }else {
+	// depts = depts + "," + wrgan.getOrganname();
+	// }
+	// wrgan = txlOrganService.queryObject( wrgan.getFatherid());
+	// }
+	// String[] deptL = depts.split(",");
+	// if(deptL.length>1) {
+	// dept = deptL[deptL.length-1] + " | " +deptL[deptL.length-2];
+	// }else if(deptL.length == 1){
+	// dept = deptL[deptL.length-1 ];
+	// }
+	// }
+	// if(null != sysUser.getPost() && !"".equals(sysUser.getPost())) {
+	// sysUser.setDept(dept +" | "+sysUser.getPost());
+	// }else {
+	// sysUser.setDept(dept);
+	// }
+	// userInfos.add(sysUser);
+	// }
+	//
+	// for (TxlOrgan sysOrgan:organs) {
+	// getAllUser(sysOrgan.getOrganid());
+	// }
+	//
+	// return userInfos;
+	// }
 }
