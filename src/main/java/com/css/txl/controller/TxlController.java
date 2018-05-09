@@ -208,7 +208,9 @@ public class TxlController {
 		TxlOrgan organ = null;
 		for (TxlUser user : liInfos) {
 			if (!"root".equals(user.getOrganid()) &&agents.get(user.getOrganid()) != null) {
-				user.setDept("【" +agents.get(user.getOrganid()) + "】 " + user.getDept()); 
+				if (user.getDept().indexOf(agents.get(user.getOrganid())) == -1) {
+					user.setDept("【" +agents.get(user.getOrganid()) + "】 " + user.getDept()); 
+				}
 			} else if(!"root".equals(user.getOrganid())) {
 				organ = getSecLevel(user.getOrganid());
 				agents.put(user.getOrganid(),organ.getOrganname());
