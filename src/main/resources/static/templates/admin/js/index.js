@@ -100,25 +100,25 @@ var pageModule = function(){
 	var initgrid = function(){
         grid = $("#gridcont").createGrid({
             columns:[
-            	 {display:"姓名",name:"fullname",width:"10%",align:"center",paixu:false,render:function(rowdata,n){
+            	 {display:"姓名",name:"fullname",width:"15%",align:"center",paixu:false,render:function(rowdata,n){
                     return  '<a onclick="clickfn(\''+rowdata.userid+'\')">'+rowdata.fullname+'</a>';
                  }},
-                 {display:"手机号",name:"mobile",width:"17%",align:"center",paixu:false,render:function(rowdata){
+                 {display:"手机号",name:"mobile",width:"24%",align:"center",paixu:false,render:function(rowdata){
                      return rowdata.mobile;                                        
                  }},
                  {display:"座机号",name:"telephone",width:"15%",align:"center",paixu:false,render:function(rowdata){
                       return rowdata.telephone;                                     
                  }},
-                 {display:"职务",name:"post",width:"17%",align:"center",paixu:false,render:function(rowdata){
+                /* {display:"职务",name:"post",width:"17%",align:"center",paixu:false,render:function(rowdata){
                        return rowdata.post;                                      
-                 }},
+                 }},*/
                  {display:"房间号",name:"address",width:"10%",align:"center",paixu:false,render:function(rowdata){
                      return rowdata.address;                                        
                   }},
                  {display:"部门",name:"dept",width:"21%",align:"left",paixu:false,render:function(rowdata){
                     return rowdata.dept;                                         
                  }},
-                 {display:"操作",name:"caozuo",width:"10%",align:"center",paixu:false,render:function(rowdata){
+                 {display:"操作",name:"caozuo",width:"15%",align:"center",paixu:false,render:function(rowdata){
                 	 var caozuo="";
                 	 if(rowdata.isSc == 0 ){
                 		 caozuo = '<a class="ysc" style="margin-right:10px;" title="收藏" href="javascript:addscfn(\''+rowdata.userid+'\')"><i class="fa fa-star"></i></a>';
