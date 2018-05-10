@@ -17,7 +17,8 @@ var pageModule = function(){
 					$("#save").show();
             	}else{
             		$("#address").attr("disabled",true);
-            		$("#save").hide();
+            		$("#mobile").removeAttr("disabled",true);
+            		$("#save").show();
             	}
 			}
 		});
