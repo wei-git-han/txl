@@ -1,5 +1,5 @@
 ﻿server:
-  port: 8132
+  port: 64001
 
 app:
   ConnectTimeout: 100
