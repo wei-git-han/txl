@@ -34,7 +34,9 @@ war {
 processResources {
     from('src/main/java') {
      include '**/*'
+     exclude '**/*.java'
     }
+    exclude '**/application*.yml'
  }
 configurations{
 	provided
