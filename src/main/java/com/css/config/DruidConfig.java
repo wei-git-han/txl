@@ -21,9 +21,6 @@ import com.alibaba.druid.pool.DruidDataSource;
  * @since 2017/2/5.
  */
 
-
-
-
 @Configuration
 @EnableConfigurationProperties(DruidProperties.class)
 @ConditionalOnClass(DruidDataSource.class)
@@ -55,6 +52,12 @@ public class DruidConfig {
         dataSource.setTestWhileIdle(properties.isTestWhileIdle());
         dataSource.setValidationQuery(properties.getValidationQuery());
         try {
+			dataSource.setFilters(properties.getFilters());
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+        dataSource.setConnectionProperties(properties.getConnectionProperties());
+        try {
             dataSource.init();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -77,6 +80,9 @@ class DruidProperties {
     private boolean testOnBorrow;
     private boolean testWhileIdle;
     private String  validationQuery;
+    private String filters;
+    private String connectionProperties;
+    
     public String getUrl() {
         return url;
     }
@@ -166,7 +172,21 @@ class DruidProperties {
 	public void setValidationQuery(String validationQuery) {
 		this.validationQuery = validationQuery;
 	}
-    
-    
+
+	public String getFilters() {
+		return filters;
+	}
+
+	public void setFilters(String filters) {
+		this.filters = filters;
+	}
+
+	public String getConnectionProperties() {
+		return connectionProperties;
+	}
+
+	public void setConnectionProperties(String connectionProperties) {
+		this.connectionProperties = connectionProperties;
+	}
 }
 
