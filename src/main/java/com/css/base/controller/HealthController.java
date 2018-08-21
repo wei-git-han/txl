@@ -42,6 +42,7 @@ public class HealthController {
 			if(conn!=null){
 				result="success";
 				msg="APP健康正常！";
+				conn.close();
 			}else{
 				result="failed";
 				msg=failedMsg;
