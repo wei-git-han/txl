@@ -118,7 +118,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	public FilterRegistrationBean filterRegistrationBean() {
 		FilterRegistrationBean druidFilter= new FilterRegistrationBean(new WebStatFilter());
 		druidFilter.addUrlPatterns("/*");
-		druidFilter.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
+		druidFilter.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,*.noauth,/druid/*");
 		return druidFilter;
 	}
 
