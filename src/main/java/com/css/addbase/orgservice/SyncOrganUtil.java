@@ -162,7 +162,7 @@ public class SyncOrganUtil {
     	for (Organ organ:organs) {
     		if(StringUtils.equals("0", organ.getType())) {
     			//删除
-				//txlOrganService.delete(organ.getOrganId());
+				txlOrganService.delete(organ.getOrganId());
 			} else if (StringUtils.equals("1", organ.getType()) || StringUtils.equals("2", organ.getType())){
 				//编辑
 				TxlOrgan txlOrgan = new TxlOrgan();
@@ -197,7 +197,7 @@ public class SyncOrganUtil {
     		
     		if(StringUtils.equals("0", userInfo.getType())) {
     			//人员删除
-				//txlUserService.delete(userInfo.getUserid());
+				txlUserService.delete(userInfo.getUserid());
 			}else if(StringUtils.equals("1", userInfo.getType()) || StringUtils.equals("2", userInfo.getType())) {
 				//人员编辑
 				TxlUser txlUser = new TxlUser();

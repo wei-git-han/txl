@@ -17,7 +17,7 @@ var pageModule = function(){
 					$("#save").show();
             	}else{
             		$("#address").attr("disabled",true);
-            		$("#mobile").removeAttr("disabled",true);
+            		//$("#mobile").removeAttr("disabled",true);
             		$("#save").show();
             	}
 			}
@@ -41,6 +41,7 @@ var pageModule = function(){
 	var initother = function(){
 		$("input[type=text]").attr("disabled","disabled");
 		$("input[type=radio]").attr("disabled","disabled");
+		$("#mobile").removeAttr("disabled");
 		$("#address").removeAttr("disabled");
 		//返回划过更换图标
 		$(".imgsbig").hover(function(){
