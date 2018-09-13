@@ -131,12 +131,10 @@ public class ImportOrganUtil {
 			txlUser.setAccount(userInfo.getAccount());
 			txlUser.setDept(userInfo.getDept());
 			txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
-//			txlUser.setTelephone(userInfo.getTel());
 			if(null != userInfo.getFullname() && !"".equals(userInfo.getFullname())) {
 				txlUser.setFullname(userInfo.getFullname());
 				txlUser.setPyName(userInfo.getFullname().replaceAll("首长","SZ").replaceAll("处长","CZ").replaceAll("局长","JZ"));
 				}
-//			txlUser.setMobile(userInfo.getMobile());
 			txlUser.setOrganid(userInfo.getOrganId());
 			txlUser.setPassword(userInfo.getPassword());
 			txlUser.setSeclevel(userInfo.getSecLevel());
@@ -144,8 +142,16 @@ public class ImportOrganUtil {
 			txlUser.setUseremail(userInfo.getUserEmail());
 			txlUser.setUserid(userInfo.getUserid());
 			if(baseAppUsertemp!=null){
+				if (StringUtils.isEmpty(baseAppUsertemp.getTelephone())) {
+					txlUser.setTelephone(userInfo.getTel());
+				}
+				if (StringUtils.isEmpty(baseAppUsertemp.getMobile())) {
+					txlUser.setMobile(userInfo.getMobile());
+				}
 				txlUserService.update(txlUser);
 			}else{
+				txlUser.setTelephone(userInfo.getTel());
+            	txlUser.setMobile(userInfo.getMobile());
 				txlUserService.save(txlUser);
 			}
 			System.out.println(userInfo.getUserid()+":"+userInfo.getFullname()+"导入成功！");
