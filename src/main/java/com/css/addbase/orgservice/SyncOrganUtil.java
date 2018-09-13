@@ -206,7 +206,7 @@ public class SyncOrganUtil {
 				txlUser.setAccount(userInfo.getAccount());
 				txlUser.setDept(userInfo.getDept());
 				txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
-				txlUser.setTelephone(userInfo.getTel());
+//				txlUser.setTelephone(userInfo.getTel());
 				if(null != userInfo.getFullname() && !"".equals(userInfo.getFullname())) {
 					txlUser.setFullname(userInfo.getFullname());
 					if(userInfo.getFullname().indexOf("首长") > 0) {
@@ -219,7 +219,7 @@ public class SyncOrganUtil {
 						txlUser.setPyName(ChineseFCUtil.cn2py(userInfo.getFullname()).toUpperCase());
 					}
 				}
-				txlUser.setMobile(userInfo.getMobile());
+//				txlUser.setMobile(userInfo.getMobile());
 				txlUser.setOrganid(userInfo.getOrganId());
 				txlUser.setPassword(userInfo.getPassword());
 				txlUser.setSeclevel(userInfo.getSecLevel());
