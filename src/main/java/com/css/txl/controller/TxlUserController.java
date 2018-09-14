@@ -84,7 +84,9 @@ public class TxlUserController {
 				txlUser.setAddress("");
 			}
 		}
+		String userId=CurrentUser.getUserId();
 		json.put("txlOrgtel", txlUser);
+		json.put("ismyself", txlUser.getUserid().equals(userId));
 		Response.json(json);
 	}
 	

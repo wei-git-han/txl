@@ -12,12 +12,16 @@ var pageModule = function(){
 			success:function(data){
 				$("#tt").html(data.txlOrgtel.fullname);
 				setformdata(data.txlOrgtel);
+				if(data.ismyself == true){
+					$("#mobile").removeAttr("disabled");
+				}
 				if(true == data.manager){
 					$("#address").removeAttr("disabled");
+					$("#mobile").removeAttr("disabled");
 					$("#save").show();
             	}else{
             		$("#address").attr("disabled",true);
-            		//$("#mobile").removeAttr("disabled",true);
+//            		$("#mobile").removeAttr("disabled",true);
             		$("#save").show();
             	}
 			}
@@ -41,7 +45,6 @@ var pageModule = function(){
 	var initother = function(){
 		$("input[type=text]").attr("disabled","disabled");
 		$("input[type=radio]").attr("disabled","disabled");
-		$("#mobile").removeAttr("disabled");
 		$("#address").removeAttr("disabled");
 		//返回划过更换图标
 		$(".imgsbig").hover(function(){
@@ -99,8 +102,8 @@ var pageModule = function(){
 	return{
 		//加载页面处理程序
 		initControl:function(){
-			initdatafn();
 			initother();
+			initdatafn();
 			initOrgTree();
 		}
 	};
