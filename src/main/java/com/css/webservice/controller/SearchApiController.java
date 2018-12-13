@@ -1,5 +1,6 @@
 package com.css.webservice.controller;
 
+import java.net.Inet4Address;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -7,23 +8,42 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.css.addbase.AppConfig;
 import com.css.addbase.JSONUtil;
 import com.css.addbase.PinYinUtil;
+import com.css.base.utils.CurrentUser;
 import com.css.base.utils.Response;
+import com.css.txl.entity.TxlCollect;
+import com.css.txl.entity.TxlOrgan;
+import com.css.txl.entity.TxlUser;
+import com.css.txl.service.TxlCollectService;
+import com.css.txl.service.TxlOrganService;
 import com.css.txl.service.TxlUserService;
+
+import dm.jdbc.util.StringUtil;
 
 @Controller
 @RequestMapping("/api/search")
 public class SearchApiController {
 	@Autowired
 	private TxlUserService txlUserService;
+	@Autowired
+	private TxlCollectService txlCollectService;
+	@Autowired
+	private AppConfig appConfig;
+
 	@Value("${csse.txl.appId}")
 	private String appId;
 	/**
@@ -101,7 +121,77 @@ public class SearchApiController {
 		m.appendTail(sb);
 		return sb.toString();
 	}
+	@ResponseBody
+	@RequestMapping("/fypSearch")
+	public void  searchFyp(String value,String callback) {
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("search", value);
+		if (PinYinUtil.hasZm(value)) {
+			map.put("zm",value);
+		}
+		JSONArray ja=new JSONArray();
+	    JSONObject jo=new JSONObject();
+		List<TxlUser> users=txlUserService.queryList(map);
+		for(TxlUser txlUser:users) {
+			jo=new JSONObject();
+			jo.put("name", StringUtil.isNotEmpty(txlUser.getFullname())?txlUser.getFullname():"");
+			jo.put("phone", StringUtil.isNotEmpty(txlUser.getTelephone())?txlUser.getTelephone():"");
+			jo.put("tel", StringUtil.isNotEmpty(txlUser.getMobile())?txlUser.getMobile():"");
+			ja.add(jo);
+		}
+		//Response.json(ja);
+		String message = JSON.toJSONString(ja);
+		Response.stringJsonp(message, callback);
+	}
+	/**
+	 * 负一屏默认搜索sc的前6个;搜索时搜索全部
+	 * @param request
+	 * @author xiayj
+	 */
+	@ResponseBody
+	@RequestMapping("/fypCollect")
+	public void  getFypSc(String callback,HttpServletRequest request) {
+		JSONObject jo=new JSONObject();
+		jo.put("maxtitle", "通讯录");
+		String href=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
+		jo.put("href", href+"/index.html");
+		jo.put("searchurl",href+"/api/search/fypSearch");
+		jo.put("appid", appConfig.getAppId());
+		JSONArray jsons = new JSONArray();
+		jsons = getScJson();
+		jo.put("data",jsons);
+		String message = JSON.toJSONString(jo);
+		Response.stringJsonp(message, callback);
+		
+	}
 	
+	private JSONArray getScJson() {
+		// 获取收藏
+		List<TxlCollect> collects = txlCollectService.getCollect(CurrentUser.getUserId());
+		JSONArray jsons = new JSONArray();
+		JSONObject json =null;
+		int i=0;
+		for (TxlCollect collect : collects) {
+			if(i>=6) {
+				break;
+			}
+		    json = new JSONObject();
+			TxlUser txlUser = txlUserService.queryObject(collect.getCollectUserid());
+			if (txlUser == null) {
+				continue;
+			}
+			txlUser.setIsSc("true");
+			if ((CurrentUser.getIsManager(appConfig.getAppId(), appConfig.getAppSecret()))||(!"0".equals(txlUser.getIsShow()))) {
+				json.put("name", StringUtil.isNotEmpty(txlUser.getFullname())?txlUser.getFullname():"");
+				json.put("phone", StringUtil.isNotEmpty(txlUser.getTelephone())?txlUser.getTelephone():"");
+				json.put("tel", StringUtil.isNotEmpty(txlUser.getMobile())?txlUser.getMobile():"");
+				jsons.add(json);
+				i++;
+			}
+		}
+		return jsons;
+	}
+
 	private void sysPrint(HttpServletRequest request){
 		Enumeration<String> enums=request.getParameterNames();
 		while(enums.hasMoreElements()){

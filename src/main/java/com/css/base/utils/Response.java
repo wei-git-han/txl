@@ -106,4 +106,9 @@ public class Response extends ResponseBase {
 		download(filename, bais);
 	}
 
+	public static void stringJsonp(String message, String callback) {
+		new Response().setContentType("text/html;charset=UTF-8").write(callback+"('"+message+"')");
+		
+	}
+
 }
