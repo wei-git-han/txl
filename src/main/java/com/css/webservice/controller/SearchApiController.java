@@ -153,9 +153,10 @@ public class SearchApiController {
 	public void  getFypSc(String callback,HttpServletRequest request) {
 		JSONObject jo=new JSONObject();
 		jo.put("maxtitle", "通讯录");
+//		String href=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
 		String href=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
-		jo.put("href", href+"/index.html");
-		jo.put("searchurl",href+"/api/search/fypSearch");
+		jo.put("href", "/index.html");
+		jo.put("searchurl","/api/search/fypSearch");
 		jo.put("appid", appConfig.getAppId());
 		JSONArray jsons = new JSONArray();
 		jsons = getScJson();
