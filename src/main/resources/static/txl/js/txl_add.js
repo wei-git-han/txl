@@ -13,11 +13,16 @@ var pageModule = function(){
 				$("#tt").html(data.txlOrgtel.fullname);
 				setformdata(data.txlOrgtel);
 				if(data.ismyself == true){
+					$("#post").removeAttr("disabled");
 					$("#mobile").removeAttr("disabled");
-				}
-				if(true == data.manager){
+					$("#telephone").removeAttr("disabled");
+					$("#address").removeAttr("disabled");
+				}else if(true == data.manager){
+					$("#post").removeAttr("disabled");
 					$("#address").removeAttr("disabled");
 					$("#mobile").removeAttr("disabled");
+					$("#telephone").removeAttr("disabled");
+					$("#address").removeAttr("disabled");
 					$("#save").show();
             	}else{
             		$("#address").attr("disabled",true);
@@ -26,7 +31,6 @@ var pageModule = function(){
             	}
 			}
 		});
-		
 	}
 	
 	//部门树

@@ -205,7 +205,6 @@ public class SyncOrganUtil {
 				txlUser.setOrderid(String.valueOf(userInfo.getOrderId()));
 				txlUser.setAccount(userInfo.getAccount());
 				txlUser.setDept(userInfo.getDept());
-				txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
 				if(null != userInfo.getFullname() && !"".equals(userInfo.getFullname())) {
 					txlUser.setFullname(userInfo.getFullname());
 					if(userInfo.getFullname().indexOf("首长") > 0) {
@@ -226,10 +225,14 @@ public class SyncOrganUtil {
 				txlUser.setUserid(userInfo.getUserid());
 				TxlUser txlUsertemp = txlUserService.queryObject(userInfo.getUserid());
                 if (txlUsertemp == null) {
+                	txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
                 	txlUser.setTelephone(userInfo.getTel());
                 	txlUser.setMobile(userInfo.getMobile());
                 	txlUserService.save(txlUser);
                 } else {
+                	if (StringUtils.isEmpty(txlUsertemp.getPost())) {
+                		txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
+					}
                 	if (StringUtils.isEmpty(txlUsertemp.getTelephone())) {
     					txlUser.setTelephone(userInfo.getTel());
     				}

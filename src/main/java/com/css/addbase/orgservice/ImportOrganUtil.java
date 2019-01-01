@@ -13,7 +13,6 @@ import com.css.txl.entity.TxlOrgan;
 import com.css.txl.entity.TxlUser;
 import com.css.txl.service.TxlOrganService;
 import com.css.txl.service.TxlUserService;
-import com.css.txl.utils.ChineseFCUtil;
 
 /**
  * 组织机构导入接口
@@ -130,7 +129,6 @@ public class ImportOrganUtil {
 			txlUser.setOrderid(String.valueOf(userInfo.getOrderId()));
 			txlUser.setAccount(userInfo.getAccount());
 			txlUser.setDept(userInfo.getDept());
-			txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
 			if(null != userInfo.getFullname() && !"".equals(userInfo.getFullname())) {
 				txlUser.setFullname(userInfo.getFullname());
 				txlUser.setPyName(userInfo.getFullname().replaceAll("首长","SZ").replaceAll("处长","CZ").replaceAll("局长","JZ"));
@@ -142,6 +140,9 @@ public class ImportOrganUtil {
 			txlUser.setUseremail(userInfo.getUserEmail());
 			txlUser.setUserid(userInfo.getUserid());
 			if(baseAppUsertemp!=null){
+				if (StringUtils.isEmpty(baseAppUsertemp.getPost())) {
+					txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
+				}
 				if (StringUtils.isEmpty(baseAppUsertemp.getTelephone())) {
 					txlUser.setTelephone(userInfo.getTel());
 				}
@@ -150,6 +151,7 @@ public class ImportOrganUtil {
 				}
 				txlUserService.update(txlUser);
 			}else{
+				txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
 				txlUser.setTelephone(userInfo.getTel());
             	txlUser.setMobile(userInfo.getMobile());
 				txlUserService.save(txlUser);
