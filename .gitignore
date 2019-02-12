@@ -1,9 +1,9 @@
 /gradle-app.setting
 /.settings/
-.gradle/
+/.gradle/
 /bin/
-.project
-build/
+##.project
+/build/
 .classpath
 /ui/
 /.idea/
