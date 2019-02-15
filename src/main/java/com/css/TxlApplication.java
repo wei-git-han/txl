@@ -9,7 +9,7 @@ import org.springframework.web.WebApplicationInitializer;
 /**
  * war包和jar包通用配置
  * jar包使用bootRepackage命令：gradlew -b build.gradle bootRepackage
- * war包使用war命令：gradlew -b build2.gradle war
+ * war包使用war命令：gradlew -b build-war.gradle war
  */
 @SpringBootApplication
 public class TxlApplication extends SpringBootServletInitializer  implements WebApplicationInitializer{

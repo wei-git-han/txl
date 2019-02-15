@@ -5,9 +5,6 @@ buildscript {
 	}
 	repositories {
 		maven { url 'file://' + new File('csse/_localmaven').absolutePath }
-		//maven { url 'file://' + new File('mavenlibs').absolutePath }
-		//maven { url "http://192.168.17.247:8081/nexus/content/groups/public/" }
-		//mavenCentral()
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -26,11 +23,6 @@ description = ""
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 	
-//war {
-//    baseName = 'one_number_app'
-//   version =  '0.1.2'
-//} 
-
 processResources {
     from('src/main/java') {
      include '**/*'
@@ -38,6 +30,23 @@ processResources {
     }
     exclude '**/application*.yml'
  }
+
+task resourcesFilesCopy(type: Copy) {
+	copy {
+		from("src/main/java") {
+			include ("**/*.xml")
+			include ("**/*.xls")
+		}
+		into("out/production/classes")
+	}
+	copy {
+		from("src/main/resources") {
+			include ("**/application*.yml")
+		}
+		into("out/production/resources")
+	}
+	print "Copy xml,xls,yml to outDir\n"
+}
 configurations{
 	provided
 }
@@ -48,9 +57,6 @@ bootRun {
 	
 	repositories {
 	      maven { url 'file://' + new File('csse/_localmaven').absolutePath }
-	   // maven { url 'file://' + new File('mavenlibs').absolutePath }    
-	   // maven { url "http://192.168.17.247:8081/nexus/content/groups/public/" }
-	   // mavenCentral()
 	}
 	
 	
