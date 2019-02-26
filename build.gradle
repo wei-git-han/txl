@@ -12,8 +12,6 @@ buildscript {
 }
 	
 apply plugin: 'java'
-//apply plugin: 'war'
-//apply plugin: 'maven'
 apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
 
@@ -59,7 +57,6 @@ bootRun {
 	      maven { url 'file://' + new File('csse/_localmaven').absolutePath }
 	}
 	
-	
 	dependencies {
 	    //compile fileTree(dir:'lib/',exclude: ['tomcat-embed*.jar'],include:['*.jar'])
 	    compile fileTree(dir:'tomcat_lib/',exclude: ['tomcat-embed*.jar'],include:['*.jar'])
@@ -80,7 +77,6 @@ bootRun {
 	   compile(group: 'org.springframework.boot', name: 'spring-boot-starter-test') {
 			exclude(module: 'commons-logging')
 	    }
-	    
 	    
 	    //apache工具类
 	   compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
