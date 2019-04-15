@@ -81,7 +81,11 @@ public class TxlUser implements Serializable {
 	private String isShow;//1或空显示，0隐藏
 	//显示权限代码
 	private String rights;
+	//备注
+	private String remarks;
 	
+	
+
 	//
 	private String pyName;
 
@@ -93,6 +97,13 @@ public class TxlUser implements Serializable {
 		this.pyName = pyName;
 	}
 
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
 	public String getIsSc() {
 		return isSc;
 	}

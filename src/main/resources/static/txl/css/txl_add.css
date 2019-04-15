@@ -259,3 +259,9 @@ label.error{
     display: inline-block;
     padding-left:0px;
 }
+
+.remarks{
+	border-radius: 5px !important;
+	resize:none;
+	height: 100px
+}

@@ -17,12 +17,15 @@ var pageModule = function(){
 					$("#mobile").removeAttr("disabled");
 					$("#telephone").removeAttr("disabled");
 					$("#address").removeAttr("disabled");
+					$("#remarks").removeAttr("disabled");
+					
 				}else if(true == data.manager){
 					$("#post").removeAttr("disabled");
 					$("#address").removeAttr("disabled");
 					$("#mobile").removeAttr("disabled");
 					$("#telephone").removeAttr("disabled");
 					$("#address").removeAttr("disabled");
+					$("#remarks").removeAttr("disabled");
 					$("#save").show();
             	}else{
             		$("#address").attr("disabled",true);
