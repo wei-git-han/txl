@@ -72,6 +72,8 @@ public class ImportOrganUtil {
 			Response.json("更新组织机构成功！");
 		} catch (Exception e) {
 			Response.json(e);
+			System.out.println(e.getMessage());
+			
 		}
 	}
 	
@@ -84,7 +86,9 @@ public class ImportOrganUtil {
 		TxlOrgan txlOrgan = new TxlOrgan();
 		txlOrgan.setCode(organ.getCode());
 		txlOrgan.setIsdelete(String.valueOf(organ.getIsDelete()));
-		txlOrgan.setOrderid(String.valueOf(organ.getOrderId()));
+		if(organ.getOrderId()!=null){
+			txlOrgan.setOrderid(String.valueOf(organ.getOrderId()));
+		}
 		txlOrgan.setDn(organ.getDn());
 		txlOrgan.setFatherid(organ.getFatherId());
 		txlOrgan.setOrganid(organ.getOrganId());
@@ -104,7 +108,10 @@ public class ImportOrganUtil {
 			TxlOrgan txlorgan = new TxlOrgan();
 			txlorgan.setCode(organ.getCode());
 			txlorgan.setIsdelete(String.valueOf(organ.getIsDelete()));
-			txlorgan.setOrderid(String.valueOf(organ.getOrderId()));
+			if(organ.getOrderId()!=null){
+				txlorgan.setOrderid(String.valueOf(organ.getOrderId()));
+			}
+			
 			txlorgan.setDn(organ.getDn());
 			txlorgan.setFatherid(organ.getFatherId());
 			txlorgan.setOrganid(organ.getOrganId());

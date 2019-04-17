@@ -1,12 +1,8 @@
 package com.css.txl.controller;
 
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import javax.security.auth.login.AppConfigurationEntry;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +12,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
@@ -24,8 +19,6 @@ import org.springframework.web.client.RestTemplate;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.css.addbase.AppConfig;
-import com.css.base.filter.SSOAuthFilter;
-import com.css.base.utils.CrossDomainUtil;
 import com.css.base.utils.CurrentUser;
 import com.css.base.utils.Response;
 import com.css.base.utils.StringUtils;
@@ -57,8 +50,14 @@ public class TxlUserController {
 	@ResponseBody
 	public void updateUser(HttpServletRequest request, TxlUser txlUser) {
 		txlUserService.update(txlUser);
+		txlUser = txlUserService.queryObject(txlUser.getUserid());
 		String url = "http://172.16.4.3:10005/api/org/userinfo/" + txlUser.getUserid();
 		JSONObject user = new JSONObject();
+		user.put("fullname", txlUser.getFullname());
+		user.put("isManager", "0");
+		user.put("organId", txlUser.getOrganid());
+		user.put("secLevel", txlUser.getSeclevel());
+		user.put("sex", txlUser.getSex());
 		if(!StringUtils.isEmpty(txlUser.getMobile())){
 			user.put("mobile", txlUser.getMobile());
 		}
@@ -66,9 +65,10 @@ public class TxlUserController {
 			user.put("tel", txlUser.getTelephone());
 		}
 		
+		
 		JSONObject result = getJsonData(url,user);
 //		CrossDomainUtil.getJsonData(url, map);
-		Response.json("result",result);
+		Response.json("result","success");
 	}
 	
 	
