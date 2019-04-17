@@ -1,18 +1,31 @@
 package com.css.txl.controller;
 
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import javax.security.auth.login.AppConfigurationEntry;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.css.addbase.AppConfig;
+import com.css.base.filter.SSOAuthFilter;
+import com.css.base.utils.CrossDomainUtil;
 import com.css.base.utils.CurrentUser;
 import com.css.base.utils.Response;
 import com.css.base.utils.StringUtils;
@@ -44,8 +57,18 @@ public class TxlUserController {
 	@ResponseBody
 	public void updateUser(HttpServletRequest request, TxlUser txlUser) {
 		txlUserService.update(txlUser);
+		String url = "http://172.16.4.3:10005/api/org/userinfo/" + txlUser.getUserid();
+		JSONObject user = new JSONObject();
+		if(!StringUtils.isEmpty(txlUser.getMobile())){
+			user.put("mobile", txlUser.getMobile());
+		}
+		if(!StringUtils.isEmpty(txlUser.getTelephone())){
+			user.put("tel", txlUser.getTelephone());
+		}
 		
-		Response.json("result","success");
+		JSONObject result = getJsonData(url,user);
+//		CrossDomainUtil.getJsonData(url, map);
+		Response.json("result",result);
 	}
 	
 	
@@ -167,5 +190,25 @@ public class TxlUserController {
 		result.put("total", liInfos.size());
 		result.put("page", 1);
 		Response.json(result);
+	}
+	
+	public JSONObject getJsonData(String url,JSONObject jsonObject){
+		//设置消息头
+		HttpHeaders headers = new HttpHeaders();
+		MediaType mediaType = MediaType.parseMediaType("application/json;charset=UTF-8");
+		headers.setContentType(mediaType);
+		//设置请求参数
+        //创建RestTemplate对象
+        RestTemplate restTemplate = new RestTemplate();
+        url+="?access_token=" + appConfig.getAccessToken();
+        HttpEntity<JSONObject> entity = new HttpEntity<JSONObject>(jsonObject, headers);
+        try{
+        	//发送post请求
+        	ResponseEntity<JSONObject> data = restTemplate.exchange(url, HttpMethod.PUT, entity, JSONObject.class);
+        	return data.getBody();
+        }catch(Exception e){
+        	System.out.println("【报错信息】"+e.getMessage()+"，url="+url);
+        }
+        return null;
 	}
 }
