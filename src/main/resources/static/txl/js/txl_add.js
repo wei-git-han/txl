@@ -79,7 +79,7 @@ var pageModule = function(){
 		//表单验证
 		$("#saveForm").validate({
 		    submitHandler: function() {
-				var elementarry = ["userid","fullname","sex","organName","post","telephone","mobile","address"];
+				var elementarry = ["userid","fullname","sex","organName","post","telephone","mobile","address","remarks"];
 				var paramdata = getformdata(elementarry);
 				$ajax({
 					url:savetip,

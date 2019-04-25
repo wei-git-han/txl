@@ -1,4 +1,4 @@
-package com.css.txl.controller;
+ package com.css.txl.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -45,13 +46,17 @@ public class TxlUserController {
 	
 	@Autowired
 	private AppConfig appConfig;
+	
+	@Value("${csse.mircoservice.zuul}")
+	private String zuul;
+
 
 	@RequestMapping(value = "/updateUser")
 	@ResponseBody
 	public void updateUser(HttpServletRequest request, TxlUser txlUser) {
 		txlUserService.update(txlUser);
 		txlUser = txlUserService.queryObject(txlUser.getUserid());
-		String url = "http://172.16.4.3:10005/api/org/userinfo/" + txlUser.getUserid();
+		String url = zuul + "/api/org/userinfo/" + txlUser.getUserid();
 		JSONObject user = new JSONObject();
 		user.put("fullname", txlUser.getFullname());
 		user.put("isManager", "0");
@@ -67,6 +72,7 @@ public class TxlUserController {
 		
 		
 		JSONObject result = getJsonData(url,user);
+		System.out.println(result);
 //		CrossDomainUtil.getJsonData(url, map);
 		Response.json("result","success");
 	}
@@ -203,7 +209,7 @@ public class TxlUserController {
         url+="?access_token=" + appConfig.getAccessToken();
         HttpEntity<JSONObject> entity = new HttpEntity<JSONObject>(jsonObject, headers);
         try{
-        	//发送post请求
+        	//发送put请求
         	ResponseEntity<JSONObject> data = restTemplate.exchange(url, HttpMethod.PUT, entity, JSONObject.class);
         	return data.getBody();
         }catch(Exception e){
