@@ -98,7 +98,8 @@ public class TxlUserController {
 			txlUser.setOrganName(txlOrgan.getOrganname());
 		}
 		json.put("manager", CurrentUser.getIsManager(appConfig.getAppId(),appConfig.getAppSecret()));
-		if(StringUtils.isNotBlank(txlUser.getRights())){
+//		System.out.println(CurrentUser.getIsManager(appConfig.getAppId(),appConfig.getAppSecret()));
+		if(StringUtils.isNotBlank(txlUser.getRights()) /*&& !CurrentUser.getIsManager(appConfig.getAppId(),appConfig.getAppSecret())*/){
 			String rights=txlUser.getRights();
 			if(rights.indexOf("1")==-1){
 				txlUser.setMobile("");

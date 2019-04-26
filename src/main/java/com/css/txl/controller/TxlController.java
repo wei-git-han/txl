@@ -170,7 +170,7 @@ public class TxlController {
 				String scuserId = c.getCollectUserid();
 				for (TxlUser user : liInfos) {
 					String userId = user.getUserid();
-					if (scuserId.equals(userId)) {
+					if (scuserId != null&& scuserId.equals(userId)) {
 						user.setIsSc("true");
 						break;
 					}

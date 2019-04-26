@@ -30,7 +30,7 @@ var pageModule = function(){
             	}else{
             		$("#address").attr("disabled",true);
 //            		$("#mobile").removeAttr("disabled",true);
-            		$("#save").show();
+            		$("#save").hide();
             	}
 			}
 		});
