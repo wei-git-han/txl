@@ -88,6 +88,13 @@ public class TxlUserController {
 		return list;
 	}
 	
+	
+	@RequestMapping(value = "/getCurrentUserId")
+	@ResponseBody
+	public void getCurrentUserId() {
+		String CurrentUserId = CurrentUser.getUserId();
+		Response.json("CurrentUserId",CurrentUserId);
+	}
 	@RequestMapping(value = "/getUser")
 	@ResponseBody
 	public void getUser(HttpServletRequest request, String id) {
