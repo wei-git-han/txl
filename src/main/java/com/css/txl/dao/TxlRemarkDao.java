@@ -3,6 +3,7 @@ package com.css.txl.dao;
 import com.css.txl.entity.TxlRemark;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.css.base.dao.BaseDao;
 
@@ -16,6 +17,6 @@ import com.css.base.dao.BaseDao;
 @Mapper
 public interface TxlRemarkDao extends BaseDao<TxlRemark> {
 
-	TxlRemark queryObjectByRelation(String remarkedPersonId, String remarkCreatorId);
+	TxlRemark queryObjectByRelation(@Param("remarkedPersonId")String remarkedPersonId, @Param("remarkCreatorId")String remarkCreatorId);
 	
 }
