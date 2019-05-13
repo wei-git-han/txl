@@ -8,7 +8,10 @@
 	</select>
 
 	<select id="queryList" resultType="com.css.txl.entity.TxlUser">
-		select T.* , O.ORGANNAME AS DEPT,O.ORDERID AS OORDERID from TXL_USER T left join TXL_ORGAN O on O.ORGANID =  T.ORGANID where 1=1
+		select T.* ,R.REMARK_CONTENT as remarks, O.ORGANNAME AS DEPT,O.ORDERID AS OORDERID from TXL_USER T
+		left join TXL_REMARK R on T.USERID = R.REMARKED_PERSON_ID and R.REMARK_CREATOR_ID = #{currentUserId}
+		left join TXL_ORGAN O on O.ORGANID =  T.ORGANID 
+		where 1=1
 		<if test="orgIds != null">
 		 and T.ORGANID in 
 		 <foreach item="item" collection="orgIds" open="(" separator="," close=")">

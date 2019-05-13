@@ -101,6 +101,8 @@ public class TxlController {
 	public void listuser(Integer page, Integer pagesize, String orgid, String searchValue, String currentOrgid) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String orgIds = "";
+		String currentUserId = CurrentUser.getUserId();
+		map.put("currentUserId", currentUserId);
 		if (StringUtils.isNotBlank(searchValue)) {
 			searchValue = searchValue.replace(" ", "");
 			map.put("search", searchValue);
