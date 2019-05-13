@@ -95,6 +95,8 @@ public class TxlUserController {
 		String CurrentUserId = CurrentUser.getUserId();
 		Response.json("CurrentUserId",CurrentUserId);
 	}
+	
+	
 	@RequestMapping(value = "/getUser")
 	@ResponseBody
 	public void getUser(HttpServletRequest request, String id) {
