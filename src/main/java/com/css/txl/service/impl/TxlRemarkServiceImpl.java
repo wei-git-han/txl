@@ -46,5 +46,11 @@ public class TxlRemarkServiceImpl implements TxlRemarkService {
 	public void deleteBatch(String[] ids){
 		txlRemarkDao.deleteBatch(ids);
 	}
+
+	@Override
+	public TxlRemark queryObjectByRelation(String remarkedPersonId, String remarkCreatorId) {
+		// TODO Auto-generated method stub
+		return txlRemarkDao.queryObjectByRelation(remarkedPersonId,remarkCreatorId);
+	}
 	
 }

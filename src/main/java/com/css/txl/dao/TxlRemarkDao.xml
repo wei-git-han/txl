@@ -6,7 +6,9 @@
 	<select id="queryObject" resultType="com.css.txl.entity.TxlRemark">
 		select * from TXL_REMARK where ID = #{value}
 	</select>
-
+	<select id="queryObjectByRelation" resultType="com.css.txl.entity.TxlRemark">
+		select * from TXL_REMARK where REMARK_CREATOR_ID = #{remarkCreatorId} and REMARKED_PERSON_ID = #{remarkedPersonId}
+	</select>
 	<select id="queryList" resultType="com.css.txl.entity.TxlRemark">
 		select * from TXL_REMARK 
 		<if test="offset != null and limit != null">

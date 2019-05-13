@@ -15,5 +15,7 @@ import com.css.base.dao.BaseDao;
  */
 @Mapper
 public interface TxlRemarkDao extends BaseDao<TxlRemark> {
+
+	TxlRemark queryObjectByRelation(String remarkedPersonId, String remarkCreatorId);
 	
 }

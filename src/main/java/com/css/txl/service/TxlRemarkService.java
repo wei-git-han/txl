@@ -25,4 +25,6 @@ public interface TxlRemarkService {
 	void delete(String id);
 	
 	void deleteBatch(String[] ids);
+
+	TxlRemark queryObjectByRelation(String remarkedPersonId, String remarkCreatorId);
 }

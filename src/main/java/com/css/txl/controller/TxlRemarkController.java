@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.stereotype.Controller;
 
+import com.css.base.utils.CurrentUser;
 import com.css.base.utils.PageUtils;
 import com.css.base.utils.UUIDUtils;
 import com.github.pagehelper.PageHelper;
@@ -69,10 +70,26 @@ public class TxlRemarkController {
 	@ResponseBody
 	@RequestMapping("/save")
 	public void save(String remarkContent, String remarkedPersonId, String remarkedPersonName){
-		TxlRemark txlRemark = new TxlRemark();
-		txlRemark.setId(UUIDUtils.random());
-		txlRemark.setCreatedTime(new Date());
-		txlRemarkService.save(txlRemark);
+		String remarkCreatorId = CurrentUser.getUserId();
+		String remarkCreatorName = CurrentUser.getUsername();
+		TxlRemark txlRemark = txlRemarkService.queryObjectByRelation(remarkedPersonId,remarkCreatorId);
+		if(txlRemark==null){
+			txlRemark = new TxlRemark();
+			txlRemark.setId(UUIDUtils.random());
+			txlRemark.setCreatedTime(new Date());
+			txlRemark.setRemarkContent(remarkContent);
+			txlRemark.setRemarkCreatorId(remarkCreatorId);
+			txlRemark.setRemarkCreatorName(remarkCreatorName);
+			txlRemark.setRemarkedPersonId(remarkedPersonId);
+			txlRemark.setRemarkedPersonName(remarkedPersonName);
+			txlRemarkService.save(txlRemark);
+		}else{
+			txlRemark.setRemarkContent(remarkContent);
+			txlRemark.setUpdateTime(new Date());
+			txlRemarkService.update(txlRemark);
+			
+		}
+		
 		
 		Response.ok();
 	}
