@@ -2,6 +2,9 @@ var clientWidth = document.body.clientWidth; //浏览器宽度 alert(clientWidth
 var scWidth = $(".lxrContent").parent().width();
 var nolywidht = parseInt(scWidth/190);//盒子的个数
 var thisWidth = scWidth/nolywidht-10; //每个盒子的宽度
+var logininUserId;
+var remarkUserId;
+var remarkUserName;
 
 $(window).resize(function(){
 	window.location.href="index.html";
@@ -115,7 +118,7 @@ var pageModule = function(){
                  {display:"房间号",name:"address",width:"10%",align:"center",paixu:false,render:function(rowdata){
                      return rowdata.address;                                        
                   }},
-                 {display:"部门",name:"dept",width:"20%",align:"left",paixu:false,render:function(rowdata){
+                 {display:"部门",name:"dept",width:"20%",align:"center",paixu:false,render:function(rowdata){
                     return rowdata.dept;                                         
                  }},
                  {display:"操作",name:"caozuo",width:"5%",align:"center",paixu:false,render:function(rowdata){
@@ -135,7 +138,7 @@ var pageModule = function(){
                    	 return caozuo;                                         
                   }},
                   {display:"备注",name:"remarks",width:"30%",align:"left",paixu:false,render:function(rowdata){
-                      return rowdata.remarks;                                         
+                      return rowdata.remarks+'<span class="editBtn" data-toggle="modal" href="#editRemarks" onclick="editRemarks(\''+rowdata.userid+'\',\''+rowdata.fullname+'\',\''+rowdata.remarks+'\')">(编辑)</span>';                                         
                    }}
              ],
             width:"100%",
@@ -203,11 +206,13 @@ var pageModule = function(){
 			        "responsive": true
 			    },
 		    	"data": {
-		    		"url":"txlorgan/syncTree",
+		    		"url":function(node){
+		    				return "txlorgan/syncTree";
+		    		},
 		    		"data":function(node){
 		    			return {"id":node.id};
 		    		}
-		    	},
+		    	}
 		    },
 		    "types" : {
 		    	"default" : {
@@ -220,6 +225,10 @@ var pageModule = function(){
 			        "icon" : "people_img"
 			    }
 		    }
+		});
+						
+		$("#tree_2").on("load_node.jstree", function(e,data) {
+			$("#tree_2").jstree().open_node("root");
 		});
 		
 		$("#tree_2").on("select_node.jstree", function(e,data) { 
@@ -382,6 +391,15 @@ var pageModule = function(){
 			$(".search_btn").click();
         });*/
 		bindResize(document.getElementById("moveDiv"),document.getElementById("treeDiv"),document.getElementById("contentDiv"));
+		
+		//拿到当前的用户
+		$ajax({
+			url: userInfourl,
+			type: "GET",
+			success: function(data) {
+				logininUserId = data.CurrentUserId;
+			}
+		})
 	}
 	
 	return{
@@ -604,4 +622,26 @@ function keyss(){
 	$(".search_btn").click();
 }
 
+//编辑备注模态框
+function editRemarks(id,name,remarks){
+	remarkUserId = id;
+	remarkUserName = name;
+	$('#remarksText').val(remarks);
+}
 
+//保存备注
+$('#saveRemarks').click(function(){
+	$ajax({
+		url:saveRemarks,
+		data:{remarkedPersonId:remarkUserId,remarkContent:$('#remarksText').val(),remarkedPersonName:remarkUserName},
+		success:function(data){
+			$("#editRemarks").modal("hide");
+			if(data.msg == "success"){
+				newbootbox.alertInfo("编辑成功");
+			} else {
+				newbootbox.alertInfo("编辑出错");
+			}
+			pageModule.gridfresh();
+		}
+	})
+})

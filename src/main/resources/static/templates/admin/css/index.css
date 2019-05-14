@@ -203,26 +203,16 @@
 	color: #ccc;
 	cursor: pointer;
 } */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.headPart {
+	float: right; 
+	margin-top: 24px; 
+	margin-right: 24px;
+	z-index: 999;
+	position:relative;
+	cursor:pointer;
+}
+.editBtn {
+	color: rgb(91, 155, 209);
+	text-decoration: underline;
+	cursor:pointer;
+}
