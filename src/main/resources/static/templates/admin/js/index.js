@@ -138,7 +138,7 @@ var pageModule = function(){
                    	 return caozuo;                                         
                   }},
                   {display:"备注",name:"remarks",width:"30%",align:"left",paixu:false,render:function(rowdata){
-                      return rowdata.remarks+'<span class="editBtn" data-toggle="modal" href="#editRemarks" onclick="editRemarks(\''+rowdata.userid+'\',\''+rowdata.fullname+'\',\''+rowdata.remarks+'\')">(编辑)</span>';                                         
+                      return '<span class="remarkContent" title="'+rowdata.remarks+'">'+rowdata.remarks+'</span><span class="editBtn" data-toggle="modal" href="#editRemarks" onclick="editRemarks(\''+rowdata.userid+'\',\''+rowdata.fullname+'\',\''+rowdata.remarks+'\')">(编辑)</span>';                                         
                    }}
              ],
             width:"100%",
