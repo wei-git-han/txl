@@ -89,8 +89,7 @@
 			"ADDRESS",
 			"PYNAME",
 			IS_SHOW,
-			RIGHTS,
-			REMARKS
+			RIGHTS
 		)
 		values
 		(
@@ -125,8 +124,7 @@
 			#{address},
 			UCASE(GETPY(#{pyName})),
 			#{isShow},
-			#{rights},
-			#{remarks}
+			#{rights}
 		)
 	</insert>
 	 
@@ -164,7 +162,6 @@
 			<if test="pyName != null">"PYNAME" = UCASE(GETPY(#{pyName})),</if>
 			<if test="isShow != null">"IS_SHOW" = #{isShow},</if>
 			<if test="rights != null">"RIGHTS" = #{rights}</if>
-			<if test="remarks != null">"REMARKS" = #{remarks}</if>
 		</set>
 		where USERID = #{userid}
 	</update>
