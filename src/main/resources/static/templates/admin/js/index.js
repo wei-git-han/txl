@@ -119,7 +119,7 @@ var pageModule = function(){
                      return rowdata.address;                                        
                   }},
                  {display:"部门",name:"dept",width:"20%",align:"center",paixu:false,render:function(rowdata){
-                    return rowdata.dept;                                         
+                    return '<span title="'+rowdata.dept+'">'+rowdata.dept+'</span>';                                         
                  }},
                  {display:"操作",name:"caozuo",width:"5%",align:"center",paixu:false,render:function(rowdata){
                 	 var caozuo="";
