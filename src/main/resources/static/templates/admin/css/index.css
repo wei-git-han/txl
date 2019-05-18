@@ -205,7 +205,7 @@
 } */
 .headPart {
 	float: right; 
-	margin-top: 24px; 
+	margin-top: 69px;
 	margin-right: 24px;
 	z-index: 999;
 	position:relative;
@@ -224,4 +224,7 @@
 	text-decoration: underline;
 	cursor:pointer;
 	vertical-align: middle;
+}
+.user {
+	width: 150%;
 }
