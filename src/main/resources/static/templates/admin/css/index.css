@@ -217,10 +217,11 @@
 	overflow: hidden;
 	white-space: nowrap;
 	display: inline-block;
+	vertical-align: middle;
 }
 .editBtn {
 	color: rgb(91, 155, 209);
 	text-decoration: underline;
 	cursor:pointer;
-	position: absolute;
+	vertical-align: middle;
 }
