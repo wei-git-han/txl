@@ -141,7 +141,7 @@ var pageModule = function(){
                 	  if(rowdata.remarks == '' || rowdata.remarks == null){
                 		  return '<div class="remarkContent" style="width: 100%; height: 18.5px; cursor:pointer;" title="点击进行编辑" data-toggle="modal" href="#editRemarks" onclick="editRemarks(\''+rowdata.userid+'\',\''+rowdata.fullname+'\',\''+rowdata.remarks+'\')">'+rowdata.remarks+'</div>';
                 	  } else {
-                		  return '<span class="remarkContent" title="'+rowdata.remarks+'">'+rowdata.remarks+'</span><span class="editBtn" data-toggle="modal" href="#editRemarks" onclick="editRemarks(\''+rowdata.userid+'\',\''+rowdata.fullname+'\',\''+rowdata.remarks+'\')">(编辑)</span>'; 
+                		  return '<span class="remarkContent" style="cursor:pointer;" title="'+rowdata.remarks+'" data-toggle="modal" href="#editRemarks" onclick="editRemarks(\''+rowdata.userid+'\',\''+rowdata.fullname+'\',\''+rowdata.remarks+'\')">'+rowdata.remarks+'</span>'; 
                 	  }                                 
                    }}
              ],
