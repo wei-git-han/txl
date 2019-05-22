@@ -205,7 +205,7 @@
 } */
 .headPart {
 	float: right; 
-	margin-top: 69px;
+	margin-top: 51px;
 	margin-right: 24px;
 	z-index: 999;
 	position:relative;
@@ -226,5 +226,5 @@
 	vertical-align: middle;
 }
 .user {
-	width: 150%;
+	width: 80%;
 }

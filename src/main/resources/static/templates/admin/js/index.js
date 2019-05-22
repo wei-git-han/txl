@@ -165,7 +165,7 @@ var pageModule = function(){
 			type:"GET",
 			success:function(data){
 				if(!data){return;}
-				var lis='<div class="newpage13">设置功能权限</div>';
+				var lis='<div class="newpage13">设置功能权限,勾上表示隐藏。</div>';
 				for(var i=0;i<data.rows.length;){
 					lis+='<div class="newpage13"><div class="checkbox-list">';
 					var obj=data.rows[i];
