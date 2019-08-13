@@ -57,4 +57,9 @@ public class TxlCollectServiceImpl implements TxlCollectService {
 	public TxlCollect getCollectUser(String id, String currentUserId){
 		return txlCollectDao.getCollectUser(id, currentUserId);
 	}
+
+	@Override
+	public List<TxlCollect> getCollect1(String id) {
+		return txlCollectDao.getCollect1(id);
+	}
 }

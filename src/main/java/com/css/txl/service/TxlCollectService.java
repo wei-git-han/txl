@@ -27,6 +27,7 @@ public interface TxlCollectService {
 	void deleteBatch(String[] ids);
 	
 	List<TxlCollect> getCollect(String id);
+	List<TxlCollect> getCollect1(String id);
 	/*int queryTotal(Map<String,Object> map);*/
 	TxlCollect getCollectUser(String id, String currentUserId);
 }

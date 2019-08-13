@@ -1,3 +1,4 @@
+var tablegrid2 = {"url":"txlUser/doublelistUser","dataType":"text"};//表格数据
 var clientWidth = document.body.clientWidth; //浏览器宽度 alert(clientWidth) 1680
 var scWidth = $(".lxrContent").parent().width();
 var nolywidht = parseInt(scWidth/190);//盒子的个数
@@ -5,17 +6,168 @@ var thisWidth = scWidth/nolywidht-10; //每个盒子的宽度
 var logininUserId;
 var remarkUserId;
 var remarkUserName;
-
 $(window).resize(function(){
 	window.location.href="index.html";
 })
-
-var currentPage=getUrlParam("currentPage")||1;
+var currentPage=getUrlParam("currentPage")||1; //单表
+var currentPage2=getUrlParam("currentPage2")||1; //双表
 var currentOrgid=getUrlParam("currentOrgid");
 var cbox=true;
 var show=true;
 var grid=null;
+var grid2=null;
+var grid3=null;
 var pageModule = function(){
+	//双表-------------
+	var initgrid2 = function(){
+        grid2 = $("#gridcont2").createGrid({
+            columns:[
+            	 {display:"姓名",name:"datas",width:"100%",align:"center",paixu:false,render:function(rowdata,n){
+            		var widthShow=$("#gridcont2").width();
+             		var widthLeft=$("#gridcont2").width()/2;
+             		var percentWidth = ($("#gridcont2").width()-10)/20
+            	    var table_content1="";
+            	    var table_content2="";
+             		var array=rowdata.datas; //总数据
+             		var length=rowdata.datas.length; //总长度
+             		var array1="";
+    				var array2="";
+    				if(length<=12){
+    					array1=array.slice(0,12);
+    				}else{
+   						array1=array.slice(0,12);
+   						array2=array.slice(12,24);
+    				}
+    				table_content1+="<tbody>";
+    				$.each(array1,function(i,item){
+    					 var caozuo="";
+                    	 if(item.isSc == 0 ){
+                    		 caozuo = '<a class="ysc" style="margin-right:10px;" title="收藏" href="javascript:addscfn(\''+item.userid+'\')"><i class="fa fa-star"></i></a>';
+                    	 }else{
+                    		 caozuo = '<a class="sc" style="margin-right:10px;" title="取消收藏" href="javascript:delscfn(\''+item.userid+'\')"><i class="fa fa-star"></i></a>';
+                    	 }
+                    	 if(show){
+                    		 if(item.isShow=="1"||item.isShow==""){
+                    			 caozuo += '<a class="sc" title="隐藏" href="javascript:addycfn(\''+item.userid+'\')"><i class="fa fa-eye"></i></a>';
+                          	 }else{
+                          		caozuo += '<a class="ysc" title="取消隐藏" href="javascript:delycfn(\''+item.userid+'\')"><i class="fa fa-eye"></i></a>';
+                          	 }
+                    	 }
+                    	 var remarks="";
+                    	 if(item.remarks == '' || item.remarks == null){
+                    		 remarks ='<div class="remarkContent" style="width: 100%; height: 18.5px; cursor:pointer;" title="点击进行编辑" data-toggle="modal" href="#editRemarks" onclick="editRemarks(\''+item.userid+'\',\''+item.fullname+'\',\''+item.remarks+'\')">'+item.remarks+'</div>';
+	                   	  } else {
+	                   		 remarks ='<span class="remarkContent" style="cursor:pointer;" title="'+item.remarks+'" data-toggle="modal" href="#editRemarks" onclick="editRemarks(\''+item.userid+'\',\''+item.fullname+'\',\''+item.remarks+'\')">'+item.remarks+'</span>'; 
+	                   	  }
+    					table_content1+=
+             					"<tr style='height: 36px;line-height: 36px;' class='body_tr'>" +
+	                    			"<td style='width:"+percentWidth+"px;max-width:"+percentWidth+"px'>"+(i+1)+"</td>" +
+									"<td title="+item.fullname+" style='cursor:pointer;width:"+percentWidth+"px;max-width:"+percentWidth+"px'>" +
+										'<a href="javascript:void(0);" onclick="clickfn(\''+item.userid+'\')">'+item.fullname+'</a>'+
+									"</td>"+
+	                    			"<td title="+item.mobile+" style='cursor:pointer;width:"+percentWidth+"px;max-width:"+percentWidth+"px'>"+item.mobile+"</td>" +
+	                    			"<td title="+item.telephone+"  style='cursor:pointer;width:"+percentWidth+"px;max-width:"+percentWidth+"px'>"+item.telephone+"</td>" +
+	                    			"<td title="+item.address+" style='cursor:pointer;width:"+percentWidth+"px;max-width:"+percentWidth+"px'>"+item.address+"</td>" +
+	                    			"<td title="+item.dept+" style='cursor:pointer;width:"+parseInt(1.5*percentWidth)+"px;max-width:"+parseInt(1.5*percentWidth)+"px'>"+item.dept+"</td>" +
+	                    			//操作
+	                    			"<td style='width:"+parseInt(1.5*percentWidth)+"px;max-width:"+parseInt(1.5*percentWidth)+"px'>"+caozuo+"</td>"+
+	                    			//备注
+	                    			"<td style='width:"+parseInt(2*percentWidth)+"px;max-width:"+parseInt(2*percentWidth)+"px'>"+remarks+"</td>" +
+                    			"</tr>";
+    				});
+    				table_content1+="</tbody>";
+    				table_content2+="<tbody>";
+    				$.each(array2,function(i,item){
+    						var caozuo="";
+		                   	 if(item.isSc == 0 ){
+		                   		 caozuo = '<a class="ysc" style="margin-right:10px;" title="收藏" href="javascript:addscfn(\''+item.userid+'\')"><i class="fa fa-star"></i></a>';
+		                   	 }else{
+		                   		 caozuo = '<a class="sc" style="margin-right:10px;" title="取消收藏" href="javascript:delscfn(\''+item.userid+'\')"><i class="fa fa-star"></i></a>';
+		                   	 }
+		                   	 if(show){
+		                   		 if(item.isShow=="1"||item.isShow==""){
+		                   			 caozuo += '<a class="sc" title="隐藏" href="javascript:addycfn(\''+item.userid+'\')"><i class="fa fa-eye"></i></a>';
+		                         	 }else{
+		                         	 caozuo += '<a class="ysc" title="取消隐藏" href="javascript:delycfn(\''+item.userid+'\')"><i class="fa fa-eye"></i></a>';
+		                         	 }
+		                   	 }
+		                   	 var remarks="";
+		                   	 if(item.remarks == '' || item.remarks == null){
+		                   		 remarks ='<div class="remarkContent" style="width: 100%; height: 18.5px; cursor:pointer;" title="点击进行编辑" data-toggle="modal" href="#editRemarks" onclick="editRemarks(\''+item.userid+'\',\''+item.fullname+'\',\''+item.remarks+'\')">'+item.remarks+'</div>';
+			                   } else {
+			                   		 remarks ='<span class="remarkContent" style="cursor:pointer;" title="'+item.remarks+'" data-toggle="modal" href="#editRemarks" onclick="editRemarks(\''+item.userid+'\',\''+item.fullname+'\',\''+item.remarks+'\')">'+item.remarks+'</span>'; 
+			                   }
+    					table_content2+=
+	    						"<tr style='height: 36px;line-height: 36px;' class='body_tr'>" +
+		                			"<td style='width:"+percentWidth+"px;max-width:"+percentWidth+"px'>"+(i+1)+"</td>" +
+									"<td title="+item.fullname+" style='cursor:pointer;width:"+percentWidth+"px;max-width:"+percentWidth+"px'>" +
+										'<a href="javascript:void(0);" onclick="clickfn(\''+item.userid+'\')">'+item.fullname+'</a>'+
+									"</td>"+
+		                			"<td title="+item.mobile+" style='cursor:pointer;width:"+percentWidth+"px;max-width:"+percentWidth+"px'>"+item.mobile+"</td>" +
+		                			"<td title="+item.telephone+"  style='cursor:pointer;width:"+percentWidth+"px;max-width:"+percentWidth+"px'>"+item.telephone+"</td>" +
+		                			"<td title="+item.address+" style='cursor:pointer;width:"+percentWidth+"px;max-width:"+percentWidth+"px'>"+item.address+"</td>" +
+		                			"<td title="+item.dept+" style='cursor:pointer;width:"+parseInt(1.5*percentWidth)+"px;max-width:"+parseInt(1.5*percentWidth)+"px'>"+item.dept+"</td>" +
+		                			//操作
+		                			"<td style='width:"+parseInt(1.5*percentWidth)+"px;max-width:"+parseInt(1.5*percentWidth)+"px'>"+caozuo+"</td>"+
+		                			//备注
+		                			"<td style='width:"+parseInt(2*percentWidth)+"px;max-width:"+parseInt(2*percentWidth)+"px'>"+remarks+"</td>" +
+	            			"</tr>";
+                    		
+    				})
+    				table_content2+="</tbody>";
+            		 //放两个表格
+                    return "<div style='row'>" +
+                    		"<div class='col-md-6' style='padding-left:0px;padding-right:2.5px'>"+
+                    		"<table class='table1'>" +
+                    			"<thead>"+
+		                    		"<tr class='table1_tr'>" +
+		                    			"<th>序号</th>" +
+		                    			"<th>姓名</th>" +
+		                    			"<th>手机号</th>" +
+		                    			"<th>座机号</th>" +
+		                    			"<th>房间号</th>" +
+		                    			"<th>部门</th>" +
+		                    			"<th>操作</th>" +
+		                    			"<th>备注</th>" +
+		                    		"</tr>" +
+	                    		"</thead>"
+		                    	+table_content1+
+                    		"</table>" +
+                    		"</div>"+
+                    		"<div class='col-md-6' style='padding-left:2.5px;padding-right:0px'>"+
+	                    		"<table class='table2'>" +
+		                			"<thead>"+
+			                    		"<tr class='table1_tr'>" +
+			                    			"<th>序号</th>" +
+			                    			"<th>姓名</th>" +
+			                    			"<th>手机号</th>" +
+			                    			"<th>座机号</th>" +
+			                    			"<th>房间号</th>" +
+			                    			"<th>部门</th>" +
+			                    			"<th>操作</th>" +
+			                    			"<th>备注</th>" +
+			                    		"</tr>" +
+		                    		"</thead>"
+		                    	+table_content2+
+		                    "</table>" +
+                		"</div>"+
+                    	"</div>";
+                 }}
+             ],
+            width:"100%",
+            checkbox:false,
+            rownumberyon:false,
+            paramobj:{"orgid":currentOrgid},
+            overflowx:false,
+            newpage:currentPage2,
+            pagesize: 24,
+            loadafter:function(data){
+            	currentPage2 = $("#gridcont2_newpage").val();
+            },
+            url: tablegrid2
+       });
+	}
+	
 	/*收藏*/
 	var initLxr = function(){
 		$ajax({
@@ -25,7 +177,7 @@ var pageModule = function(){
 				$.each(data, function(i,obj) {
 					var html2="";
 					$.each(obj.children, function(j,obj2) {
-						html2+= '<div class="center_model" style="width:'+thisWidth+'px;">'+
+						html2+= '<div class="center_model" style="width:228px;">'+
 				 				'	<div  style="width:100%;height:100%;position:relative">'+	
 								'	<div class="center_model_wrap">'+
 								'		<div class="model_name">'+
@@ -56,7 +208,6 @@ var pageModule = function(){
 			}
 		});
 	}
-
 	/*右侧部门电话数据*/
 	var bmdhfn = function(){
 		$ajax({
@@ -74,13 +225,60 @@ var pageModule = function(){
 				})
 			}
 		})
+	}	
+	/*单表-双表选择*/
+	var initLabel=function(){
+		$("#dan").click(function(){
+			$(this).addClass("activeBtn").siblings().removeClass("activeBtn");
+			$("#danLbael").show();
+			$("#shuangLbael").hide();
+			initgrid();
+		});
+		$("#shuang").click(function(){
+			$(this).addClass("activeBtn").siblings().removeClass("activeBtn");
+			$("#danLbael").hide();
+			$("#shuangLbael").show();
+			initgrid2();
+		});
+	}	
+	//收藏夹的方法
+	var initSc=function(){
+		//点击收藏夹
+		$(".left_sc").click(function(){
+			$("#scDiv").show();
+			$("#contentDiv").hide();
+			$(this).addClass("activeSc");
+			initLxr();//中间收藏列表
+			initgrid3();
+			$("#tree_2").jstree("deselect_all",false);
+		});
+		//点击组织机构
+		$(".left_title").click(function(){
+			$("#scDiv").hide();
+			$("#contentDiv").show();
+			$(this).siblings().removeClass("activeSc");
+		});
 	}
-	
-	
+	//收藏夹的方法
+	var initScLabel=function(){
+		$("#lie").click(function(){   //列表  
+			$(this).addClass("activeBtn").siblings().removeClass("activeBtn");
+			$("#lieLbael").show();  
+			$("#kaLbael").hide();
+		   	initgrid3();
+		});
+		$("#ka").click(function(){   //卡片
+			$(this).addClass("activeBtn").siblings().removeClass("activeBtn");
+			$("#lieLbael").hide();
+			$("#kaLbael").show();
+			initLxr();//中间收藏列表
+		});
+	}
 	var initmanager = function(){
 		$ajax({
 			url:authenurl,
 			success:function(data){
+//				if(true == true){
 				if(true == data.manager){
 		   		 	cbox = true;
 		   		 	show = true;
@@ -96,10 +294,48 @@ var pageModule = function(){
            	   		$(".ljt").hide();
 			   	};
 			   	initgrid();
+			   	initgrid2();
 			}
 		});
 	}
-	
+	//收藏卡表格
+	var initgrid3 = function(){
+        grid3 = $("#gridcont3").createGrid({
+            columns:[
+            	{display:"姓名",name:"fullname",width:"10%",align:"center",paixu:false,render:function(rowdata,n){
+                    return  '<a onclick="clickfn(\''+rowdata.userid+'\')">'+rowdata.fullname+'</a>';
+                 }},
+                 {display:"手机号",name:"mobile",width:"10%",align:"center",paixu:false,render:function(rowdata){
+                     return rowdata.mobile;                                        
+                 }},
+                 {display:"座机号",name:"telephone",width:"15%",align:"center",paixu:false,render:function(rowdata){
+                      return rowdata.telephone;                                     
+                 }},
+                 {display:"房间号",name:"address",width:"15%",align:"center",paixu:false,render:function(rowdata){
+                     return rowdata.address;                                        
+                  }},
+                 {display:"部门",name:"dept",width:"25%",align:"center",paixu:false,render:function(rowdata){
+                    return '<span title="'+rowdata.dept+'">'+rowdata.dept+'</span>';                                         
+                 }},
+                 {display:"操作",name:"caozuo",width:"25%",align:"center",paixu:false,render:function(rowdata){
+                   	var caozuo = '<a class="sc" style="margin-right:10px;" title="取消收藏" href="javascript:delscfn(\''+rowdata.userid+'\')"><i class="fa fa-star"></i></a>';
+                   	return caozuo;
+                 }}
+             ],
+            width:"100%",
+            checkbox:false,
+            rownumberyon:true,
+            paramobj:{},
+            overflowx:true,
+            newpage:currentPage,
+            pagesize: 12,
+            loadafter:function(data){
+            	currentPage = $("#gridcont3_newpage").val();
+            },
+            url: lxr1
+       });
+	}
+	//单表-------------
 	var initgrid = function(){
         grid = $("#gridcont").createGrid({
             columns:[
@@ -112,9 +348,6 @@ var pageModule = function(){
                  {display:"座机号",name:"telephone",width:"15%",align:"center",paixu:false,render:function(rowdata){
                       return rowdata.telephone;                                     
                  }},
-                /* {display:"职务",name:"post",width:"17%",align:"center",paixu:false,render:function(rowdata){
-                       return rowdata.post;                                      
-                 }},*/
                  {display:"房间号",name:"address",width:"10%",align:"center",paixu:false,render:function(rowdata){
                      return rowdata.address;                                        
                   }},
@@ -137,7 +370,7 @@ var pageModule = function(){
                 	 }
                    	 return caozuo;                                         
                   }},
-                  {display:"备注",name:"remarks",width:"30%",align:"left",paixu:false,render:function(rowdata){
+                  {display:"备注",name:"remarks",width:"32%",align:"left",paixu:false,render:function(rowdata){
                 	  if(rowdata.remarks == '' || rowdata.remarks == null){
                 		  return '<div class="remarkContent" style="width: 100%; height: 18.5px; cursor:pointer;" title="点击进行编辑" data-toggle="modal" href="#editRemarks" onclick="editRemarks(\''+rowdata.userid+'\',\''+rowdata.fullname+'\',\''+rowdata.remarks+'\')">'+rowdata.remarks+'</div>';
                 	  } else {
@@ -158,7 +391,6 @@ var pageModule = function(){
             url: tablegrid
        });
 	}
-	
 	var initMenuview = function(){
 		$ajax({
 			url:menuview,
@@ -236,12 +468,17 @@ var pageModule = function(){
 		});
 		
 		$("#tree_2").on("select_node.jstree", function(e,data) { 
+			$("#scDiv").hide();
+			$("#contentDiv").show();
+			$(".left_sc").removeClass("activeSc");
 		    var id = $("#" + data.selected).attr("id");
 		    var searchValue = $("#searchValue").val();
 		    currentOrgid = id;
 		    $("#treeSecId").val(id);
 			grid.setparams({"orgid":id,"searchValue":searchValue});
-			grid.loadtable();
+			grid2.setparams({"orgid":id,"searchValue":searchValue});
+			grid.refresh();
+			grid2.refresh();
 		});
 	
 		$("#tree_2").on("hover_node.jstree", function(e,data) {
@@ -272,6 +509,7 @@ var pageModule = function(){
 										$("#tree_2").jstree().destroy();  //把树节点删除
 										inittree();
 										initgrid();
+										initgrid2();
 									});
 								}else{
 									newbootbox.alertInfo("隐藏失败！");
@@ -291,6 +529,7 @@ var pageModule = function(){
 								$("#tree_2").jstree().destroy();  //把树节点删除
 								inittree();
 								initgrid();
+								initgrid2();
 							});
 						}else{
 							newbootbox.alertInfo("取消隐藏失败！");
@@ -303,8 +542,6 @@ var pageModule = function(){
 			$(".jstree_caozuo").remove();
 		});
 	}
-	
-	
 	var initother = function(){
 		//搜索划过更换图标
 		$(".search_btn").hover(function(){
@@ -405,25 +642,32 @@ var pageModule = function(){
 			}
 		})
 	}
-	
 	return{
 		//加载页面处理程序
 		initControl:function(){
 			initother();
 			inittree();//左侧组织机构树
-			initLxr();//中间收藏列表
 			initmanager();//列表
 			bmdhfn();//右侧部门电话
 			initMenuview();//设置功能权限
+			initLabel();//单表-双表选择
+			initSc();  //收藏夹与组织机构切换的方法
+			initScLabel(); //收藏中的列表和卡片控制
 		},
 		gridfresh:function(){
 			initgrid();
+		},
+		gridfresh2:function(){
+			initgrid2();
 		},
 		initLxrfresh:function(){
 			initLxr();
 		},
 		bmdhfnfresh:function(){
 			bmdhfn();
+		},
+		gridfresh3:function(){
+			initgrid3();
 		}
 	};
 }();	
@@ -471,7 +715,6 @@ function clickfn(id){
 function clickbmdhfn(id){
 	window.location.href="txl/html/bmdh_edit.html?id="+id;
 }
-
 //加入收藏
 var addscfn = function(id) {
 	newbootbox.confirm({
@@ -485,7 +728,8 @@ var addscfn = function(id) {
 					if(data.result=="success"){
 						newbootbox.alertInfo("收藏成功！").done(function(){
 							pageModule.initLxrfresh();
-							//pageModule.gridfresh();
+							pageModule.gridfresh2();
+							pageModule.gridfresh3();
 							$(".search_btn").click();
 						});
 					}else{
@@ -504,7 +748,8 @@ function delscfn(id){
 			if(data.result=="success"){
 				newbootbox.alertInfo("取消成功！").done(function(){
 					pageModule.initLxrfresh();
-					//pageModule.gridfresh();
+					pageModule.gridfresh3();
+					pageModule.gridfresh2();
 					$(".search_btn").click();
 				});
 			}else{
@@ -526,6 +771,7 @@ var addycfn = function(id) {
 					if(data.result=="success"){
 						newbootbox.alertInfo("隐藏成功！").done(function(){
 							pageModule.gridfresh();
+							pageModule.gridfresh2();
 						});
 					}else{
 						newbootbox.alertInfo("隐藏失败！");
@@ -535,7 +781,6 @@ var addycfn = function(id) {
      	}
    });
 }
-
 function delycfn(id){
 	$ajax({
 		url:isShowUrl,
@@ -544,6 +789,7 @@ function delycfn(id){
 			if(data.result=="success"){
 				newbootbox.alertInfo("取消隐藏成功！").done(function(){
 					pageModule.gridfresh();
+					pageModule.gridfresh2();
 				});
 			}else{
 				newbootbox.alertInfo("取消隐藏失败！");
@@ -551,7 +797,6 @@ function delycfn(id){
 		}
 	})
 }
-
 //删除
 function delfn(id){
 	 newbootbox.confirm({
@@ -574,8 +819,6 @@ function delfn(id){
      	}
 	});
 }
-
-
 var show = function(obj){
 	$("#"+obj).modal("show");
 }
@@ -621,18 +864,15 @@ function bindResize(el,el1,el2){
 		}
 	}
 }
-
 function keyss(){
 	$(".search_btn").click();
 }
-
 //编辑备注模态框
 function editRemarks(id,name,remarks){
 	remarkUserId = id;
 	remarkUserName = name;
 	$('#remarksText').val(remarks);
 }
-
 //保存备注
 $('#saveRemarks').click(function(){
 	$ajax({
@@ -646,6 +886,7 @@ $('#saveRemarks').click(function(){
 				newbootbox.alertInfo("编辑出错");
 			}
 			pageModule.gridfresh();
+			pageModule.gridfresh2();
 		}
 	})
 })

@@ -14,9 +14,38 @@
 	<link rel="stylesheet" type="text/css" href="templates/admin/commons/css/common.css"/>
 	<link rel="stylesheet" type="text/css" href="templates/admin/css/common_index.css"/>
 	<link rel="stylesheet" type="text/css" href="templates/admin/css/index.css"/>
+	<style type="text/css">
+	#gridcont2_hdtablediv{
+		display: none;
+	}
+	.table1{
+ 		width: 100%;
+	}
+	.table2{
+		width: 100%;
+	}
+	.table1 thead,.table2 thead{
+		width:100%;
+	}
+	.table1_tr,.body_tr{
+		width:100%;
+		height: 36px;
+		line-height: 36px;
+	}
+	.table1_tr th,
+	.body_tr td{
+		border: 1px solid #ddd;
+		box-sizing: border-box;
+		overflow:hidden;
+		white-space:nowrap;
+		text-overflow:ellipsis;
+	}
+	#gridcont2_content .table > tbody > tr > td{
+		padding: 0px;
+	}
+	</style>
 </head>
 <body>
-
 	<div class="wrap">
 		<input type="hidden" id="treeSecId"/>
 		<input type="hidden" id="secName"/>
@@ -28,7 +57,7 @@
 			<div class="wrap_top_content">
 				<p>通讯录</p>
 				<div class="top_part">
-					<input type="text" name="searchValue"    class="searchValue"  id="searchValue" value=""  placeholder="请输入姓名、号码进行查询， 按回车键查询" />
+					<input type="text" name="searchValue" class="searchValue"  id="searchValue" value=""  placeholder="请输入姓名、号码进行查询， 按回车键查询" />
 					<img src="templates/admin/images/search-normal.png" title="搜索" class="search_btn"/>
 				</div>
 			</div>
@@ -38,8 +67,9 @@
 				<div class="main_left" id="treeDiv">
 				    <div style="position:absolute;right:0;top:0px;bottom:0px;height:100%;width:10px;background:transparent;z-index:500;cursor:e-resize" id="moveDiv"></div>
 					<div class="main_left_wrap">
-						<p class="left_title" style="padding-left:6px;"><img src="templates/admin/images/tab_n.png" class="imgs" style="float: left;" />&nbsp;<span style="float: left;margin-left: 5px;">全部联系人</span></p>
-						<div class="left_tree">
+						<p class="left_sc" style="width:100%;padding-left:6px;margin-bottom:10px;cursor: pointer; position: absolute;"><i class="fa fa-star" style="color:#5498EB"></i>&nbsp;<span style="font-size: 16px;font-weight: bold;">收藏夹</span></p>
+						<p class="left_title" style="padding-left:6px;cursor: pointer;top: 30px;"><img src="templates/admin/images/tab_n.png" class="imgs" style="float: left;" />&nbsp;<span style="float: left;margin-left: 5px;color: #333333;font-size: 16px;font-weight: bold;">组织机构</span></p>
+						<div class="left_tree" style="padding-top: 50px;">
 							<div class="left_tree_wrap">
 								<div class="scroller" style="height:100%;">
 									<div id="tree_2" class="tree-demo" style="height:100%;overflow-x: auto;"></div>
@@ -48,6 +78,7 @@
 						</div>
 					</div>
 				</div>
+				<!-- 组织机构部分-->
 				<div class="main_center" id="contentDiv">
 					<div class="main_center_wrap">
 						<!--开始，无结果的时候把里面的内容清空-->
@@ -55,51 +86,29 @@
 							<div class="divrelative">
 								<div class="center_content">
 									<div class="center_content_main">
-											<div class="pagestyle1">
-												<div class="divrelative">
-													<div class="pagestyle2">
-														<p class="center_title" style="vertical-align: middle;"><i class="fa fa-star" style="color:#5498EB"></i> 收藏</p>
-													</div>
-													<div class="pagestyle3">
-														<div class="pagestyle4">
-															<div class="pagestyle5">
-																<div class="pagestyle6">
-																	<div class="pagestyle7">
-																		<i class="fa  fa-chevron-left"  style="font-size:20px;color:#B6B6B6;cursor:pointer;" id="leftbtn"></i>
-																	</div>
-																</div>
-															</div>
-															<div class="pagestyle8">
-																<div style="height:100%;width:100%;padding-bottom:10px;">
-																	<div  class="pagestyle9">
-																		<i class="fa  fa-chevron-right"  style="font-size:20px;color:#B6B6B6;cursor:pointer;" id="rightbtn"></i>
-																	</div>
-																</div>
-															</div>
-															<div class="pagestyle10">
-																<div class="pagestyle11">
-																	<div  class="lxrContent"  id="lxrContent"   style="position: absolute;left: 0px;">
-																		<!--动态加载-->
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<!--表格-->
-											<div style="width:100%;height:100%;padding-top:231px;">
+											<div style="width:100%;height:100%;">
 												<div style="width:100%;height:100%;position:relative;">
-														<div style="height:36px;line-height:36px;width:100%;position:absolute;">
-															<!-- <button  id="addsc" type="button"  style=" float: right; margin-right: 10px; color: #5498EB; height: 26px;line-height: 21px; background: none;border: none;border: 1px solid #5498e8;">收藏 <i class="fa fa-plus" style="color:#5498EB"></i></button> -->
-															<button  id="daoru" class="btnset" type="button">导入 <i class="fa fa-sign-in"></i></button>  
-															<button  id="plszqx" class="btnset" type="button">批量设置权限 </button>
+													<!--导入和批量设置权限-->
+													<div style="height:36px;line-height:36px;width:100%;position:absolute;">
+														<span class="contectPeople">联系人</span>
+														<button  id="daoru" class="btnset" type="button">导入 <i class="fa fa-sign-in"></i></button>  
+														<button  id="plszqx" class="btnset" type="button">批量设置权限 </button>
+														<button  id="shuang" class="tabControl1" type="button">双表</button>
+														<button  id="dan" class="tabControl2 activeBtn" type="button">单表</button>  
+													</div>
+													<!--表格单表-->
+													<div style="height:100%;width:100%;padding-top:40px;"id="danLbael">
+														<div style="height:100%;width:100%;position:relative;">
+															<div id="gridcont" style="height:100%;width:100%;"></div>
 														</div>
-														<div style="height:100%;width:100%;padding-top:40px;">
-															<div style="height:100%;width:100%;position:relative;">
-																	<div id="gridcont"  style="height:100%;width:100%;"></div>
+													</div>
+													<!--表格双表-->
+													<div style="height:100%;width:100%;padding-top:40px;display: none;"id="shuangLbael">
+														<div style="height:100%;width:100%;position:relative;">
+															<div id="gridcont2" style="height:100%;width:100%;">
 															</div>
 														</div>
+													</div>
 												</div>
 											</div>
 											<div class="newpage12 menuview_dop" id="menuview"><!-- 设置部门权限 --></div>
@@ -116,6 +125,29 @@
 						-->
 					</div>		
 				</div>
+				<!-- 收藏夹部分-->
+				<div class="main_center" id="scDiv" style="display: none;">
+					<div class="main_center_wrap">
+						<!-- 导航部分-->
+						<div style="padding-bottom: 10px;">
+							<span class="contectPeople">收藏夹</span>
+							<button id="lie" type="button" class="tabControl1" style="margin-right: 0px;">列表</button>  
+							<button id="ka" type="button" class="tabControl2 activeBtn">卡片</button>
+						</div>
+						<!--卡片-->
+						<div style="float:left;width: 100%;height:96%;overflow:auto;"id="kaLbael">
+							<div class="lxrContent" id="lxrContent">
+								<!--动态加载-->
+							</div>
+						</div>
+						<!-- 表格-->
+						<div style="float:left;width:100%;height:96%;display: none;" id="lieLbael">
+							<div style="height:100%;width:100%;position:relative;">
+								<div id="gridcont3" style="height:100%;width:100%;"></div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="main_right">
 					<div class="main_right_wrap">
 						<p class="right_title"><span style="color: #5498EB;">特殊电话</span><button  id="add_bmdh">新增 <i class="fa fa-plus"></i></button></p>
@@ -123,7 +155,6 @@
 							<div class="right_part_wrap">
 								<div class="scroller" style="height:100%;padding-right:10px;">
 									<div id="bmdh">
-										
 									</div>
 								</div>
 							</div>
@@ -169,13 +200,14 @@
 	<script src="assets/admin/layout/scripts/quick-sidebar.js" type="text/javascript"></script>
 	<script src="assets/admin/layout/scripts/demo.js" type="text/javascript"></script>
 	<script src="assets/admin/pages/scripts/tasks.js" type="text/javascript"></script>
-	 <script src="assets/global/plugins/gridtable/gridtable.js"></script>
+	<script src="assets/global/plugins/gridtable/gridtable.js"></script>
 	<script src="assets/global/plugins/jstree/dist/jstree.min.js"></script>
 	<script src="templates/admin/commons/js/commons.js" type="text/javascript"></script>
 	<script src="templates/admin/js/index.js" type="text/javascript"></script>
 	<script>
 		var txltree = {"url":"txlorgan/tree","dataType":"text"};//通讯录树
 		var lxr = {"url":"txlUser/scuser","dataType":"text"};//联系人树
+		var lxr1 = {"url":"txlUser/listuser1","dataType":"text"};//收藏人树
 		var orglxr = {"url":"txlUser/orguser","dataType":"text"};//联系
 		var bmdh = {"url":"txlorgtel/listBmdh","dataType":"text"};//部门电话
 		var addorupd = {"url":"txlcollect/addorupd","dataType":"text"};//新增或更新收藏信息

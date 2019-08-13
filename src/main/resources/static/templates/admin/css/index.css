@@ -123,6 +123,13 @@
 	width:100%;height:100%;position:relative;white-space: nowrap;overflow:hidden;
 }
 
+.contentKa{
+	position:absolute;
+	background: red;
+	height:100%;
+	width:100%;
+}
+
 #add_bmdh{
 	display:none; 
 	float:right;
@@ -147,7 +154,6 @@
 .right_title{
 	width:100%;
 }
-
 .btnset{
 	float: right;
 	background:#fff; 
@@ -158,6 +164,38 @@
 	border: none;
 	border: 1px solid #5498e8; 
 	display: none;
+}
+
+/*单表 ---双标样式*/
+/*双表*/
+.tabControl1{
+	float: right;
+	background:#fff; 
+	color: #5498EB; 
+	height: 26px;
+	line-height: 21px;
+	border: 1px solid #5498e8; 
+	margin-right: 10px; 
+	border-radius: 0 5px 5px 0!important; 
+}
+/*单表*/
+.tabControl2{
+	float: right;
+	background:#fff; 
+	color: #5498EB; 
+	height: 26px;
+	line-height: 21px;
+	border: 1px solid #5498e8;
+	border-radius: 5px 0 0 5px !important;
+}
+/*选中*/
+.activeBtn{
+	background:#5498EB; 
+	color: #fff;
+}
+
+.activeSc{
+	background:#b1e1ff; 
 }
 .btnset1{
 	float: right;
@@ -228,3 +266,42 @@
 .user {
 	width: 80%;
 }
+
+/*table样式*/
+.mytable1{
+	width: 49%;
+	height: 100%;
+	float: left;
+}
+.mytable1 thead tr th{
+	border:1px solid #ddd;
+}
+
+.mytable1 tbody tr td{
+	border:1px solid #ddd;
+}
+
+.mytable2{
+	width: 50%;
+	height: 100%;
+	float: right;
+}
+
+.mytable2 thead tr th{
+	border:1px solid #ddd;
+}
+
+.mytable2 tbody tr td{
+	border:1px solid #ddd;
+}
+.contectPeople{
+	height:30px;
+	line-height:30px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+
+
+
+

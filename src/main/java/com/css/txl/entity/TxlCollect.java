@@ -18,6 +18,53 @@ public class TxlCollect implements Serializable {
 	private String userid;
 	//
 	private String collectUserid;
+	private String dept;
+	private String fullname;
+	// 移动电话
+	private String mobile;
+	// 座机电话
+	private String telephone;
+	// 地址
+	private String address;
+	// 地址
+	private String isShow;
+	public String getFullname() {
+		return fullname;
+	}
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
+	public String getMobile() {
+		return mobile;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+	public String getTelephone() {
+		return telephone;
+	}
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getDept() {
+		return dept;
+	}
+	public void setDept(String dept) {
+		this.dept = dept;
+	}
+	public String getIsSc() {
+		return isSc;
+	}
+	public void setIsSc(String isSc) {
+		this.isSc = isSc;
+	}
+	private String isSc;
 
 	/**
 	 * 设置：
@@ -54,5 +101,11 @@ public class TxlCollect implements Serializable {
 	 */
 	public String getCollectUserid() {
 		return collectUserid;
+	}
+	public String getIsShow() {
+		return isShow;
+	}
+	public void setIsShow(String isShow) {
+		this.isShow = isShow;
 	}
 }

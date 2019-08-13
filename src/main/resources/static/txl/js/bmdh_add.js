@@ -14,9 +14,11 @@ var pageModule = function(){
 		//返回上一层
 		$("#return").click(function(){
 			window.location.href="../../index.html";
+//			window.history.go(-1);
 		});
 		$("#quxiao").click(function(){
 			window.location.href="../../index.html";
+//			window.history.go(-1);
 		});
 		
 		//表单验证

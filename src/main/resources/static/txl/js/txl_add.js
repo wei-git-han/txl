@@ -57,7 +57,7 @@ var pageModule = function(){
 		$(".imgsbig").hover(function(){
 			$(this).attr("src","../images/back-hover.png");
 		},function(){
-			$(this).attr("src","../images/back-normal.png");
+			$(this).attr("src","../images/back-normal.png"); 
 		});
 		if (currentOrgid == '' || currentOrgid == 'null' || currentOrgid == null) {
 			currentOrgid = 'root';

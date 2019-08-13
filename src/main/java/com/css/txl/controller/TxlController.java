@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -139,7 +141,66 @@ public class TxlController {
 		json.put("manager", CurrentUser.getIsManager(appConfig.getAppId(), appConfig.getAppSecret()));
 		Response.json(json);
 	}
-
+	@RequestMapping(value = "/doublelistUser")
+	@ResponseBody
+	public void doublelistUser(Integer page, Integer pagesize, String orgid, String searchValue, String currentOrgid) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String orgIds = "";
+		String currentUserId = CurrentUser.getUserId();
+		map.put("currentUserId", currentUserId);
+		if (StringUtils.isNotBlank(searchValue)) {
+			searchValue = searchValue.replace(" ", "");
+			map.put("search", searchValue);
+			if (PinYinUtil.hasZm(searchValue)) {
+				map.put("zm", searchValue);
+			}
+		}
+		if (StringUtils.isNotBlank(currentOrgid)) {
+			orgid = currentOrgid;
+		}
+		if (StringUtils.isBlank(orgid) || "null".equals(orgid)) {
+			orgid = "root";
+		}
+		if (StringUtils.isNotBlank(orgid) && !StringUtils.equals("root", orgid)) {
+			orgIds = allOrgIds(orgid);
+			map.put("orgIds", orgIds.split(","));
+		}
+		boolean isManager = CurrentUser.getIsManager(appConfig.getAppId(), appConfig.getAppSecret());
+		if (!isManager) {
+			map.put("isShow", "1");// 1代表显示的，0和空为隐藏
+		}
+		PageHelper.startPage(page, pagesize);
+		List<TxlUser> liInfos = txlUserService.queryList(map);
+		fillSc(liInfos);
+		if (!isManager) {
+			makeShow(liInfos);
+		}
+		gernOrgs(liInfos);
+		PageUtils pageUtil = new PageUtils(liInfos);
+		JSONObject json = new JSONObject();
+		JSONArray jsonArray = new JSONArray();
+		JSONObject json1 = new JSONObject();
+		jsonArray.add(json1);
+		json1.put("datas", liInfos);
+		json.put("total", pageUtil.getTotalCount());
+		json.put("page", pageUtil.getCurrPage());
+		json.put("rows", jsonArray);
+		json.put("manager", CurrentUser.getIsManager(appConfig.getAppId(), appConfig.getAppSecret()));
+		Response.json(json);
+	}
+	@RequestMapping(value = "/listuser1")
+	@ResponseBody
+	public void listuser1(Integer page, Integer pagesize) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean isManager = CurrentUser.getIsManager(appConfig.getAppId(), appConfig.getAppSecret());
+		if (!isManager) {
+			map.put("isShow", "1");// 1代表显示的，0和空为隐藏
+		}
+		
+		Response.json(this.getScJson1(page, pagesize));
+	}
+	
+	
 	private String allOrgIds(String orgId) {
 		String ret = "";
 		if (StringUtils.isNotBlank(orgId)) {
@@ -441,7 +502,64 @@ public class TxlController {
 		jsons.add(json);
 		return jsons;
 	}
+	
+	public Map<String,Object> getScJson1(Integer page, Integer pagesize) {
+		// 获取收藏
+		PageHelper.startPage(page, pagesize);
+		List<TxlCollect> collects = txlCollectService.getCollect1(CurrentUser.getUserId());
+		for (int i = 0; i < collects.size(); i++) {
+			TxlCollect collect = collects.get(i);
+//		}
+//		for (TxlCollect collect : collects) {
+			TxlUser txlUser = txlUserService.queryObject(collect.getCollectUserid());
+			if (txlUser == null) {
+				continue;
+			}
+			collect.setIsSc("true");
 
+			String depts = "";
+			if ("root".equals(txlUser.getOrganid())) {
+				dept = txlOrganService.queryObject(txlUser.getOrganid()).getOrganname();
+			} else {
+				TxlOrgan wrgan = txlOrganService.queryObject(txlUser.getOrganid());
+				while (!"root".equals(wrgan.getOrganid())) {
+					if ("".equals(depts)) {
+						depts = wrgan.getOrganname();
+					} else {
+						depts = depts + "," + wrgan.getOrganname();
+					}
+					wrgan = txlOrganService.queryObject(wrgan.getFatherid());
+				}
+				String[] deptL = depts.split(",");
+				if (deptL.length > 1) {
+					dept = deptL[deptL.length - 1] + " | " + deptL[deptL.length - 2];
+				} else if (deptL.length == 1) {
+					dept = deptL[deptL.length - 1];
+				}
+			}
+			if (null != txlUser.getPost() && !"".equals(txlUser.getPost())) {
+				collect.setDept(dept + " | " + txlUser.getPost());
+			} else {
+				collect.setDept(dept);
+			}
+			collect.setFullname(txlUser.getFullname());
+			collect.setMobile(txlUser.getMobile());
+			collect.setTelephone(txlUser.getTelephone());
+			collect.setAddress(txlUser.getAddress());
+			collect.setUserid(txlUser.getUserid());
+			collect.setIsShow(txlUser.getIsShow());
+//			if (CurrentUser.getIsManager(appConfig.getAppId(), appConfig.getAppSecret())) {
+//				scList.add(txlUser);
+//			} else if (!"0".equals(txlUser.getIsShow())) {
+//				scList.add(txlUser);
+//			}
+		}
+//		collects = collects.stream().filter(collect1 -> !StringUtils.equals(collect1.getIsShow(), "0")).collect(Collectors.toList());
+		PageUtils pageUtil = new PageUtils(collects);
+		return pageUtil.getPageResult();
+	}
+
+	
 	/**
 	 * 获取所有的组织机构
 	 * 
