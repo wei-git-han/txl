@@ -477,8 +477,10 @@ var pageModule = function(){
 		    $("#treeSecId").val(id);
 			grid.setparams({"orgid":id,"searchValue":searchValue});
 			grid2.setparams({"orgid":id,"searchValue":searchValue});
-			grid.refresh();
-			grid2.refresh();
+			currentPage=1;
+			currentPage2=1;
+			initgrid();
+			initgrid2();
 		});
 	
 		$("#tree_2").on("hover_node.jstree", function(e,data) {
