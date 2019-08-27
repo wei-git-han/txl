@@ -162,7 +162,7 @@ var pageModule = function(){
             newpage:currentPage2,
             pagesize: 24,
             loadafter:function(data){
-            	currentPage2 = $("#gridcont2_newpage").val();
+            	currentPage2 = $("#gridcont2_newpage").val()-0;
             },
             url: tablegrid2
        });
@@ -330,7 +330,7 @@ var pageModule = function(){
             newpage:currentPage,
             pagesize: 12,
             loadafter:function(data){
-            	currentPage = $("#gridcont3_newpage").val();
+            	currentPage = $("#gridcont3_newpage").val()-0;
             },
             url: lxr1
        });
@@ -386,7 +386,7 @@ var pageModule = function(){
             newpage:currentPage,
             pagesize: 12,
             loadafter:function(data){
-            	currentPage = $("#gridcont_newpage").val();
+            	currentPage = $("#gridcont_newpage").val()-0;
             },
             url: tablegrid
        });
