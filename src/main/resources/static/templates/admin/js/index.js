@@ -32,11 +32,11 @@ var pageModule = function(){
              		var length=rowdata.datas.length; //总长度
              		var array1="";
     				var array2="";
-    				if(length<=12){
-    					array1=array.slice(0,12);
+    				if(length<=16){
+    					array1=array.slice(0,15);
     				}else{
-   						array1=array.slice(0,12);
-   						array2=array.slice(12,24);
+   						array1=array.slice(0,15);
+   						array2=array.slice(15,30);
     				}
     				table_content1+="<tbody>";
     				$.each(array1,function(i,item){
@@ -160,7 +160,7 @@ var pageModule = function(){
             paramobj:{"orgid":currentOrgid},
             overflowx:false,
             newpage:currentPage2,
-            pagesize: 24,
+            pagesize: 30,
             loadafter:function(data){
             	currentPage2 = $("#gridcont2_newpage").val()-0;
             },
@@ -328,7 +328,7 @@ var pageModule = function(){
             paramobj:{},
             overflowx:true,
             newpage:currentPage,
-            pagesize: 12,
+            pagesize: 16,
             loadafter:function(data){
             	currentPage = $("#gridcont3_newpage").val()-0;
             },
@@ -384,7 +384,7 @@ var pageModule = function(){
             paramobj:{"orgid":currentOrgid},
             overflowx:false,
             newpage:currentPage,
-            pagesize: 12,
+            pagesize: 16,
             loadafter:function(data){
             	currentPage = $("#gridcont_newpage").val()-0;
             },
