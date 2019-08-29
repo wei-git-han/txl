@@ -18,7 +18,7 @@ var grid=null;
 var grid2=null;
 var grid3=null;
 var pageModule = function(){
-	//双表-------------
+	//双表--------------
 	var initgrid2 = function(){
         grid2 = $("#gridcont2").createGrid({
             columns:[
