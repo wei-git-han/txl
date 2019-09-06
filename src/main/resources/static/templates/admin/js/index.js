@@ -16,7 +16,8 @@ var show=true;
 var grid=null;
 var grid3=null;
 var o = {};
-o.pageSize= localStorage.getItem('pageSize1')||15;
+o.pageSize = localStorage.getItem('pageSize1')||15;
+o.pageSize2 = localStorage.getItem('pageSize2')||15;
 var pageModule = function(){
 	/*收藏*/
 	var initLxr = function(){
@@ -141,7 +142,7 @@ var pageModule = function(){
 			height: "100%",
 			pagination:true,
 			fitColumns: true,
-			pageSize:15,
+			pageSize:o.pageSize2||15,
 			queryParams:{},
 			pageList: [15,30,60,80,100],
 			striped:true,
@@ -172,7 +173,10 @@ var pageModule = function(){
 				 return caozuo;
 				}}
                 ]
-			]
+			],
+			onLoadSuccess:function(){
+				localStorage.setItem('pageSize2',$("#lieLbael .pagination-page-list").val())
+			}
 		});
 	}
 	//单表
@@ -238,7 +242,7 @@ var pageModule = function(){
 			onLoadSuccess:function(){
 				currentPage = $(".pagination-num").val() - 0;
 				currentOrgid=currentOrgid;
-				localStorage.setItem('pageSize1',$(".pagination-page-list").val())
+				localStorage.setItem('pageSize1',$("#danLbael .pagination-page-list").val())
 			}
 		});
 	}
