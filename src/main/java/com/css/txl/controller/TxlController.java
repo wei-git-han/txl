@@ -100,7 +100,7 @@ public class TxlController {
 
 	@RequestMapping(value = "/listuser")
 	@ResponseBody
-	public void listuser(Integer page, Integer pagesize, String orgid, String searchValue, String currentOrgid) {
+	public void listuser(Integer page, Integer rows, String orgid, String searchValue, String currentOrgid) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String orgIds = "";
 		String currentUserId = CurrentUser.getUserId();
@@ -126,7 +126,7 @@ public class TxlController {
 		if (!isManager) {
 			map.put("isShow", "1");// 1代表显示的，0和空为隐藏
 		}
-		PageHelper.startPage(page, pagesize);
+		PageHelper.startPage(page, rows);
 		List<TxlUser> liInfos = txlUserService.queryList(map);
 		fillSc(liInfos);
 		if (!isManager) {
@@ -190,17 +190,14 @@ public class TxlController {
 	}
 	@RequestMapping(value = "/listuser1")
 	@ResponseBody
-	public void listuser1(Integer page, Integer pagesize) {
+	public void listuser1(Integer page, Integer rows) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean isManager = CurrentUser.getIsManager(appConfig.getAppId(), appConfig.getAppSecret());
 		if (!isManager) {
 			map.put("isShow", "1");// 1代表显示的，0和空为隐藏
 		}
-		
-		Response.json(this.getScJson1(page, pagesize));
+		Response.json(this.getScJson1(page, rows));
 	}
-	
-	
 	private String allOrgIds(String orgId) {
 		String ret = "";
 		if (StringUtils.isNotBlank(orgId)) {

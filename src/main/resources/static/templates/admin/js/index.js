@@ -10,164 +10,14 @@ $(window).resize(function(){
 	window.location.href="index.html";
 })
 var currentPage=getUrlParam("currentPage")||1; //单表
-var currentPage2=getUrlParam("currentPage2")||1; //双表
 var currentOrgid=getUrlParam("currentOrgid");
 var cbox=true;
 var show=true;
 var grid=null;
-var grid2=null;
 var grid3=null;
+var o = {};
+o.pageSize= localStorage.getItem('pageSize1')||15;
 var pageModule = function(){
-	//双表--------------
-	var initgrid2 = function(){
-        grid2 = $("#gridcont2").createGrid({
-            columns:[
-            	 {display:"姓名",name:"datas",width:"100%",align:"center",paixu:false,render:function(rowdata,n){
-            		var widthShow=$("#gridcont2").width();
-             		var widthLeft=$("#gridcont2").width()/2;
-             		var percentWidth = ($("#gridcont2").width()-10)/20
-            	    var table_content1="";
-            	    var table_content2="";
-             		var array=rowdata.datas; //总数据
-             		var length=rowdata.datas.length; //总长度
-             		var array1="";
-    				var array2="";
-    				if(length<=16){
-    					array1=array.slice(0,15);
-    				}else{
-   						array1=array.slice(0,15);
-   						array2=array.slice(15,30);
-    				}
-    				table_content1+="<tbody>";
-    				$.each(array1,function(i,item){
-    					 var caozuo="";
-                    	 if(item.isSc == 0 ){
-                    		 caozuo = '<a class="ysc" style="margin-right:10px;" title="收藏" href="javascript:addscfn(\''+item.userid+'\')"><i class="fa fa-star"></i></a>';
-                    	 }else{
-                    		 caozuo = '<a class="sc" style="margin-right:10px;" title="取消收藏" href="javascript:delscfn(\''+item.userid+'\')"><i class="fa fa-star"></i></a>';
-                    	 }
-                    	 if(show){
-                    		 if(item.isShow=="1"||item.isShow==""){
-                    			 caozuo += '<a class="sc" title="隐藏" href="javascript:addycfn(\''+item.userid+'\')"><i class="fa fa-eye"></i></a>';
-                          	 }else{
-                          		caozuo += '<a class="ysc" title="取消隐藏" href="javascript:delycfn(\''+item.userid+'\')"><i class="fa fa-eye"></i></a>';
-                          	 }
-                    	 }
-                    	 var remarks="";
-                    	 if(item.remarks == '' || item.remarks == null){
-                    		 remarks ='<div class="remarkContent" style="width: 100%; height: 18.5px; cursor:pointer;" title="点击进行编辑" data-toggle="modal" href="#editRemarks" onclick="editRemarks(\''+item.userid+'\',\''+item.fullname+'\',\''+item.remarks+'\')">'+item.remarks+'</div>';
-	                   	  } else {
-	                   		 remarks ='<span class="remarkContent" style="cursor:pointer;" title="'+item.remarks+'" data-toggle="modal" href="#editRemarks" onclick="editRemarks(\''+item.userid+'\',\''+item.fullname+'\',\''+item.remarks+'\')">'+item.remarks+'</span>'; 
-	                   	  }
-    					table_content1+=
-             					"<tr style='height: 36px;line-height: 36px;' class='body_tr'>" +
-	                    			"<td style='width:"+percentWidth+"px;max-width:"+percentWidth+"px'>"+(i+1)+"</td>" +
-									"<td title="+item.fullname+" style='cursor:pointer;width:"+percentWidth+"px;max-width:"+percentWidth+"px'>" +
-										'<a href="javascript:void(0);" onclick="clickfn(\''+item.userid+'\')">'+item.fullname+'</a>'+
-									"</td>"+
-	                    			"<td title="+item.mobile+" style='cursor:pointer;width:"+percentWidth+"px;max-width:"+percentWidth+"px'>"+item.mobile+"</td>" +
-	                    			"<td title="+item.telephone+"  style='cursor:pointer;width:"+percentWidth+"px;max-width:"+percentWidth+"px'>"+item.telephone+"</td>" +
-	                    			"<td title="+item.address+" style='cursor:pointer;width:"+percentWidth+"px;max-width:"+percentWidth+"px'>"+item.address+"</td>" +
-	                    			"<td title="+item.dept+" style='cursor:pointer;width:"+parseInt(1.5*percentWidth)+"px;max-width:"+parseInt(1.5*percentWidth)+"px'>"+item.dept+"</td>" +
-	                    			//操作
-	                    			"<td style='width:"+parseInt(1.5*percentWidth)+"px;max-width:"+parseInt(1.5*percentWidth)+"px'>"+caozuo+"</td>"+
-	                    			//备注
-	                    			"<td style='width:"+parseInt(2*percentWidth)+"px;max-width:"+parseInt(2*percentWidth)+"px'>"+remarks+"</td>" +
-                    			"</tr>";
-    				});
-    				table_content1+="</tbody>";
-    				table_content2+="<tbody>";
-    				$.each(array2,function(i,item){
-    						var caozuo="";
-		                   	 if(item.isSc == 0 ){
-		                   		 caozuo = '<a class="ysc" style="margin-right:10px;" title="收藏" href="javascript:addscfn(\''+item.userid+'\')"><i class="fa fa-star"></i></a>';
-		                   	 }else{
-		                   		 caozuo = '<a class="sc" style="margin-right:10px;" title="取消收藏" href="javascript:delscfn(\''+item.userid+'\')"><i class="fa fa-star"></i></a>';
-		                   	 }
-		                   	 if(show){
-		                   		 if(item.isShow=="1"||item.isShow==""){
-		                   			 caozuo += '<a class="sc" title="隐藏" href="javascript:addycfn(\''+item.userid+'\')"><i class="fa fa-eye"></i></a>';
-		                         	 }else{
-		                         	 caozuo += '<a class="ysc" title="取消隐藏" href="javascript:delycfn(\''+item.userid+'\')"><i class="fa fa-eye"></i></a>';
-		                         	 }
-		                   	 }
-		                   	 var remarks="";
-		                   	 if(item.remarks == '' || item.remarks == null){
-		                   		 remarks ='<div class="remarkContent" style="width: 100%; height: 18.5px; cursor:pointer;" title="点击进行编辑" data-toggle="modal" href="#editRemarks" onclick="editRemarks(\''+item.userid+'\',\''+item.fullname+'\',\''+item.remarks+'\')">'+item.remarks+'</div>';
-			                   } else {
-			                   		 remarks ='<span class="remarkContent" style="cursor:pointer;" title="'+item.remarks+'" data-toggle="modal" href="#editRemarks" onclick="editRemarks(\''+item.userid+'\',\''+item.fullname+'\',\''+item.remarks+'\')">'+item.remarks+'</span>'; 
-			                   }
-    					table_content2+=
-	    						"<tr style='height: 36px;line-height: 36px;' class='body_tr'>" +
-		                			"<td style='width:"+percentWidth+"px;max-width:"+percentWidth+"px'>"+(i+1)+"</td>" +
-									"<td title="+item.fullname+" style='cursor:pointer;width:"+percentWidth+"px;max-width:"+percentWidth+"px'>" +
-										'<a href="javascript:void(0);" onclick="clickfn(\''+item.userid+'\')">'+item.fullname+'</a>'+
-									"</td>"+
-		                			"<td title="+item.mobile+" style='cursor:pointer;width:"+percentWidth+"px;max-width:"+percentWidth+"px'>"+item.mobile+"</td>" +
-		                			"<td title="+item.telephone+"  style='cursor:pointer;width:"+percentWidth+"px;max-width:"+percentWidth+"px'>"+item.telephone+"</td>" +
-		                			"<td title="+item.address+" style='cursor:pointer;width:"+percentWidth+"px;max-width:"+percentWidth+"px'>"+item.address+"</td>" +
-		                			"<td title="+item.dept+" style='cursor:pointer;width:"+parseInt(1.5*percentWidth)+"px;max-width:"+parseInt(1.5*percentWidth)+"px'>"+item.dept+"</td>" +
-		                			//操作
-		                			"<td style='width:"+parseInt(1.5*percentWidth)+"px;max-width:"+parseInt(1.5*percentWidth)+"px'>"+caozuo+"</td>"+
-		                			//备注
-		                			"<td style='width:"+parseInt(2*percentWidth)+"px;max-width:"+parseInt(2*percentWidth)+"px'>"+remarks+"</td>" +
-	            			"</tr>";
-                    		
-    				})
-    				table_content2+="</tbody>";
-            		 //放两个表格
-                    return "<div style='row'>" +
-                    		"<div class='col-md-6' style='padding-left:0px;padding-right:2.5px'>"+
-                    		"<table class='table1'>" +
-                    			"<thead>"+
-		                    		"<tr class='table1_tr'>" +
-		                    			"<th>序号</th>" +
-		                    			"<th>姓名</th>" +
-		                    			"<th>手机号</th>" +
-		                    			"<th>座机号</th>" +
-		                    			"<th>房间号</th>" +
-		                    			"<th>部门</th>" +
-		                    			"<th>操作</th>" +
-		                    			"<th>备注</th>" +
-		                    		"</tr>" +
-	                    		"</thead>"
-		                    	+table_content1+
-                    		"</table>" +
-                    		"</div>"+
-                    		"<div class='col-md-6' style='padding-left:2.5px;padding-right:0px'>"+
-	                    		"<table class='table2'>" +
-		                			"<thead>"+
-			                    		"<tr class='table1_tr'>" +
-			                    			"<th>序号</th>" +
-			                    			"<th>姓名</th>" +
-			                    			"<th>手机号</th>" +
-			                    			"<th>座机号</th>" +
-			                    			"<th>房间号</th>" +
-			                    			"<th>部门</th>" +
-			                    			"<th>操作</th>" +
-			                    			"<th>备注</th>" +
-			                    		"</tr>" +
-		                    		"</thead>"
-		                    	+table_content2+
-		                    "</table>" +
-                		"</div>"+
-                    	"</div>";
-                 }}
-             ],
-            width:"100%",
-            checkbox:false,
-            rownumberyon:false,
-            paramobj:{"orgid":currentOrgid},
-            overflowx:false,
-            newpage:currentPage2,
-            pagesize: 30,
-            loadafter:function(data){
-            	currentPage2 = $("#gridcont2_newpage").val()-0;
-            },
-            url: tablegrid2
-       });
-	}
-	
 	/*收藏*/
 	var initLxr = function(){
 		$ajax({
@@ -217,7 +67,7 @@ var pageModule = function(){
 				$.each(data, function(i,obj) {
 					$("#bmdh").append(
 						'<div class="model">'+
-						'	<div class="model_title"><a style="cursor:pointer"   onclick="clickbmdhfn(\''+obj.id+'\')">'+obj.orgName+'</a><i class="fa fa-trash-o ljt" style="display:none;cursor:pointer;float: right;padding-right:5px;padding-top:3px;"  onclick="delfn(\''+obj.id+'\')"    style="float:right;cursor:pointer;"></i></div>'+
+						'	<div class="model_title"><a style="cursor:pointer" onclick="clickbmdhfn(\''+obj.id+'\')">'+obj.orgName+'</a><i class="fa fa-trash-o ljt" style="display:none;cursor:pointer;float: right;padding-right:5px;padding-top:3px;"  onclick="delfn(\''+obj.id+'\')"    style="float:right;cursor:pointer;"></i></div>'+
 						'	<div class="model_title2"><img src="templates/admin/images/tel_03.png" class="telpic2" /><span>'+obj.orgTel+'</span></div>'+
 						'	<div class="model_title2" style="width:100%;margin-top:3px;"><img src="templates/admin/images/adress_20.png" style="float:left;margin-top: 3px;" class="telpic2" /><span  style="display: block;width: 155px; text-overflow: ellipsis;overflow: hidden; white-space: nowrap;" title='+obj.orgAddress+'>'+obj.orgAddress+'</span></div>'+
 						'</div>'
@@ -225,21 +75,6 @@ var pageModule = function(){
 				})
 			}
 		})
-	}	
-	/*单表-双表选择*/
-	var initLabel=function(){
-		$("#dan").click(function(){
-			$(this).addClass("activeBtn").siblings().removeClass("activeBtn");
-			$("#danLbael").show();
-			$("#shuangLbael").hide();
-			initgrid();
-		});
-		$("#shuang").click(function(){
-			$(this).addClass("activeBtn").siblings().removeClass("activeBtn");
-			$("#danLbael").hide();
-			$("#shuangLbael").show();
-			initgrid2();
-		});
 	}	
 	//收藏夹的方法
 	var initSc=function(){
@@ -279,7 +114,7 @@ var pageModule = function(){
 			url:authenurl,
 			success:function(data){
 //				if(true == true){
-				if(true == data.manager){
+				if(true == data.manager){ 
 		   		 	cbox = true;
 		   		 	show = true;
 		   		 	$("#daoru").show();
@@ -294,102 +129,118 @@ var pageModule = function(){
            	   		$(".ljt").hide();
 			   	};
 			   	initgrid();
-			   	initgrid2();
+				initgrid3();
 			}
 		});
 	}
 	//收藏卡表格
 	var initgrid3 = function(){
-        grid3 = $("#gridcont3").createGrid({
-            columns:[
-            	{display:"姓名",name:"fullname",width:"10%",align:"center",paixu:false,render:function(rowdata,n){
-                    return  '<a onclick="clickfn(\''+rowdata.userid+'\')">'+rowdata.fullname+'</a>';
-                 }},
-                 {display:"手机号",name:"mobile",width:"10%",align:"center",paixu:false,render:function(rowdata){
-                     return rowdata.mobile;                                        
-                 }},
-                 {display:"座机号",name:"telephone",width:"15%",align:"center",paixu:false,render:function(rowdata){
-                      return rowdata.telephone;                                     
-                 }},
-                 {display:"房间号",name:"address",width:"15%",align:"center",paixu:false,render:function(rowdata){
-                     return rowdata.address;                                        
-                  }},
-                 {display:"部门",name:"dept",width:"25%",align:"center",paixu:false,render:function(rowdata){
-                    return '<span title="'+rowdata.dept+'">'+rowdata.dept+'</span>';                                         
-                 }},
-                 {display:"操作",name:"caozuo",width:"25%",align:"center",paixu:false,render:function(rowdata){
-                   	var caozuo = '<a class="sc" style="margin-right:10px;" title="取消收藏" href="javascript:delscfn(\''+rowdata.userid+'\')"><i class="fa fa-star"></i></a>';
-                   	return caozuo;
-                 }}
-             ],
-            width:"100%",
-            checkbox:false,
-            rownumberyon:true,
-            paramobj:{},
-            overflowx:true,
-            newpage:currentPage,
-            pagesize: 16,
-            loadafter:function(data){
-            	currentPage = $("#gridcont3_newpage").val()-0;
-            },
-            url: lxr1
-       });
+		grid3 = $('#gridcont3').datagrid({
+			url:lxr1.url,
+			width: "100%",
+			height: "100%",
+			pagination:true,
+			fitColumns: true,
+			pageSize:15,
+			queryParams:{},
+			pageList: [15,30,60,80,100],
+			striped:true,
+			scrollbarSize:0,
+			rownumbers:true,
+			method:'GET',
+			columns:[
+				[
+				{field:"fullname",title:"姓名",width:"15%",align:"center",halign:'center',sortable:false,formatter:function(value,rowdata,n){
+					return rowdata.fullname;
+					}
+				},
+				{field:"mobile",title:"手机号",width:"15%",align:"center",sortable:false,formatter:function(value,rowdata,n){
+					return rowdata.mobile;
+					}
+				},
+				{field:"telephone",title:"座机号",width:"15%",align:"center",sortable:false,formatter:function(value,rowdata,n){
+					return rowdata.telephone;                                     
+				}},
+				{field:"address",title:"房间号",width:"20%",align:"center",sortable:false,formatter:function(value,rowdata,n){
+					return rowdata.address;                                     
+				}},
+				{field:"dept",title:"部门",width:"25%",align:"center",sortable:false,formatter:function(value,rowdata,n){
+					return '<span title="'+rowdata.dept+'">'+rowdata.dept+'</span>';                                 
+				}},
+				{field:"caozuo",title:"收藏",width:"10.2%",align:"center",sortable:false,formatter:function(value,rowdata,n){
+				 var caozuo = '<a class="sc" style="margin-right:10px;" title="取消收藏" href="javascript:delscfn(\''+rowdata.userid+'\')"><i class="fa fa-star"></i></a>';
+				 return caozuo;
+				}}
+                ]
+			]
+		});
 	}
-	//单表-------------
+	//单表
 	var initgrid = function(){
-        grid = $("#gridcont").createGrid({
-            columns:[
-            	 {display:"姓名",name:"fullname",width:"10%",align:"center",paixu:false,render:function(rowdata,n){
-                    return  '<a onclick="clickfn(\''+rowdata.userid+'\')">'+rowdata.fullname+'</a>';
-                 }},
-                 {display:"手机号",name:"mobile",width:"10%",align:"center",paixu:false,render:function(rowdata){
-                     return rowdata.mobile;                                        
-                 }},
-                 {display:"座机号",name:"telephone",width:"15%",align:"center",paixu:false,render:function(rowdata){
-                      return rowdata.telephone;                                     
-                 }},
-                 {display:"房间号",name:"address",width:"10%",align:"center",paixu:false,render:function(rowdata){
-                     return rowdata.address;                                        
-                  }},
-                 {display:"部门",name:"dept",width:"20%",align:"center",paixu:false,render:function(rowdata){
-                    return '<span title="'+rowdata.dept+'">'+rowdata.dept+'</span>';                                         
-                 }},
-                 {display:"操作",name:"caozuo",width:"5%",align:"center",paixu:false,render:function(rowdata){
-                	 var caozuo="";
-                	 if(rowdata.isSc == 0 ){
-                		 caozuo = '<a class="ysc" style="margin-right:10px;" title="收藏" href="javascript:addscfn(\''+rowdata.userid+'\')"><i class="fa fa-star"></i></a>';
-                	 }else{
-                		 caozuo = '<a class="sc" style="margin-right:10px;" title="取消收藏" href="javascript:delscfn(\''+rowdata.userid+'\')"><i class="fa fa-star"></i></a>';
-                	 }
-                	 if(show){
-                		 if(rowdata.isShow=="1"||rowdata.isShow==""){
-                			 caozuo += '<a class="sc" title="隐藏" href="javascript:addycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
-                      	 }else{
-                      		caozuo += '<a class="ysc" title="取消隐藏" href="javascript:delycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
-                      	 }
-                	 }
-                   	 return caozuo;                                         
-                  }},
-                  {display:"备注",name:"remarks",width:"32%",align:"left",paixu:false,render:function(rowdata){
-                	  if(rowdata.remarks == '' || rowdata.remarks == null){
-                		  return '<div class="remarkContent" style="width: 100%; height: 18.5px; cursor:pointer;" title="点击进行编辑" data-toggle="modal" href="#editRemarks" onclick="editRemarks(\''+rowdata.userid+'\',\''+rowdata.fullname+'\',\''+rowdata.remarks+'\')">'+rowdata.remarks+'</div>';
-                	  } else {
-                		  return '<span class="remarkContent" style="cursor:pointer;" title="'+rowdata.remarks+'" data-toggle="modal" href="#editRemarks" onclick="editRemarks(\''+rowdata.userid+'\',\''+rowdata.fullname+'\',\''+rowdata.remarks+'\')">'+rowdata.remarks+'</span>'; 
-                	  }                                 
-                   }}
-             ],
-            width:"100%",
-            checkbox:cbox,
-            rownumberyon:true,
-            paramobj:{"orgid":currentOrgid},
-            overflowx:false,
-            newpage:currentPage,
-            pagesize: 16,
-            loadafter:function(data){
-            	currentPage = $("#gridcont_newpage").val()-0;
-            },
-            url: tablegrid
-       });
+		grid = $('#gridcont').datagrid({
+			url:tablegrid.url,
+			width: "100%",
+			height: "100%",
+			pagination:true,
+			fitColumns: true,
+			pageSize:o.pageSize||15,
+			queryParams:{"orgid":currentOrgid},
+			pageList: [15,30,60,80,100],
+			striped:true,
+			scrollbarSize:0,
+			rownumbers:true,
+			pageNumber:(currentPage-0),
+			method:'GET',
+			columns:[
+				[
+				{field:"fullname",title:"姓名",width:"10%",align:"center",halign:'center',sortable:false,formatter:function(value,rowdata,n){
+					return '<a onclick="clickfn(\''+rowdata.userid+'\')">'+rowdata.fullname+'</a>';
+					}
+				},
+				{field:"mobile",title:"手机号",width:"10%",align:"center",sortable:false,formatter:function(value,rowdata,n){
+					return rowdata.mobile;
+					}
+				},
+				{field:"telephone",title:"座机号",width:"10%",align:"center",sortable:false,formatter:function(value,rowdata,n){
+					return rowdata.telephone;                                     
+				}},
+				{field:"address",title:"房间号",width:"15%",align:"center",sortable:false,formatter:function(value,rowdata,n){
+					return rowdata.address;                                     
+				}},
+				{field:"dept",title:"部门",width:"20%",align:"center",sortable:false,formatter:function(value,rowdata,n){
+					return '<span title="'+rowdata.dept+'">'+rowdata.dept+'</span>';                                 
+				}},
+				{field:"sc",title:"操作",width:"5%",align:"center",sortable:false,formatter:function(value,rowdata,n){
+				 var caozuo="";
+             	 if(rowdata.isSc == 0 ){
+             		 caozuo = '<a class="ysc" style="margin-right:10px;" title="收藏" href="javascript:addscfn(\''+rowdata.userid+'\')"><i class="fa fa-star"></i></a>';
+             	 }else{
+             		 caozuo = '<a class="sc" style="margin-right:10px;" title="取消收藏" href="javascript:delscfn(\''+rowdata.userid+'\')"><i class="fa fa-star"></i></a>';
+             	 }
+             	 if(show){
+             		 if(rowdata.isShow=="1"||rowdata.isShow==""){
+             			 caozuo += '<a class="sc" title="隐藏" href="javascript:addycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
+                   	 }else{
+                   		caozuo += '<a class="ysc" title="取消隐藏" href="javascript:delycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
+                   	 }
+             	 }
+                	 return caozuo;  					
+				}},
+				{field:"remarks",title:"备注",width:"30.3%",align:"center",sortable:false,formatter:function(value,rowdata,n){
+					if(rowdata.remarks == '' || rowdata.remarks == null){
+            		  return '<div class="remarkContent" style="width: 100%; height: 18.5px; cursor:pointer;" title="点击进行编辑" data-toggle="modal" href="#editRemarks" onclick="editRemarks(\''+rowdata.userid+'\',\''+rowdata.fullname+'\',\''+rowdata.remarks+'\')">'+rowdata.remarks+'</div>';
+            	  } else {
+            		  return '<span class="remarkContent" style="cursor:pointer;" title="'+rowdata.remarks+'" data-toggle="modal" href="#editRemarks" onclick="editRemarks(\''+rowdata.userid+'\',\''+rowdata.fullname+'\',\''+rowdata.remarks+'\')">'+rowdata.remarks+'</span>'; 
+            	  } 
+				}}
+                ]
+			],
+			onLoadSuccess:function(){
+				currentPage = $(".pagination-num").val() - 0;
+				currentOrgid=currentOrgid;
+				localStorage.setItem('pageSize1',$(".pagination-page-list").val())
+			}
+		});
 	}
 	var initMenuview = function(){
 		$ajax({
@@ -475,12 +326,7 @@ var pageModule = function(){
 		    var searchValue = $("#searchValue").val();
 		    currentOrgid = id;
 		    $("#treeSecId").val(id);
-			grid.setparams({"orgid":id,"searchValue":searchValue});
-			grid2.setparams({"orgid":id,"searchValue":searchValue});
-			currentPage=1;
-			currentPage2=1;
 			initgrid();
-			initgrid2();
 		});
 	
 		$("#tree_2").on("hover_node.jstree", function(e,data) {
@@ -511,7 +357,6 @@ var pageModule = function(){
 										$("#tree_2").jstree().destroy();  //把树节点删除
 										inittree();
 										initgrid();
-										initgrid2();
 									});
 								}else{
 									newbootbox.alertInfo("隐藏失败！");
@@ -531,7 +376,6 @@ var pageModule = function(){
 								$("#tree_2").jstree().destroy();  //把树节点删除
 								inittree();
 								initgrid();
-								initgrid2();
 							});
 						}else{
 							newbootbox.alertInfo("取消隐藏失败！");
@@ -571,10 +415,8 @@ var pageModule = function(){
 			var left  =  parseInt($(".lxrContent").css("left"));
 			var width1 = $(".lxrContent").width();
 			var width2 = $(".lxrContent").parent().width();
-			
 			if(Math.abs(width1)>(width2+Math.abs(left))){
 				var left1= width1-width2-Math.abs(left);
-				
 				if(left1>=(thisWidth+10)){
 					left-=(thisWidth+10);
 				}else{
@@ -626,15 +468,10 @@ var pageModule = function(){
 			var id = $("#treeSecId").val();
 			var searchValue = $("#searchValue").val();
 			$("#secName").val(searchValue);
-			grid.setparams({"orgid":id,"searchValue":searchValue});
-			grid.refresh();
+			$('#gridcont').datagrid('load',{"orgid":id,"searchValue":searchValue});
+			$('#gridcont3').datagrid('load',{"searchValue":searchValue});
 		});
-		
-		/*$(".searchValue").on("input",function(event){
-			$(".search_btn").click();
-        });*/
 		bindResize(document.getElementById("moveDiv"),document.getElementById("treeDiv"),document.getElementById("contentDiv"));
-		
 		//拿到当前的用户
 		$ajax({
 			url: userInfourl,
@@ -652,15 +489,11 @@ var pageModule = function(){
 			initmanager();//列表
 			bmdhfn();//右侧部门电话
 			initMenuview();//设置功能权限
-			initLabel();//单表-双表选择
 			initSc();  //收藏夹与组织机构切换的方法
 			initScLabel(); //收藏中的列表和卡片控制
 		},
 		gridfresh:function(){
 			initgrid();
-		},
-		gridfresh2:function(){
-			initgrid2();
 		},
 		initLxrfresh:function(){
 			initLxr();
@@ -730,7 +563,7 @@ var addscfn = function(id) {
 					if(data.result=="success"){
 						newbootbox.alertInfo("收藏成功！").done(function(){
 							pageModule.initLxrfresh();
-							pageModule.gridfresh2();
+							pageModule.gridfresh();
 							pageModule.gridfresh3();
 							$(".search_btn").click();
 						});
@@ -751,7 +584,6 @@ function delscfn(id){
 				newbootbox.alertInfo("取消成功！").done(function(){
 					pageModule.initLxrfresh();
 					pageModule.gridfresh3();
-					pageModule.gridfresh2();
 					$(".search_btn").click();
 				});
 			}else{
@@ -773,7 +605,6 @@ var addycfn = function(id) {
 					if(data.result=="success"){
 						newbootbox.alertInfo("隐藏成功！").done(function(){
 							pageModule.gridfresh();
-							pageModule.gridfresh2();
 						});
 					}else{
 						newbootbox.alertInfo("隐藏失败！");
@@ -791,7 +622,6 @@ function delycfn(id){
 			if(data.result=="success"){
 				newbootbox.alertInfo("取消隐藏成功！").done(function(){
 					pageModule.gridfresh();
-					pageModule.gridfresh2();
 				});
 			}else{
 				newbootbox.alertInfo("取消隐藏失败！");
@@ -833,7 +663,6 @@ function bindResize(el,el1,el2){
 	x=y=0;
 	$(el).mousedown(function(e){
 		x=e.clientX-el1.offsetWidth;
-		//y=e.clientY-el.offsetHeight;
 		if(el.setCapture){
 			el.setCapture();
 			el.onmousemove = function(ev){
@@ -854,7 +683,6 @@ function bindResize(el,el1,el2){
 			w1 = "250px";
 		};
 		els.width = w1+"px";
-		//els.height = (e.clientY-y)+"px";
 		els2.paddingLeft = (w1)+"px";
 	};
 	function mouseUp(e){
@@ -888,7 +716,6 @@ $('#saveRemarks').click(function(){
 				newbootbox.alertInfo("编辑出错");
 			}
 			pageModule.gridfresh();
-			pageModule.gridfresh2();
 		}
 	})
 })
