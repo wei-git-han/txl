@@ -16,8 +16,8 @@ var show=true;
 var grid=null;
 var grid3=null;
 var o = {};
-o.pageSize = localStorage.getItem('pageSize1')||15;
-o.pageSize2 = localStorage.getItem('pageSize2')||15;
+o.pageSize = localStorage.getItem('pageSize1')||20;
+o.pageSize2 = localStorage.getItem('pageSize2')||20;
 var pageModule = function(){
 	/*收藏*/
 	var initLxr = function(){
@@ -142,9 +142,9 @@ var pageModule = function(){
 			height: "100%",
 			pagination:true,
 			fitColumns: true,
-			pageSize:o.pageSize2||15,
+			pageSize:o.pageSize2||20,
 			queryParams:{},
-			pageList: [15,30,60,80,100],
+			pageList: [20,40,60,80,100],
 			striped:true,
 			scrollbarSize:0,
 			rownumbers:true,
@@ -187,9 +187,9 @@ var pageModule = function(){
 			height: "100%",
 			pagination:true,
 			fitColumns: true,
-			pageSize:o.pageSize||15,
+			pageSize:o.pageSize||20,
 			queryParams:{"orgid":currentOrgid},
-			pageList: [15,30,60,80,100],
+			pageList: [20,40,60,80,100],
 			striped:true,
 			scrollbarSize:0,
 			rownumbers:true,
