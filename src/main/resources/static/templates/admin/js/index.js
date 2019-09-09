@@ -119,7 +119,7 @@ var pageModule = function(){
 		   		 	cbox = true;
 		   		 	show = true;
 		   		 	$("#daoru").show();
-        	   		$("#plszqx").show();
+//        	   		$("#plszqx").show();
         	   		$("#add_bmdh").show();
         	   		$(".ljt").show();
 			   	}else{
@@ -197,6 +197,7 @@ var pageModule = function(){
 			method:'GET',
 			columns:[
 				[
+//				{field:"ck",checkbox:"true"},
 				{field:"fullname",title:"姓名",width:"10%",align:"center",halign:'center',sortable:false,formatter:function(value,rowdata,n){
 					return '<a onclick="clickfn(\''+rowdata.userid+'\')">'+rowdata.fullname+'</a>';
 					}
@@ -230,7 +231,7 @@ var pageModule = function(){
              	 }
                 	 return caozuo;  					
 				}},
-				{field:"remarks",title:"备注",width:"30.3%",align:"center",sortable:false,formatter:function(value,rowdata,n){
+				{field:"remarks",title:"备注",width:"30.2%",align:"center",sortable:false,formatter:function(value,rowdata,n){
 					if(rowdata.remarks == '' || rowdata.remarks == null){
             		  return '<div class="remarkContent" style="width: 100%; height: 18.5px; cursor:pointer;" title="点击进行编辑" data-toggle="modal" href="#editRemarks" onclick="editRemarks(\''+rowdata.userid+'\',\''+rowdata.fullname+'\',\''+rowdata.remarks+'\')">'+rowdata.remarks+'</div>';
             	  } else {

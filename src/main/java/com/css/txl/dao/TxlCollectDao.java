@@ -22,7 +22,7 @@ public interface TxlCollectDao extends BaseDao<TxlCollect> {
      * 查询当前用户收藏
      * @param id 
      */
-	@Select("select t1.* from TXL_COLLECT t1 left join TXL_USER t2 on t1.collect_userid=t2.userid where (t2.IS_SHOW IS NULL OR t2.IS_SHOW = '' or t2.IS_SHOW = '1') t1.USERID = #{id} order by t2.orderid")
+	@Select("select t1.* from TXL_COLLECT t1 left join TXL_USER t2 on t1.collect_userid=t2.userid where (t2.IS_SHOW IS NULL OR t2.IS_SHOW = '' or t2.IS_SHOW = '1') and t1.USERID = #{id} order by t2.orderid")
 	List<TxlCollect> getCollect(String id);
 	
 	/**
