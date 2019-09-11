@@ -343,9 +343,9 @@ var pageModule = function(){
 					return;
 				};
 				if(isShow == "0"){
-					$("#"+id+"> a").append('<span class="jstree_caozuo" title="取消隐藏" style="margin-left:10px;color: #666;cursor: pointer;"><i class="fa fa-eye xsbtn"></i></span>');
+					$("#"+id+"> a").append('<span class="jstree_caozuo" title="取消隐藏" style="margin-left:2px;color: #666;cursor: pointer;"><i class="fa fa-eye xsbtn"></i></span>');
 				}else{
-					$("#"+id+"> a").append('<span class="jstree_caozuo" title="隐藏" style="margin-left:10px;color: #4182D2;cursor: pointer;"><i class="fa fa-eye ycbtn"></i></span>');
+					$("#"+id+"> a").append('<span class="jstree_caozuo" title="隐藏" style="margin-left:2px;color: #4182D2;cursor: pointer;"><i class="fa fa-eye ycbtn"></i></span>');
 				};
 			};
 			$(".ycbtn").click(function(){

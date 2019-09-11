@@ -19,15 +19,21 @@
 	<link rel="stylesheet" type="text/css" href="templates/admin/css/index.css"/>
 	<style type="text/css">
 	.datagrid-header span{
-		font-size: 15px!important;
+		font-size: 14px!important;
 	}
 	.datagrid-header-row{
-	  	height: 36px!important;	
+	  	height: 34px!important;	
 	}
 	.datagrid-cell{
-		height:32px!important;
-		line-height:32px!important;
-		font-size: 15px!important;	
+		height:34px!important;
+		line-height:34px!important;
+		font-size: 14px!important;	
+	}
+	#moveDiv{
+		display: none;
+	}
+	.datagrid-row-selected{
+		background-color: #fff!important;	
 	}
 	</style>
 </head>
@@ -53,10 +59,10 @@
 				<div class="main_left" id="treeDiv">
 				    <div style="position:absolute;right:0;top:0px;bottom:0px;height:100%;width:10px;background:transparent;z-index:500;cursor:e-resize" id="moveDiv"></div>
 					<div class="main_left_wrap">
-						<p class="left_sc" style="width:100%;padding-left:6px;margin-bottom:10px;cursor: pointer; position: absolute;"><i class="fa fa-star" style="color:#5498EB"></i>&nbsp;<span style="font-size: 16px;font-weight: bold;">收藏夹</span></p>
+						<p class="left_sc" id="left_sc" style="width:100%;padding-left:6px;margin-bottom:10px;cursor: pointer; position: absolute;"><i class="fa fa-star" style="color:#5498EB"></i>&nbsp;<span style="font-size: 16px;font-weight: bold;">收藏夹</span></p>
 						<p class="left_title" style="padding-left:6px;cursor: pointer;top: 30px;"><img src="templates/admin/images/tab_n.png" class="imgs" style="float: left;" />&nbsp;<span style="float: left;margin-left: 5px;color: #333333;font-size: 16px;font-weight: bold;">组织机构</span></p>
 						<div class="left_tree" style="padding-top: 50px;">
-							<div class="left_tree_wrap" style="font-size: 15px;">
+							<div class="left_tree_wrap" style="font-size: 14px;">
 								<div class="scroller" style="height:100%;">
 									<div id="tree_2" class="tree-demo" style="height:100%;overflow-x: auto;"></div>
 								</div>

@@ -157,7 +157,7 @@
 .btnset{
 	float: right;
 	background:#fff; 
-	margin-right: 10px; 
+	/*margin-right: 10px; */
 	color: #5498EB; 
 	height: 26px;
 	line-height: 21px;
