@@ -476,7 +476,7 @@ var pageModule = function(){
 			$('#gridcont').datagrid('load',{"orgid":id,"searchValue":searchValue});
 			$('#gridcont3').datagrid('load',{"searchValue":searchValue});
 		});
-		bindResize(document.getElementById("moveDiv"),document.getElementById("treeDiv"),document.getElementById("contentDiv"));
+		bindResize(document.getElementById("moveDiv"),document.getElementById("treeDiv"),document.getElementById("contentDiv"),document.getElementById("scDiv"));
 		//拿到当前的用户
 		$ajax({
 			url: userInfourl,
@@ -662,9 +662,10 @@ var show = function(obj){
 var hide = function(obj){
 	$("#"+obj).modal("hide");
 }
-function bindResize(el,el1,el2){
+function bindResize(el,el1,el2,el3){
 	var els = el1.style;
 	var els2 = el2.style;
+	var els3 = el3.style;
 	x=y=0;
 	$(el).mousedown(function(e){
 		x=e.clientX-el1.offsetWidth;
@@ -689,6 +690,7 @@ function bindResize(el,el1,el2){
 		};
 		els.width = w1+"px";
 		els2.paddingLeft = (w1)+"px";
+		els3.paddingLeft = (w1)+"px";
 	};
 	function mouseUp(e){
 		if(el.releaseCapture){
