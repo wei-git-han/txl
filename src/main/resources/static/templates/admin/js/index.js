@@ -168,7 +168,7 @@ var pageModule = function(){
 				{field:"dept",title:"部门",width:"25%",align:"center",sortable:false,formatter:function(value,rowdata,n){
 					return '<span title="'+rowdata.dept+'">'+rowdata.dept+'</span>';                                 
 				}},
-				{field:"caozuo",title:"收藏",width:"10.2%",align:"center",sortable:false,formatter:function(value,rowdata,n){
+				{field:"caozuo",title:"收藏",width:"10%",align:"center",sortable:false,formatter:function(value,rowdata,n){
 				 var caozuo = '<a class="sc" style="margin-right:10px;" title="取消收藏" href="javascript:delscfn(\''+rowdata.userid+'\')"><i class="fa fa-star"></i></a>';
 				 return caozuo;
 				}}
@@ -231,7 +231,7 @@ var pageModule = function(){
              	 }
                 	 return caozuo;  					
 				}},
-				{field:"remarks",title:"备注",width:"30.2%",align:"center",sortable:false,formatter:function(value,rowdata,n){
+				{field:"remarks",title:"备注",width:"30%",align:"center",sortable:false,formatter:function(value,rowdata,n){
 					if(rowdata.remarks == '' || rowdata.remarks == null){
             		  return '<div class="remarkContent" style="width: 100%; height: 18.5px; cursor:pointer;" title="点击进行编辑" data-toggle="modal" href="#editRemarks" onclick="editRemarks(\''+rowdata.userid+'\',\''+rowdata.fullname+'\',\''+rowdata.remarks+'\')">'+rowdata.remarks+'</div>';
             	  } else {
