@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.css.addbase.AppConfig;
@@ -34,8 +33,6 @@ import com.css.txl.service.TxlOrganService;
 import com.css.txl.service.TxlUserService;
 import com.css.txl.utils.PinYinUtil;
 import com.github.pagehelper.PageHelper;
-
-import dm.jdbc.util.StringUtil;
 
 /**
  * 文件借阅表
@@ -98,6 +95,35 @@ public class TxlController {
 		Response.json(jsons);
 	}
 
+	@RequestMapping(value = "/txlUser")
+	@ResponseBody
+	public void listuser(String searchValue,String callback) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String currentUserId = CurrentUser.getUserId();
+		map.put("currentUserId", currentUserId);
+		if (StringUtils.isNotBlank(searchValue)) {
+			searchValue = searchValue.replace(" ", "");
+			map.put("search", searchValue);
+			if (PinYinUtil.hasZm(searchValue)) {
+				map.put("zm", searchValue);
+			}
+		}		
+		boolean isManager = CurrentUser.getIsManager(appConfig.getAppId(), appConfig.getAppSecret());
+		if (!isManager) {
+			map.put("isShow", "1");// 1代表显示的，0和空为隐藏
+		}
+		List<TxlUser> liInfos = txlUserService.queryList(map);
+		fillSc(liInfos);
+		if (!isManager) {
+			makeShow(liInfos);
+		}
+		gernOrgs(liInfos);
+		JSONObject ja=new JSONObject();
+		ja.put("txlList", liInfos);
+		String message = JSON.toJSONString(ja);
+		Response.stringJsonp(message, callback);
+	}
+	
 	@RequestMapping(value = "/listuser")
 	@ResponseBody
 	public void listuser(Integer page, Integer rows, String orgid, String searchValue, String currentOrgid) {
