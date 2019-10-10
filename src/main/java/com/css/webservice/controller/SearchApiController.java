@@ -1,6 +1,5 @@
 package com.css.webservice.controller;
 
-import java.net.Inet4Address;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -25,11 +24,10 @@ import com.css.addbase.JSONUtil;
 import com.css.addbase.PinYinUtil;
 import com.css.base.utils.CurrentUser;
 import com.css.base.utils.Response;
+import com.css.base.utils.StringUtils;
 import com.css.txl.entity.TxlCollect;
-import com.css.txl.entity.TxlOrgan;
 import com.css.txl.entity.TxlUser;
 import com.css.txl.service.TxlCollectService;
-import com.css.txl.service.TxlOrganService;
 import com.css.txl.service.TxlUserService;
 
 import dm.jdbc.util.StringUtil;
@@ -166,6 +164,31 @@ public class SearchApiController {
 		
 	}
 	
+	@RequestMapping(value = "/ljFypTxlUser")
+	@ResponseBody
+	public void listuser(String searchValue,String callback) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String currentUserId = CurrentUser.getUserId();
+		map.put("currentUserId", currentUserId);
+		if (StringUtils.isNotBlank(searchValue)) {
+			searchValue = searchValue.replace(" ", "");
+			map.put("search", searchValue);
+			if (PinYinUtil.hasZm(searchValue)) {
+				map.put("zm", searchValue);
+			}
+		}		
+		boolean isManager = CurrentUser.getIsManager(appConfig.getAppId(), appConfig.getAppSecret());
+		if (!isManager) {
+			map.put("isShow", "1");// 1代表显示的，0和空为隐藏
+		}
+		List<TxlUser> liInfos = txlUserService.queryList(map);
+		JSONObject ja=new JSONObject();
+		ja.put("txlList", liInfos);
+		ja.put("appId", appId);
+		ja.put("href", "/index.html");
+		String message = JSON.toJSONString(ja);
+		Response.stringJsonp(message, callback);
+	}
 	private JSONArray getScJson() {
 		// 获取收藏
 		List<TxlCollect> collects = txlCollectService.getCollect(CurrentUser.getUserId());
