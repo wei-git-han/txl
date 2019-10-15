@@ -169,19 +169,22 @@ public class SearchApiController {
 	public void listuser(String searchValue,String callback) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String currentUserId = CurrentUser.getUserId();
-		map.put("currentUserId", currentUserId);
+		List<TxlUser> liInfos=null;
 		if (StringUtils.isNotBlank(searchValue)) {
 			searchValue = searchValue.replace(" ", "");
 			map.put("search", searchValue);
 			if (PinYinUtil.hasZm(searchValue)) {
 				map.put("zm", searchValue);
 			}
+			boolean isManager = CurrentUser.getIsManager(appConfig.getAppId(), appConfig.getAppSecret());
+			if (!isManager) {
+				map.put("isShow", "1");// 1代表显示的，0和空为隐藏
+			}
+			map.put("currentUserId", currentUserId);
+			liInfos = txlUserService.queryList(map);
+		}else {
+			liInfos = txlUserService.getTxlFavorite(currentUserId);
 		}		
-		boolean isManager = CurrentUser.getIsManager(appConfig.getAppId(), appConfig.getAppSecret());
-		if (!isManager) {
-			map.put("isShow", "1");// 1代表显示的，0和空为隐藏
-		}
-		List<TxlUser> liInfos = txlUserService.queryList(map);
 		JSONObject ja=new JSONObject();
 		ja.put("txlList", liInfos);
 		ja.put("appId", appId);
