@@ -122,7 +122,7 @@ public class TxlController {
 		if (!isManager) {
 			map.put("isShow", "1");// 1代表显示的，0和空为隐藏
 		}
-		//PageHelper.startPage(page, rows);
+		PageHelper.startPage(page, rows);
 		List<TxlUser> liInfos = txlUserService.queryList(map);
 		fillSc(liInfos);
 		if (!isManager) {
