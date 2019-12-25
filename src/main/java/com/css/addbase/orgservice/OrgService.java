@@ -34,11 +34,21 @@ public class OrgService {
 	 * @date 2017年7月21日
 	 * @author gengds
 	 */
-	public UserInfo getUserInfo(String uuid) {
+	/*public UserInfo getUserInfo(String uuid) {
 		try {
 			return (UserInfo) restTemplate.getForObject(
 					appConfig.getZuul() + appConfig.getOrg() +"/userinfo/" + uuid + "?access_token=" + appConfig.getAccessToken(),
 					UserInfo.class, new Object[0]);
+		   JSONObject userJson=restTemplate.getForObject(
+                    appConfig.getZuul() + appConfig.getOrg() +"/userinfo/" + uuid + "?access_token=" + appConfig.getAccessToken(),
+                    JSONObject.class, new Object[0]);
+		   String organId=userJson.getJSONArray("organIds").getString(0);
+		   int orderId=userJson.getJSONArray("relations").getJSONObject(0).getIntValue("orderId");
+		   UserInfo userInfo=new UserInfo();
+		   userInfo=JSONObject.toJavaObject(userJson, userInfo.getClass());
+		   userInfo.setOrderId(orderId);
+		   userInfo.setOrganId(organId);
+		   return userInfo;
 		} catch (Exception e) {
 			System.out.println("【报错信息】用户ID不存在，userId="+uuid);
 			System.out.println(e);
@@ -48,11 +58,11 @@ public class OrgService {
 					UserInfo.class, new Object[0]);
 		}
 		
-	}
+	}*/
 	/*
 	 * 根据用户token获取用户信息
 	 */
-	public  SSOUser getSUser(String token){
+/*	public  SSOUser getSUser(String token){
 		String url=appConfig.getZuul()  +"/api/sso/user/" ;
 		SSOUser user=null;
 		try {
@@ -75,7 +85,7 @@ public class OrgService {
 			return null;
 		}
 		return user ;
-	}
+	}*/
 	/**
 	 * 根据部门Id获取部门信息
 	 * 
