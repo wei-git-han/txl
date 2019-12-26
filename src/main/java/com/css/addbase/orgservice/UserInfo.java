@@ -321,4 +321,11 @@ public class UserInfo {
     public void setRelations(ArrayList<Map<String, String>> relations) {
         this.relations = relations;
     }
+    public ArrayList<Map<String, String>> getRelation() {
+        return relations;
+    }
+
+    public void setRelation(ArrayList<Map<String, String>> relations) {
+        this.relations = relations;
+    }
 }
