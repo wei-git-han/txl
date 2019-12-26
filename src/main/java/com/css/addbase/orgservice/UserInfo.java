@@ -65,7 +65,7 @@ public class UserInfo {
 	@JSONField(serialize = false)
 	private ArrayList<String> organIds;
 	@JSONField(serialize = false)
-	private ArrayList relations;
+	private ArrayList relation;
 	
 	public String getMobile() {
 		return mobile;
@@ -315,17 +315,17 @@ public class UserInfo {
     }
 
     public ArrayList<Map<String, String>> getRelations() {
-        return relations;
+        return relation;
     }
 
     public void setRelations(ArrayList<Map<String, String>> relations) {
-        this.relations = relations;
+        this.relation = relations;
     }
     public ArrayList<Map<String, String>> getRelation() {
-        return relations;
+        return relation;
     }
 
-    public void setRelation(ArrayList<Map<String, String>> relations) {
-        this.relations = relations;
+    public void setRelation(ArrayList<Map<String, String>> relation) {
+        this.relation= relation;
     }
 }
