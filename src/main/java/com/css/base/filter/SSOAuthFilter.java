@@ -132,6 +132,7 @@ public class SSOAuthFilter extends OncePerRequestFilter{
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
+		String reqSuffix = request.getRequestURI();
 		if(!noAuth(request)){
 			String access_token=request.getParameter("access_token");//从URL参数中获取token
 			String access_token_c = null;                                  //从cookie中获取token
@@ -172,6 +173,13 @@ public class SSOAuthFilter extends OncePerRequestFilter{
 					requestThreadLocal.set(request);
 					tokenThreadLocal.set(access_token_c);
 			    }  
+		}
+		if(reqSuffix.endsWith(".html") || reqSuffix.endsWith(".htm")) {
+			response.setHeader("Pragma", "no-cache");
+			response.setHeader("Cache-Control", "must-revalidate");
+			response.setHeader("Cache-Control", "no-cache");
+			response.setHeader("Cache-Control", "no-store");
+			response.setDateHeader("Expires", 0);
 		}
 		filterChain.doFilter(request, response);
 	}
