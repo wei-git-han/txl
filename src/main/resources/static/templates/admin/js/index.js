@@ -156,11 +156,21 @@ var pageModule = function(){
 					}
 				},
 				{field:"mobile",title:"手机号",width:"15%",align:"center",sortable:false,formatter:function(value,rowdata,n){
-					return rowdata.mobile;
+					var str = "<div >"
+						str+= rowdata.mobile+"</div>";
+						if(rowdata.mobileTwo){
+							str+="<div style='border-top: 1px dotted #ccc'>"+rowdata.mobileTwo+"</div>"
+						}
+						return str;
 					}
 				},
 				{field:"telephone",title:"座机号",width:"15%",align:"center",sortable:false,formatter:function(value,rowdata,n){
-					return rowdata.telephone;                                     
+					var str = "<div >"
+					str+= rowdata.telephone+"</div>";
+					if(rowdata.telephoneTwo){
+						str+="<div style='border-top: 1px dotted #ccc'>"+rowdata.telephoneTwo+"</div>"
+					}
+					return str;
 				}},
 				{field:"address",title:"房间号",width:"20%",align:"center",sortable:false,formatter:function(value,rowdata,n){
 					return rowdata.address;                                     
@@ -203,11 +213,21 @@ var pageModule = function(){
 					}
 				},
 				{field:"mobile",title:"手机号",width:"10%",align:"center",sortable:false,formatter:function(value,rowdata,n){
-					return rowdata.mobile;
+					var str = "<div >"
+					str+= rowdata.mobile+"</div>";
+					if(rowdata.mobileTwo){
+						str+="<div style='border-top: 1px dotted #ccc'>"+rowdata.mobileTwo+"</div>"
+					}
+					return str;
 					}
 				},
 				{field:"telephone",title:"座机号",width:"10%",align:"center",sortable:false,formatter:function(value,rowdata,n){
-					return rowdata.telephone;                                     
+					var str = "<div >"
+						str+= rowdata.telephone+"</div>";
+					if(rowdata.telephoneTwo){
+						str+="<div style='border-top: 1px dotted #ccc'>"+rowdata.telephoneTwo+"</div>"
+					}
+					return str;
 				}},
 				{field:"address",title:"房间号",width:"15%",align:"center",sortable:false,formatter:function(value,rowdata,n){
 					return rowdata.address;                                     
