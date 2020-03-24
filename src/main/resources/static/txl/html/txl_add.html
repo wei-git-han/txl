@@ -49,11 +49,18 @@
 				                      <input type="text" class="form-control bgwhite"   id="organName"  name="organName"  />
 								</div>
 							</div>
-							
 							<div class="form-group">
 								<label class="col-xs-4 labels">座机号</label>
 								<div class="col-xs-5">
 									<input type="text" name="telephone" id="telephone" class="form-control" value=""   tel="tel"  trim="trim" />
+									<i class="phone-icon add-tel"><img src="../images/add-tel.png" alt=""></i>
+								</div>
+							</div>
+							<div class="form-group" style="display: none" id="otherTel">
+								<label class="col-xs-4 labels"></label>
+								<div class="col-xs-5">
+									<input type="text" name="telephoneTwo" id="telephoneTwo" class="form-control" value=""   tel="tel"  trim="trim" />
+									<i class="phone-icon del-tel"><img src="../images/del-tel.png" alt=""></i>
 								</div>
 							</div>
 							
@@ -61,9 +68,16 @@
 								<label class="col-xs-4 labels">手机号</label>
 								<div class="col-xs-5">
 									<input type="text" name="mobile" id="mobile" class="form-control" value=""   tel="tel"  trim="trim"   />
+									<i class="phone-icon add-mobile"><img src="../images/add-tel.png" alt=""></i>
 								</div>
 							</div>
-							
+							<div class="form-group addpart" style="display: none" id="otherMobile">
+								<label class="col-xs-4 labels"></label>
+								<div class="col-xs-5">
+									<input type="text" name="mobileTwo" id="mobileTwo" class="form-control" value=""   tel="tel"  trim="trim"   />
+									<i class="phone-icon del-mobile"><img src="../images/del-tel.png" alt=""></i>
+								</div>
+							</div>
 							<div class="form-group">
 								<label class="col-xs-4 labels">房间号</label>
 								<div class="col-xs-5">
