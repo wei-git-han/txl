@@ -61,6 +61,10 @@ public class TxlUserController {
 		user.put("fullname", txlUser.getFullname());
 		user.put("isManager", "0");
 		user.put("organId", txlUser.getOrganid());
+		JSONArray OrganIds=new JSONArray();
+		OrganIds.add(txlUser.getOrganid());
+		user.put("organIds",OrganIds);
+		
 		user.put("secLevel", txlUser.getSeclevel());
 		user.put("sex", txlUser.getSex());
 		if(!StringUtils.isEmpty(txlUser.getMobile())){

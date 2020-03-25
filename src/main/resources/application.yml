@@ -10,8 +10,8 @@ spring.profiles.include: url
  
 druid:
     dbType: dm
-    url: jdbc:dm://${csse.dmdba.url}/TYYY_TXL_APP_DB
-    username: TYYY_TXL_APP_DB
+    url: jdbc:dm://${csse.dmdba.url}/TXL_APP_YUN
+    username: TXL_APP_YUN
     password: Lc5/rBYlaDGn2MF/g5xorNVZ6PDEwxdwFkOpkVh5TRlFGp3+0gHQm4RBw3lR+OQIT4EqpwNS/U1zF7G4C3cIgg==
     initial-size: 1
     min-idle: 1
@@ -77,6 +77,7 @@ csse.mircoservice.syncdepartments: /api/org/syncdepartments
 
 #数据库配置地址
 csse.dmdba.url: 172.16.2.100:5236
+
 #应用的appID
 csse.txl.appId: legacycpk.csse.txl
 #应用的secret

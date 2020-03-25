@@ -1,5 +1,6 @@
 package com.css.addbase.orgservice;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,6 +62,11 @@ public class UserInfo {
 	private String tel;//座机号
 	@JSONField(serialize = false)
 	private Map<String,String> extAttribute=new HashMap<String,String>();
+	@JSONField(serialize = false)
+	private ArrayList<String> organIds;
+	@JSONField(serialize = false)
+	private ArrayList relation;
+	
 	public String getMobile() {
 		return mobile;
 	}
@@ -299,4 +305,27 @@ public class UserInfo {
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
+
+    public ArrayList<String> getOrganIds() {
+        return organIds;
+    }
+
+    public void setOrganIds(ArrayList<String> organIds) {
+        this.organIds = organIds;
+    }
+
+    public ArrayList<Map<String, String>> getRelations() {
+        return relation;
+    }
+
+    public void setRelations(ArrayList<Map<String, String>> relations) {
+        this.relation = relations;
+    }
+    public ArrayList<Map<String, String>> getRelation() {
+        return relation;
+    }
+
+    public void setRelation(ArrayList<Map<String, String>> relation) {
+        this.relation= relation;
+    }
 }

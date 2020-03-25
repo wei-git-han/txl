@@ -202,7 +202,7 @@ public class SyncOrganUtil {
 				//人员编辑
 				TxlUser txlUser = new TxlUser();
 				txlUser.setIsdelete(String.valueOf(userInfo.getIsDelete()));
-				txlUser.setOrderid(String.valueOf(userInfo.getOrderId()));
+				txlUser.setOrderid(String.valueOf(userInfo.getRelations().get(0).get("orderId")));
 				txlUser.setAccount(userInfo.getAccount());
 				txlUser.setDept(userInfo.getDept());
 				if(null != userInfo.getFullname() && !"".equals(userInfo.getFullname())) {
@@ -217,7 +217,7 @@ public class SyncOrganUtil {
 						txlUser.setPyName(ChineseFCUtil.cn2py(userInfo.getFullname()).toUpperCase());
 					}
 				}
-				txlUser.setOrganid(userInfo.getOrganId());
+				txlUser.setOrganid(userInfo.getRelations().get(0).get("organId"));
 				txlUser.setPassword(userInfo.getPassword());
 				txlUser.setSeclevel(userInfo.getSecLevel());
 				txlUser.setSex(userInfo.getSex());

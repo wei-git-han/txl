@@ -133,14 +133,14 @@ public class ImportOrganUtil {
 			TxlUser baseAppUsertemp = txlUserService.queryObject(userInfo.getUserid());
 			TxlUser txlUser=new TxlUser();
 			txlUser.setIsdelete(String.valueOf(userInfo.getIsDelete()));
-			txlUser.setOrderid(String.valueOf(userInfo.getOrderId()));
+			txlUser.setOrderid(String.valueOf(userInfo.getRelations().get(0).get("orderId")));
 			txlUser.setAccount(userInfo.getAccount());
 			txlUser.setDept(userInfo.getDept());
 			if(null != userInfo.getFullname() && !"".equals(userInfo.getFullname())) {
 				txlUser.setFullname(userInfo.getFullname());
 				txlUser.setPyName(userInfo.getFullname().replaceAll("首长","SZ").replaceAll("处长","CZ").replaceAll("局长","JZ"));
 				}
-			txlUser.setOrganid(userInfo.getOrganId());
+			txlUser.setOrganid(userInfo.getRelations().get(0).get("organId"));
 			txlUser.setPassword(userInfo.getPassword());
 			txlUser.setSeclevel(userInfo.getSecLevel());
 			txlUser.setSex(userInfo.getSex());
