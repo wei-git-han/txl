@@ -1,4 +1,4 @@
-﻿server:
+server:
   port: 64001
 
 app:
@@ -10,8 +10,8 @@ spring.profiles.include: url
  
 druid:
     dbType: dm
-    url: jdbc:dm://${csse.dmdba.url}/TXL_APP_YUN
-    username: TXL_APP_YUN
+    url: jdbc:dm://${csse.dmdba.url}/TYYY_TXL_APP_DB
+    username: TYYY_TXL_APP_DB
     password: Lc5/rBYlaDGn2MF/g5xorNVZ6PDEwxdwFkOpkVh5TRlFGp3+0gHQm4RBw3lR+OQIT4EqpwNS/U1zF7G4C3cIgg==
     initial-size: 1
     min-idle: 1

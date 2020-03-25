@@ -12,10 +12,13 @@ var pageModule = function(){
 			success:function(data){
 				$("#tt").html(data.txlOrgtel.fullname);
 				setformdata(data.txlOrgtel);
+				initTelShow(data.txlOrgtel.mobileTwo,data.txlOrgtel.telephoneTwo)
 				if(data.ismyself == true){
 					$("#post").removeAttr("disabled");
 					$("#mobile").removeAttr("disabled");
 					$("#telephone").removeAttr("disabled");
+					$("#mobileTwo").removeAttr("disabled");
+					$("#telephoneTwo").removeAttr("disabled");
 					$("#address").removeAttr("disabled");
 					$("#remarks").removeAttr("disabled");
 					
@@ -24,6 +27,8 @@ var pageModule = function(){
 					$("#address").removeAttr("disabled");
 					$("#mobile").removeAttr("disabled");
 					$("#telephone").removeAttr("disabled");
+					$("#mobileTwo").removeAttr("disabled");
+					$("#telephoneTwo").removeAttr("disabled");
 					$("#address").removeAttr("disabled");
 					$("#remarks").removeAttr("disabled");
 					$("#save").show();
@@ -48,7 +53,6 @@ var pageModule = function(){
 			}
 		});
 	}
-	
 	var initother = function(){
 		$("input[type=text]").attr("disabled","disabled");
 		$("input[type=radio]").attr("disabled","disabled");
@@ -79,7 +83,7 @@ var pageModule = function(){
 		//表单验证
 		$("#saveForm").validate({
 		    submitHandler: function() {
-				var elementarry = ["userid","fullname","sex","organName","post","telephone","mobile","address","remarks"];
+				var elementarry = ["userid","fullname","sex","organName","post","telephone","mobile","telephoneTwo","mobileTwo","address","remarks"];
 				var paramdata = getformdata(elementarry);
 				$ajax({
 					url:savetip,
@@ -99,13 +103,60 @@ var pageModule = function(){
 		    }
 		});
 		
-		
+		$('.add-mobile').click(function () {
+			$('#otherMobile').show()
+			$('#mobileTwo').show();
+			$('.del-mobile').addClass('hover-show');
+			$('.add-mobile').removeClass('hover-show');
+		})
+		$('.add-tel').click(function () {
+			$('#otherTel').show()
+			$('#telephoneTwo').show()
+			$('.del-tel').addClass('hover-show');
+			$('.add-tel').removeClass('hover-show');
+		})
+		$('.del-mobile').click(function () {
+			$('#otherMobile').hide()
+			$('#mobileTwo').hide();
+			$('#mobileTwo').val('')
+			$('.del-mobile').removeClass('hover-show');
+			$('.add-mobile').addClass('hover-show');
+		})
+		$('.del-tel').click(function () {
+			$('#otherTel').hide()
+			$('#telephoneTwo').hide();
+			$('#telephoneTwo').val('')
+			$('.del-tel').removeClass('hover-show');
+			$('.add-tel').addClass('hover-show');
+		})
 		$("#save").click(function(){
 			$("#saveForm").submit();
 		})
-		
 	}
-	
+	var initTelShow = function (mobile,tel){
+		if(mobile){
+			$('#otherMobile').show()
+			$('#mobileTwo').show();
+			$('.del-mobile').addClass('hover-show');
+			$('.add-mobile').removeClass('hover-show');
+		}else{
+			$('#otherMobile').hide()
+			$('#mobileTwo').hide();
+			$('.del-mobile').removeClass('hover-show');
+			$('.add-mobile').addClass('hover-show');
+		}
+		if(tel){
+			$('#otherTel').show()
+			$('#telephoneTwo').show()
+			$('.del-tel').addClass('hover-show');
+			$('.add-tel').removeClass('hover-show');
+		}else{
+			$('#otherTel').hide()
+			$('#telephoneTwo').hide();
+			$('.del-tel').removeClass('hover-show');
+			$('.add-tel').addClass('hover-show');
+		}
+	}
 	return{
 		//加载页面处理程序
 		initControl:function(){
@@ -114,4 +165,4 @@ var pageModule = function(){
 			initOrgTree();
 		}
 	};
-}();	
+}();

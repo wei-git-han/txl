@@ -83,8 +83,10 @@ public class TxlUser implements Serializable {
 	private String rights;
 	//备注
 	private String remarks;
-	
-	
+	// 移动电话2
+	private String mobileTwo;
+	// 座机电话2
+	private String telephoneTwo;
 
 	//
 	private String pyName;
@@ -531,4 +533,22 @@ public class TxlUser implements Serializable {
 	public void setRights(String rights) {
 		this.rights = rights;
 	}
+
+	public String getMobileTwo() {
+		return mobileTwo;
+	}
+
+	public void setMobileTwo(String mobileTwo) {
+		this.mobileTwo = mobileTwo;
+	}
+
+	public String getTelephoneTwo() {
+		return telephoneTwo;
+	}
+
+	public void setTelephoneTwo(String telephoneTwo) {
+		this.telephoneTwo = telephoneTwo;
+	}
+	
+	
 }
