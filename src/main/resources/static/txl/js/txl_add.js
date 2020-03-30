@@ -3,6 +3,8 @@ var currentPage=getUrlParam("currentPage");
 var currentOrgid=getUrlParam("currentOrgid");
 var returndata = {"url":"/txluser/getUser","dataType":"text"};
 var savetip ={"url":"/txluser/updateUser","dataType":"text"};
+var mobileNum = 1;
+var teleNum = 1;
 var pageModule = function(){
 	
 	var initdatafn = function(){
@@ -83,7 +85,7 @@ var pageModule = function(){
 		//表单验证
 		$("#saveForm").validate({
 		    submitHandler: function() {
-				var elementarry = ["userid","fullname","sex","organName","post","telephone","mobile","telephoneTwo","mobileTwo","address","remarks"];
+				var elementarry = ["userid","fullname","sex","organName","post","telephoneAll","mobileAll","address","remarks"];
 				var paramdata = getformdata(elementarry);
 				$ajax({
 					url:savetip,
@@ -104,32 +106,73 @@ var pageModule = function(){
 		});
 		
 		$('.add-mobile').click(function () {
-			$('#otherMobile').show()
-			$('#mobileTwo').show();
-			$('.del-mobile').addClass('hover-show');
-			$('.add-mobile').removeClass('hover-show');
+//			$('#otherMobile').show()
+//			$('#mobileTwo').show();
+//			$('.del-mobile').addClass('hover-show');
+//			$('.add-mobile').removeClass('hover-show');
+			var html=`<div class="form-group addpart" style="" id="otherMobile`+ mobileNum +`">
+				<label class="col-xs-4 labels"></label>
+				<div class="col-xs-5">
+					<input type="text" name="mobileTwo" class="form-control mobVal" value=""   tel="tel"  trim="trim"   />
+					<i class="phone-icon hover-show" id="del-mobile`+ mobileNum +`" onclick="delmobile(`+ mobileNum +`)"><img src="../images/del-tel.png" alt=""></i>
+				</div>
+			</div>`
+			if(mobileNum<11){
+				mobileNum+=1;
+				$("#addpart1").after(html)
+//				$('#del-mobile'+mobileNum).addClass('hover-show');
+				if(mobileNum==10){
+					$('.add-mobile').removeClass('hover-show');
+				}else{
+					
+				}
+			}else{
+				
+			}
 		})
 		$('.add-tel').click(function () {
-			$('#otherTel').show()
-			$('#telephoneTwo').show()
-			$('.del-tel').addClass('hover-show');
-			$('.add-tel').removeClass('hover-show');
+//			$('#otherTel').show()
+//			$('#telephoneTwo').show()
+//			$('.del-tel').addClass('hover-show');
+//			$('.add-tel').removeClass('hover-show');
+			var html=`<div class="form-group" style="" id="otherTel`+ teleNum +`">
+								<label class="col-xs-4 labels"></label>
+								<div class="col-xs-5">
+									<input type="text" name="telephoneTwo" class="form-control telVal" value=""   tel="tel"  trim="trim" />
+									<i class="phone-icon hover-show" id="del-tel`+ teleNum +`" onclick="deltel(`+ teleNum +`)"><img src="../images/del-tel.png" alt=""></i>
+								</div>
+							</div>`
+			if(teleNum<11){
+				teleNum+=1;
+				$("#addpart0").after(html)
+//				$('#del-tel'+teleNum).addClass('hover-show');
+				if(teleNum==10){
+					$('.add-tel').removeClass('hover-show');
+				}else{
+					
+				}
+				
+			}else{
+				
+			}
 		})
 		$('.del-mobile').click(function () {
-			$('#otherMobile').hide()
-			$('#mobileTwo').hide();
-			$('#mobileTwo').val('')
-			$('.del-mobile').removeClass('hover-show');
-			$('.add-mobile').addClass('hover-show');
+//			$('#otherMobile').hide()
+//			$('#mobileTwo').hide();
+//			$('#mobileTwo').val('')
+//			$('.del-mobile').removeClass('hover-show');
+//			$('.add-mobile').addClass('hover-show');
 		})
 		$('.del-tel').click(function () {
-			$('#otherTel').hide()
-			$('#telephoneTwo').hide();
-			$('#telephoneTwo').val('')
-			$('.del-tel').removeClass('hover-show');
-			$('.add-tel').addClass('hover-show');
+//			$('#otherTel').hide()
+//			$('#telephoneTwo').hide();
+//			$('#telephoneTwo').val('')
+//			$('.del-tel').removeClass('hover-show');
+//			$('.add-tel').addClass('hover-show');
 		})
 		$("#save").click(function(){
+			$("#telephoneAll").val(dataHandle("telVal"));
+			$("#mobileAll").val(dataHandle("mobVal"));
 			$("#saveForm").submit();
 		})
 	}
@@ -166,3 +209,28 @@ var pageModule = function(){
 		}
 	};
 }();
+
+function delmobile(num){
+	mobileNum-=1;
+	$("#otherMobile"+num).remove();
+	if(num == 9){
+		$('.add-mobile').addClass('hover-show');
+	}
+}
+function deltel(num){
+	teleNum-=1;
+	$("#otherTel"+num).remove();
+	if(num == 9){
+		$('.add-tel').addClass('hover-show');
+	}
+}
+function dataHandle(dom){
+	var dataArr = []
+	var domArr = Array.from($("."+dom))
+	if(domArr.length>0){
+		domArr.map(function(item,index){
+			dataArr.push($(item).val())
+		})
+	}
+	return dataArr.join(",")
+}
