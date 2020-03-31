@@ -110,16 +110,21 @@ var pageModule = function(){
 //			$('#mobileTwo').show();
 //			$('.del-mobile').addClass('hover-show');
 //			$('.add-mobile').removeClass('hover-show');
-			var html=`<div class="form-group addpart" style="" id="otherMobile`+ mobileNum +`">
+			var html=`<div class="form-group mobLi" style="">
 				<label class="col-xs-4 labels"></label>
 				<div class="col-xs-5">
 					<input type="text" name="mobileTwo" class="form-control mobVal" value=""   tel="tel"  trim="trim"   />
-					<i class="phone-icon hover-show" id="del-mobile`+ mobileNum +`" onclick="delmobile(`+ mobileNum +`)"><img src="../images/del-tel.png" alt=""></i>
+					<i class="phone-icon hover-show" onclick="delmobile(this,`+mobileNum +`)"><img src="../images/del-tel.png" alt=""></i>
 				</div>
 			</div>`
 			if(mobileNum<11){
+				
+				if(teleNum==1){
+					$("#addpart1").after(html)
+				}else{
+					$(".mobLi:last").after(html)
+				}
 				mobileNum+=1;
-				$("#addpart1").after(html)
 //				$('#del-mobile'+mobileNum).addClass('hover-show');
 				if(mobileNum==10){
 					$('.add-mobile').removeClass('hover-show');
@@ -135,16 +140,21 @@ var pageModule = function(){
 //			$('#telephoneTwo').show()
 //			$('.del-tel').addClass('hover-show');
 //			$('.add-tel').removeClass('hover-show');
-			var html=`<div class="form-group" style="" id="otherTel`+ teleNum +`">
+			var html=`<div class="form-group telLi" style="">
 								<label class="col-xs-4 labels"></label>
 								<div class="col-xs-5">
 									<input type="text" name="telephoneTwo" class="form-control telVal" value=""   tel="tel"  trim="trim" />
-									<i class="phone-icon hover-show" id="del-tel`+ teleNum +`" onclick="deltel(`+ teleNum +`)"><img src="../images/del-tel.png" alt=""></i>
+									<i class="phone-icon hover-show" onclick="deltel(this,`+ teleNum +`)"><img src="../images/del-tel.png" alt=""></i>
 								</div>
 							</div>`
 			if(teleNum<11){
+				
+				if(teleNum==1){
+					$("#addpart0").after(html)
+				}else{
+					$(".telLi:last").after(html)
+				}
 				teleNum+=1;
-				$("#addpart0").after(html)
 //				$('#del-tel'+teleNum).addClass('hover-show');
 				if(teleNum==10){
 					$('.add-tel').removeClass('hover-show');
@@ -210,16 +220,16 @@ var pageModule = function(){
 	};
 }();
 
-function delmobile(num){
+function delmobile(item,num){
 	mobileNum-=1;
-	$("#otherMobile"+num).remove();
+	$(item).parent(".col-xs-5").parent(".form-group").remove();
 	if(num == 9){
 		$('.add-mobile').addClass('hover-show');
 	}
 }
-function deltel(num){
+function deltel(item,num){
 	teleNum-=1;
-	$("#otherTel"+num).remove();
+	$(item).parent(".col-xs-5").parent(".form-group").remove();
 	if(num == 9){
 		$('.add-tel').addClass('hover-show');
 	}
