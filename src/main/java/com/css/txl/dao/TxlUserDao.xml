@@ -157,17 +157,17 @@
 			<if test="seclevel != null">"SECLEVEL" = #{seclevel}, </if>
 			<if test="failedlogincount != null">"FAILEDLOGINCOUNT" = #{failedlogincount}, </if>
 			<if test="editpwdtime != null">"EDITPWDTIME" = #{editpwdtime}, </if>
-			<if test="mobile != null">"MOBILE" = #{mobile}, </if>
+			"MOBILE" = #{mobile}, 
 			<if test="timestamp != null">"TIMESTAMP" = #{timestamp}, </if>
 			<if test="type != null">"TYPE" = #{type}, </if>
 			<if test="post != null">"POST" = #{post}, </if>
-			<if test="telephone != null">"TELEPHONE" = #{telephone}, </if>
+			"TELEPHONE" = #{telephone}, 
 			<if test="address != null">"ADDRESS" = #{address},</if>
 			<if test="pyName != null">"PYNAME" = UCASE(GETPY(#{pyName})),</if>
 			<if test="isShow != null">"IS_SHOW" = #{isShow},</if>
 			<if test="rights != null">"RIGHTS" = #{rights},</if>
-			<if test="mobileTwo != null">"MOBILE_TWO" = #{mobileTwo},</if>
-			<if test="telephoneTwo != null">"TELEPHONE_TWO" = #{telephoneTwo}</if>
+			"MOBILE_TWO" = #{mobileTwo},
+			"TELEPHONE_TWO" = #{telephoneTwo}
 		</set>
 		where USERID = #{userid}
 	</update>
