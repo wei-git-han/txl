@@ -3,8 +3,10 @@ var currentPage=getUrlParam("currentPage");
 var currentOrgid=getUrlParam("currentOrgid");
 var returndata = {"url":"/txluser/getUser","dataType":"text"};
 var savetip ={"url":"/txluser/updateUser","dataType":"text"};
-var mobileNum = 1;
+var mobileNum = 1;//记录电话的当前个数
 var teleNum = 1;
+var mobverifyNum = 1;//标记每个电话输入框单独的id值，以便区分不同input框的校验
+var telverifyNum = 1;
 var pageModule = function(){
 	
 	var initdatafn = function(){
@@ -35,6 +37,8 @@ var pageModule = function(){
 					$("#remarks").removeAttr("disabled");
 					$("#save").show();
             	}else{
+            		$('.add-tel').removeClass('hover-show');
+            		$('.add-mobile').removeClass('hover-show');
             		$("#address").attr("disabled",true);
 //            		$("#mobile").removeAttr("disabled",true);
             		$("#save").hide();
@@ -85,7 +89,7 @@ var pageModule = function(){
 		//表单验证
 		$("#saveForm").validate({
 		    submitHandler: function() {
-				var elementarry = ["userid","fullname","sex","organName","post","telephoneAll","mobileAll","address","remarks"];
+				var elementarry = ["userid","fullname","sex","organName","post","telephone","mobile","telephoneTwo","mobileTwo","address","remarks"];
 				var paramdata = getformdata(elementarry);
 				$ajax({
 					url:savetip,
@@ -113,13 +117,13 @@ var pageModule = function(){
 			var html=`<div class="form-group mobLi" style="">
 				<label class="col-xs-4 labels"></label>
 				<div class="col-xs-5">
-					<input type="text" name="mobileTwo" class="form-control mobVal" value=""   tel="tel"  trim="trim"   />
-					<i class="phone-icon hover-show" onclick="delmobile(this,`+mobileNum +`)"><img src="../images/del-tel.png" alt=""></i>
+					<input type="text" name="mobileTwo" id="mobverify`+mobverifyNum+`" class="form-control mobVal" value=""   tel="tel"  trim="trim"   />
+					<i class="phone-icon hover-show" onclick="delmobile(this)"><img src="../images/del-tel.png" alt=""></i>
 				</div>
 			</div>`
 			if(mobileNum<11){
 				
-				if(teleNum==1){
+				if(mobileNum==1){
 					$("#addpart1").after(html)
 				}else{
 					$(".mobLi:last").after(html)
@@ -134,6 +138,7 @@ var pageModule = function(){
 			}else{
 				
 			}
+			mobverifyNum+=1
 		})
 		$('.add-tel').click(function () {
 //			$('#otherTel').show()
@@ -143,8 +148,8 @@ var pageModule = function(){
 			var html=`<div class="form-group telLi" style="">
 								<label class="col-xs-4 labels"></label>
 								<div class="col-xs-5">
-									<input type="text" name="telephoneTwo" class="form-control telVal" value=""   tel="tel"  trim="trim" />
-									<i class="phone-icon hover-show" onclick="deltel(this,`+ teleNum +`)"><img src="../images/del-tel.png" alt=""></i>
+									<input type="text" name="telephoneTwo" id="telverify`+telverifyNum+`" class="form-control telVal" value=""   tel="tel"  trim="trim" />
+									<i class="phone-icon hover-show" onclick="deltel(this)"><img src="../images/del-tel.png" alt=""></i>
 								</div>
 							</div>`
 			if(teleNum<11){
@@ -165,6 +170,7 @@ var pageModule = function(){
 			}else{
 				
 			}
+			telverifyNum+=1
 		})
 		$('.del-mobile').click(function () {
 //			$('#otherMobile').hide()
@@ -181,34 +187,93 @@ var pageModule = function(){
 //			$('.add-tel').addClass('hover-show');
 		})
 		$("#save").click(function(){
-			$("#telephoneAll").val(dataHandle("telVal"));
-			$("#mobileAll").val(dataHandle("mobVal"));
+			$("#telephoneTwo").val(dataHandle("telVal"));
+			$("#mobileTwo").val(dataHandle("mobVal"));
 			$("#saveForm").submit();
 		})
 	}
 	var initTelShow = function (mobile,tel){
+		var mobileArr = [];
+		var mobileHtml = ``;
+		var telArr = [];
+		var telHtml = ``;
 		if(mobile){
-			$('#otherMobile').show()
-			$('#mobileTwo').show();
-			$('.del-mobile').addClass('hover-show');
-			$('.add-mobile').removeClass('hover-show');
+			mobileArr = mobile.split(",");
+			$('.add-mobile').addClass('hover-show');
+			mobileNum = mobileArr.length+1;
+			if(mobileArr.length == 9){
+				$('.add-mobile').removeClass('hover-show');
+			}else{
+				
+			}	
+			mobileArr.map(function(item,index){
+				mobileHtml=`<div class="form-group mobLi" style="">
+					<label class="col-xs-4 labels"></label>
+					<div class="col-xs-5">
+						<input type="text" name="mobileTwo" id="mobverify`+index+`" class="form-control mobVal" value="`+item+`"   tel="tel"  trim="trim"   />
+						<i class="phone-icon hover-show" onclick="delmobile(this)"><img src="../images/del-tel.png" alt=""></i>
+					</div>
+				</div>`
+				if(index == 0){
+					$("#addpart1").after(mobileHtml)
+				}else{
+					$(".mobLi:last").after(mobileHtml)
+				}
+			})
+			mobverifyNum = mobileArr.length+2
 		}else{
-			$('#otherMobile').hide()
-			$('#mobileTwo').hide();
-			$('.del-mobile').removeClass('hover-show');
 			$('.add-mobile').addClass('hover-show');
 		}
+		
 		if(tel){
-			$('#otherTel').show()
-			$('#telephoneTwo').show()
-			$('.del-tel').addClass('hover-show');
-			$('.add-tel').removeClass('hover-show');
+			telArr = tel.split(",");
+			$('.add-tel').addClass('hover-show');
+			teleNum = telArr.length+1;
+			if(telArr.length == 9){
+				$('.add-tel').removeClass('hover-show');
+			}else{
+				
+			}	
+			telArr.map(function(item,index){
+				telHtml=`<div class="form-group telLi" style="">
+					<label class="col-xs-4 labels"></label>
+					<div class="col-xs-5">
+						<input type="text" name="telephoneTwo" id="telverify`+index+`" class="form-control telVal" value="`+item+`"   tel="tel"  trim="trim" />
+						<i class="phone-icon hover-show" onclick="deltel(this)"><img src="../images/del-tel.png" alt=""></i>
+					</div>
+				</div>`
+				if(index == 0){
+					$("#addpart0").after(telHtml)
+				}else{
+					$(".telLi:last").after(telHtml)
+				}
+			})
+			telverifyNum = telArr.length+2;
 		}else{
-			$('#otherTel').hide()
-			$('#telephoneTwo').hide();
-			$('.del-tel').removeClass('hover-show');
 			$('.add-tel').addClass('hover-show');
 		}
+//		if(mobile){
+//			$('#otherMobile').show()
+//			$('#mobileTwo').show();
+//			$('.del-mobile').addClass('hover-show');
+//			$('.add-mobile').removeClass('hover-show');
+//		}else{
+//			$('#otherMobile').hide()
+//			$('#mobileTwo').hide();
+//			$('.del-mobile').removeClass('hover-show');
+//			$('.add-mobile').addClass('hover-show');
+//		}
+//		if(tel){
+//			$('#otherTel').show()
+//			$('#telephoneTwo').show()
+//			$('.del-tel').addClass('hover-show');
+//			$('.add-tel').removeClass('hover-show');
+//		}else{
+//			$('#otherTel').hide()
+//			$('#telephoneTwo').hide();
+//			$('.del-tel').removeClass('hover-show');
+//			$('.add-tel').addClass('hover-show');
+//		}
 	}
 	return{
 		//加载页面处理程序
@@ -220,17 +285,17 @@ var pageModule = function(){
 	};
 }();
 
-function delmobile(item,num){
+function delmobile(item){
 	mobileNum-=1;
 	$(item).parent(".col-xs-5").parent(".form-group").remove();
-	if(num == 9){
+	if(mobileNum < 10){
 		$('.add-mobile').addClass('hover-show');
 	}
 }
-function deltel(item,num){
+function deltel(item){
 	teleNum-=1;
 	$(item).parent(".col-xs-5").parent(".form-group").remove();
-	if(num == 9){
+	if(teleNum < 10){
 		$('.add-tel').addClass('hover-show');
 	}
 }
@@ -239,7 +304,10 @@ function dataHandle(dom){
 	var domArr = Array.from($("."+dom))
 	if(domArr.length>0){
 		domArr.map(function(item,index){
-			dataArr.push($(item).val())
+			if($(item).val() != ""){
+				dataArr.push($(item).val())
+			}
+			
 		})
 	}
 	return dataArr.join(",")
