@@ -97,14 +97,14 @@ var pageModule = function(){
 					data:paramdata,
 					type:'post',
 					success:function(data){
-//						if (data.result == "success") {
-//							newbootbox.alertInfo("保存成功！").done(function(){
-//								window.location.href="../../index.html?currentOrgid="+currentOrgid+"&currentPage="+currentPage;
-//								// window.location.href="../html/txl_add.html?id="+id+"&currentOrgid="+currentOrgid+"&currentPage="+currentPage;
-//							});
-//						}else{
-//							newbootbox.alertInfo("保存失败！")
-//						}
+						if (data.result == "success") {
+							newbootbox.alertInfo("保存成功！").done(function(){
+								window.location.href="../../index.html?currentOrgid="+currentOrgid+"&currentPage="+currentPage;
+								// window.location.href="../html/txl_add.html?id="+id+"&currentOrgid="+currentOrgid+"&currentPage="+currentPage;
+							});
+						}else{
+							newbootbox.alertInfo("保存失败！")
+						}
 					}
 				})
 		    }
