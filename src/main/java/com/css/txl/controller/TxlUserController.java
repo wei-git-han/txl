@@ -67,7 +67,7 @@ public class TxlUserController {
 				}
 			}
 			if(StringUtil.isNotEmpty(mobileTwo)) {
-				mobileTwo.substring(0, mobileTwo.length()-1);
+				mobileTwo=mobileTwo.substring(0, mobileTwo.length()-1);
 			}
 			
 			txlUser.setMobileTwo(mobileTwo);
@@ -83,7 +83,7 @@ public class TxlUserController {
 				}
 			}
 			if(StringUtil.isNotEmpty(telephoneTwo)) {
-				telephoneTwo.substring(0, telephoneTwo.length()-1);
+				telephoneTwo=telephoneTwo.substring(0, telephoneTwo.length()-1);
 			}
 			
 			txlUser.setTelephoneTwo(telephoneTwo);
