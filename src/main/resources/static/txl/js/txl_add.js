@@ -39,6 +39,7 @@ var pageModule = function(){
             	}else{
             		$('.add-tel').removeClass('hover-show');
             		$('.add-mobile').removeClass('hover-show');
+            		$('.phone-icon').removeClass('hover-show');
             		$("#address").attr("disabled",true);
 //            		$("#mobile").removeAttr("disabled",true);
             		$("#save").hide();
@@ -96,14 +97,14 @@ var pageModule = function(){
 					data:paramdata,
 					type:'post',
 					success:function(data){
-						if (data.result == "success") {
-							newbootbox.alertInfo("保存成功！").done(function(){
-								window.location.href="../../index.html?currentOrgid="+currentOrgid+"&currentPage="+currentPage;
-								// window.location.href="../html/txl_add.html?id="+id+"&currentOrgid="+currentOrgid+"&currentPage="+currentPage;
-							});
-						}else{
-							newbootbox.alertInfo("保存失败！")
-						}
+//						if (data.result == "success") {
+//							newbootbox.alertInfo("保存成功！").done(function(){
+//								window.location.href="../../index.html?currentOrgid="+currentOrgid+"&currentPage="+currentPage;
+//								// window.location.href="../html/txl_add.html?id="+id+"&currentOrgid="+currentOrgid+"&currentPage="+currentPage;
+//							});
+//						}else{
+//							newbootbox.alertInfo("保存失败！")
+//						}
 					}
 				})
 		    }

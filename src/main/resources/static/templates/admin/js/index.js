@@ -216,7 +216,11 @@ var pageModule = function(){
 					var str = "<div >"
 					str+= rowdata.mobile+"</div>";
 					if(rowdata.mobileTwo){
-						str+="<div style='border-top: 1px dotted #ccc'>"+rowdata.mobileTwo+"</div>"
+						var mobArr = rowdata.mobileTwo.split(",")
+						mobArr&&mobArr.map(function(item,index){
+							str+="<div style='border-top: 1px dotted #ccc'>"+item+"</div>"
+						})
+//						str+="<div style='border-top: 1px dotted #ccc'>"+rowdata.mobileTwo+"</div>"
 					}
 					return str;
 					}
@@ -225,7 +229,11 @@ var pageModule = function(){
 					var str = "<div >"
 						str+= rowdata.telephone+"</div>";
 					if(rowdata.telephoneTwo){
-						str+="<div style='border-top: 1px dotted #ccc'>"+rowdata.telephoneTwo+"</div>"
+						var telArr = rowdata.telephoneTwo.split(",")
+						telArr&&telArr.map(function(item,index){
+							str+="<div style='border-top: 1px dotted #ccc'>"+item+"</div>"
+						})
+//						str+="<div style='border-top: 1px dotted #ccc'>"+rowdata.telephoneTwo+"</div>"
 					}
 					return str;
 				}},
