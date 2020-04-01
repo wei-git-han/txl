@@ -28,6 +28,8 @@ import com.css.txl.entity.TxlUser;
 import com.css.txl.service.TxlOrganService;
 import com.css.txl.service.TxlUserService;
 
+import dm.jdbc.util.StringUtil;
+
 /**
  * 
  * 
@@ -54,6 +56,38 @@ public class TxlUserController {
 	@RequestMapping(value = "/updateUser")
 	@ResponseBody
 	public void updateUser(HttpServletRequest request, TxlUser txlUser) {
+		if(StringUtil.isNotEmpty(txlUser.getMobileTwo())&&StringUtil.isEmpty(txlUser.getMobile())) {
+			String[] mobiles=txlUser.getMobileTwo().split(",");
+			String mobileTwo="";
+			for (int i=0;i< mobiles.length;i++) {
+				if(i==0) {
+					txlUser.setMobile(mobiles[0]);
+				}else {
+					mobileTwo+=(mobiles[i]+",");
+				}
+			}
+			if(StringUtil.isNotEmpty(mobileTwo)) {
+				mobileTwo.substring(0, mobileTwo.length()-1);
+			}
+			
+			txlUser.setMobileTwo(mobileTwo);
+		}
+		if(StringUtil.isNotEmpty(txlUser.getTelephoneTwo())&&StringUtil.isEmpty(txlUser.getTelephone())) {
+			String[] telephones=txlUser.getTelephoneTwo().split(",");
+			String telephoneTwo="";
+			for (int i=0;i< telephones.length;i++) {
+				if(i==0) {
+					txlUser.setTelephone(telephones[0]);
+				}else {
+					telephoneTwo+=(telephones[i]+",");
+				}
+			}
+			if(StringUtil.isNotEmpty(telephoneTwo)) {
+				telephoneTwo.substring(0, telephoneTwo.length()-1);
+			}
+			
+			txlUser.setTelephoneTwo(telephoneTwo);
+		}
 		txlUserService.update(txlUser);
 		txlUser = txlUserService.queryObject(txlUser.getUserid());
 		String url = zuul + "/api/org/userinfo/" + txlUser.getUserid();
