@@ -23,6 +23,8 @@ var pageModule = function(){
 					$("#telephone").removeAttr("disabled");
 					$("#mobileTwo").removeAttr("disabled");
 					$("#telephoneTwo").removeAttr("disabled");
+					$(".mobileLi").removeAttr("disabled");
+					$(".telephoneLi").removeAttr("disabled");
 					$("#address").removeAttr("disabled");
 					$("#remarks").removeAttr("disabled");
 					
@@ -33,6 +35,8 @@ var pageModule = function(){
 					$("#telephone").removeAttr("disabled");
 					$("#mobileTwo").removeAttr("disabled");
 					$("#telephoneTwo").removeAttr("disabled");
+					$(".mobileLi").removeAttr("disabled");
+					$(".telephoneLi").removeAttr("disabled");
 					$("#address").removeAttr("disabled");
 					$("#remarks").removeAttr("disabled");
 					$("#save").show();
@@ -211,7 +215,7 @@ var pageModule = function(){
 				mobileHtml=`<div class="form-group mobLi" style="">
 					<label class="col-xs-4 labels"></label>
 					<div class="col-xs-5">
-						<input type="text" name="mobileTwo" id="mobverify`+index+`" class="form-control mobVal" value="`+item+`"   tel="tel"  trim="trim"   />
+						<input type="text" name="mobileTwo" disabled id="mobverify`+index+`" class="mobileLi form-control mobVal" value="`+item+`"   tel="tel"  trim="trim"   />
 						<i class="phone-icon hover-show" onclick="delmobile(this)"><img src="../images/del-tel.png" alt=""></i>
 					</div>
 				</div>`
@@ -239,7 +243,7 @@ var pageModule = function(){
 				telHtml=`<div class="form-group telLi" style="">
 					<label class="col-xs-4 labels"></label>
 					<div class="col-xs-5">
-						<input type="text" name="telephoneTwo" id="telverify`+index+`" class="form-control telVal" value="`+item+`"   tel="tel"  trim="trim" />
+						<input type="text" name="telephoneTwo" disabled id="telverify`+index+`" class="telephoneLi form-control telVal" value="`+item+`"   tel="tel"  trim="trim" />
 						<i class="phone-icon hover-show" onclick="deltel(this)"><img src="../images/del-tel.png" alt=""></i>
 					</div>
 				</div>`
