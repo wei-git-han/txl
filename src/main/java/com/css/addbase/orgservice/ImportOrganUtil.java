@@ -150,16 +150,8 @@ public class ImportOrganUtil {
 				if (StringUtils.isEmpty(baseAppUsertemp.getPost())) {
 					txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
 				}
-				if (StringUtils.isEmpty(baseAppUsertemp.getTelephone())) {
-					txlUser.setTelephone(userInfo.getTel());
-				}else {
-					txlUser.setTelephone(baseAppUsertemp.getTelephone());
-				}
-				if (StringUtils.isEmpty(baseAppUsertemp.getMobile())) {
-					txlUser.setMobile(userInfo.getMobile());
-				}else {
-					txlUser.setTelephone(baseAppUsertemp.getMobile());
-				}
+				txlUser.setTelephone(userInfo.getTel());
+				txlUser.setMobile(userInfo.getMobile());
 				txlUser.setMobileTwo(baseAppUsertemp.getMobileTwo());
 				txlUser.setTelephoneTwo(baseAppUsertemp.getTelephoneTwo());
 				txlUserService.update(txlUser);

@@ -235,16 +235,8 @@ public class SyncOrganUtil {
                 	if (StringUtils.isEmpty(txlUsertemp.getPost())) {
                 		txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
 					}
-                	if (StringUtils.isEmpty(txlUsertemp.getTelephone())) {
-    					txlUser.setTelephone(userInfo.getTel());
-    				}else {
-    					txlUser.setTelephone(txlUsertemp.getTelephone());
-    				}
-    				if (StringUtils.isEmpty(txlUsertemp.getMobile())) {
-    					txlUser.setMobile(userInfo.getMobile());
-    				}else {
-    					txlUser.setMobile(txlUsertemp.getMobile());
-    				}
+					txlUser.setTelephone(userInfo.getTel());
+					txlUser.setMobile(userInfo.getMobile());
     				txlUser.setMobileTwo(txlUsertemp.getMobileTwo());
     				txlUser.setTelephoneTwo(txlUsertemp.getTelephoneTwo());
                 	txlUserService.update(txlUser);
