@@ -1,9 +1,12 @@
 package com.css.addbase.orgservice;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -28,7 +31,7 @@ import com.css.txl.utils.ChineseFCUtil;
 @Component
 @RequestMapping("/app/timer")
 public class SyncOrganUtil {
-	
+	private static Logger logger = LoggerFactory.getLogger(SyncOrganUtil.class);
 	@Value("${csse.mircoservice.zuul}")
 	private String zuul;
 	
@@ -125,14 +128,17 @@ public class SyncOrganUtil {
 	public void SyncOrgan() {
 		if (starttime == null) {
 			//设置消息时间戳
-			String time = String.valueOf(System.currentTimeMillis());
+			String time = String.valueOf(System.currentTimeMillis()-60000);
 			starttime = Long.valueOf(time.substring(0, 10));
 		}
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		logger.info("本次查询时间：{}",df.format(Long.valueOf(starttime+"000")));
 		System.out.println("同步地址："+zuul+syncdepartments+"?starttime="+starttime+"&access_token=" + appConfig.getAccessToken());
 		try {
 			SyncOrgan syncOrgan = (SyncOrgan) restTemplate.getForObject(zuul+syncdepartments+"?starttime="+starttime+"&access_token=" + appConfig.getAccessToken(),
 					SyncOrgan.class, new Object[0]);
 			starttime = syncOrgan.getTimestamp();
+			logger.info("下一次查询时间：{}",df.format(Long.valueOf(starttime+"000")));
 			List<Organ> organs = syncOrgan.getOrg();
 			int syncNum = 0;
 			if (organs != null && organs.size() > 0) {

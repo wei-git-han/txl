@@ -4,25 +4,25 @@
 <mapper namespace="com.css.txl.dao.TxlOrganDao">
 
 	<select id="queryObject" resultType="com.css.txl.entity.TxlOrgan">
-		select * from TXL_ORGAN where ORGANID = #{value}
+		select * from TXL_ORGAN where ORGANID = #{value} and ISDELETE = 0
 	</select>
 
 	<select id="queryList" resultType="com.css.txl.entity.TxlOrgan">
-		select * from TXL_ORGAN 
+		select * from TXL_ORGAN where ISDELETE = 0
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
 	</select>
 	<select id="getSubOrgSync" resultType="com.css.txl.entity.TxlOrgan">
-		select ORGANID, ORGANNAME,IS_SHOW, FATHERID, ORDERID, DN,(select count(0) from TXL_ORGAN a   WHERE a.FATHERID=b.ORGANID) AS  CODE, PATH, ORGUUID, TIMESTAMP, TYPE 
-		  from TXL_ORGAN b where FATHERID = #{id}
+		select ORGANID, ORGANNAME,IS_SHOW, FATHERID, ORDERID, DN,(select count(0) from TXL_ORGAN a   WHERE a.FATHERID=b.ORGANID and a.ISDELETE = 0) AS  CODE, PATH, ORGUUID, TIMESTAMP, TYPE 
+		  from TXL_ORGAN b where FATHERID = #{id} and b.ISDELETE = 0
 		  <if test="isShow !=null">
 		  and (is_Show=#{isShow} or is_show is null )
 		  </if>
 		   order by orderid
 	</select>
  	<select id="queryTotal" resultType="int">
-		select count(*) from TXL_ORGAN 
+		select count(*) from TXL_ORGAN where ISDELETE = 0
 	</select>
 	 
 	<insert id="save" parameterType="com.css.txl.entity.TxlOrgan">

@@ -25,7 +25,7 @@ public interface TxlOrganDao extends BaseDao<TxlOrgan> {
      * @param borrowStatus 借阅状态
      * @param id 文件ID
      */
-	@Select("select * from TXL_ORGAN where FATHERID = #{id} order by orderid")
+	@Select("select * from TXL_ORGAN where FATHERID = #{id} and ISDELETE = 0 order by orderid")
 	List<TxlOrgan> getSubOrg(String id);
 	
 	//@Select("select ORGANID, ORGANNAME, FATHERID, ORDERID, DN,(select count(0) from TXL_ORGAN a   WHERE a.FATHERID=b.ORGANID) AS  CODE, PATH, ORGUUID, TIMESTAMP, TYPE from TXL_ORGAN b where FATHERID = #{id} order by orderid")
@@ -37,6 +37,6 @@ public interface TxlOrganDao extends BaseDao<TxlOrgan> {
 	 */
 	@Delete("delete from TXL_ORGAN")
 	void clearOrgan();
-	@Update("update txl_organ set is_Show=#{isShow} where organid in (select organid from txl_organ start with organid=#{organId} connect by prior organid=fatherid)")
+	@Update("update txl_organ set is_Show=#{isShow} where organid in (select organid from txl_organ start with organid=#{organId} and ISDELETE = 0 connect by prior organid=fatherid)")
 	void hideOrgan(Map<String, Object> map);
 }

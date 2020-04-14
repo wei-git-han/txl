@@ -4,14 +4,14 @@
 <mapper namespace="com.css.txl.dao.TxlUserDao">
 
 	<select id="queryObject" resultType="com.css.txl.entity.TxlUser">
-		select * from TXL_USER where USERID = #{value}
+		select * from TXL_USER where USERID = #{value} and ISDELETE=0
 	</select>
 
 	<select id="queryList" resultType="com.css.txl.entity.TxlUser">
 		select T.* ,R.REMARK_CONTENT as remarks, O.ORGANNAME AS DEPT,O.ORDERID AS OORDERID from TXL_USER T
 		left join TXL_REMARK R on T.USERID = R.REMARKED_PERSON_ID and R.REMARK_CREATOR_ID = #{currentUserId}
 		left join TXL_ORGAN O on O.ORGANID =  T.ORGANID 
-		where 1=1 and T.ISDELETE!=1
+		where 1=1 and T.ISDELETE =0 and O.ISDELETE =0
 		<if test="orgIds != null">
 		 and T.ORGANID in 
 		 <foreach item="item" collection="orgIds" open="(" separator="," close=")">
@@ -38,11 +38,11 @@
 	<select id="getTxlFavorite" resultType="com.css.txl.entity.TxlUser">
 		select t1.*,t3.organname as org_name from TXL_USER t1 left join TXL_COLLECT t2 on t1.userid=t2.collect_userid 
 		left join TXL_ORGAN t3 on t1.organid=t3.organid
-		where t2.userid=#{value} 
+		where t2.userid=#{value} and t1.ISDELETE =0 and t3.ISDELETE =0
 	</select>
 	
  	<select id="queryTotal" resultType="int">
-		select count(0) from TXL_USER where 1=1
+		select count(0) from TXL_USER where ISDELETE =0 
 		<if test="keywords != null and keywords.length>0">
 		and 
 		<foreach collection="keywords" item="item" open="(" separator="or" close=")">
