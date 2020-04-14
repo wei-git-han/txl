@@ -4,7 +4,7 @@
 <mapper namespace="com.css.txl.dao.TxlUserDao">
 
 	<select id="queryObject" resultType="com.css.txl.entity.TxlUser">
-		select * from TXL_USER where USERID = #{value} and ISDELETE=0
+		select * from TXL_USER where USERID = #{value}
 	</select>
 
 	<select id="queryList" resultType="com.css.txl.entity.TxlUser">

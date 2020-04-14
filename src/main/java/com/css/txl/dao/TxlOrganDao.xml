@@ -4,7 +4,7 @@
 <mapper namespace="com.css.txl.dao.TxlOrganDao">
 
 	<select id="queryObject" resultType="com.css.txl.entity.TxlOrgan">
-		select * from TXL_ORGAN where ORGANID = #{value} and ISDELETE = 0
+		select * from TXL_ORGAN where ORGANID = #{value} 
 	</select>
 
 	<select id="queryList" resultType="com.css.txl.entity.TxlOrgan">
