@@ -1019,10 +1019,12 @@ jQuery.validator.addMethod("tel", function(value, element,a) {
 	if(value == "" || value== null){
 		return true;
 	}else{
-		var zjnum = /^([0-9]{3,4}-)?[0-9]{6,9}$/;
+		//var zjnum = /^([0-9]{3,4}-)?[0-9]{6,9}$/;
+		//座机号码 最大是15位數字
+		var zjnum = /^\d{15}$/;
 		//var telnum = /^((\+?86)|(\(\+;86\)))?(13[012356789][0-9]{8}|15[012356789][0-9]{8}|18[02356789][0-9]{8}|177[0-9]{8}|147[0-9]{8}|1349[0-9]{7})$/;
-		//手机号放开134的校验
-		var telnum = /^((\+?86)|(\(\+;86\)))?(13[012356789][0-9]{8}|15[012356789][0-9]{8}|18[02356789][0-9]{8}|177[0-9]{8}|147[0-9]{8}|134[0-9]{8})$/;
+		//手机号11位數字
+		var telnum = /^\d{4,11}$/;
 		var phonenum = $.trim(value);
 		if(zjnum.test(phonenum) || telnum.test(phonenum)){
 			return true;

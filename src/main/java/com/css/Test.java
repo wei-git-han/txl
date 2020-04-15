@@ -8,6 +8,8 @@ public class Test {
 //		// TODO Auto-generated method stub
 //		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //		System.out.println(df.format(Long.valueOf("1586770235000")));
+//		int a=(int)5-10;
+//		System.out.println(a);
 //	}
 
 }
