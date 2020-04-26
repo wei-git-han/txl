@@ -78,7 +78,13 @@ public class SyncOrganUtil {
 			timerTask = new TimerTask(){
 				@Override
 				public void run() {
-					SyncOrgan();
+					try{
+						SyncOrgan();
+					}catch (Exception e){
+						e.printStackTrace();
+						logger.info("增量同步接口异常{}", com.css.base.utils.StringUtils.isBlank(e.getMessage()) ? "请看后台日志："+e : e.getMessage());
+					}
+
 				}
 			};
 		}
