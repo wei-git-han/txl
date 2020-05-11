@@ -227,14 +227,15 @@ public class SyncOrganUtil {
 				txlUser.setUserid(userInfo.getUserid());
 				TxlUser txlUsertemp = txlUserService.queryObject(userInfo.getUserid());
                 if (txlUsertemp == null) {
-                	txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
+                	//txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
                 	txlUser.setTelephone(userInfo.getTel());
                 	txlUser.setMobile(userInfo.getMobile());
                 	txlUserService.save(txlUser);
                 } else {
-                	if (StringUtils.isEmpty(txlUsertemp.getPost())) {
+                	/*if (StringUtils.isEmpty(txlUsertemp.getPost())) {
                 		txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
-					}
+					}*/
+                	txlUser.setPost(txlUsertemp.getPost());
 					txlUser.setTelephone(userInfo.getTel());
 					txlUser.setMobile(userInfo.getMobile());
     				txlUser.setMobileTwo(txlUsertemp.getMobileTwo());

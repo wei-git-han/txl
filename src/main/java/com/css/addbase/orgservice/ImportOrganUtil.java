@@ -147,16 +147,18 @@ public class ImportOrganUtil {
 			txlUser.setUseremail(userInfo.getUserEmail());
 			txlUser.setUserid(userInfo.getUserid());
 			if(baseAppUsertemp!=null){
-				if (StringUtils.isEmpty(baseAppUsertemp.getPost())) {
+				//通讯录中职位不从单点中取，完全自己编辑修改
+				/*if (StringUtils.isEmpty(baseAppUsertemp.getPost())) {
 					txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
-				}
+				}*/
+				txlUser.setPost(baseAppUsertemp.getPost());
 				txlUser.setTelephone(userInfo.getTel());
 				txlUser.setMobile(userInfo.getMobile());
 				txlUser.setMobileTwo(baseAppUsertemp.getMobileTwo());
 				txlUser.setTelephoneTwo(baseAppUsertemp.getTelephoneTwo());
 				txlUserService.update(txlUser);
 			}else{
-				txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
+				//txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
 				txlUser.setTelephone(userInfo.getTel());
             	txlUser.setMobile(userInfo.getMobile());
 				txlUserService.save(txlUser);
