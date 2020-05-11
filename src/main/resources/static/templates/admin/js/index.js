@@ -267,7 +267,12 @@ var pageModule = function(){
              	 }
                 	 return caozuo;  					
 				}},
-				{field:"remarks",title:"备注",width:"30%",align:"center",sortable:false,formatter:function(value,rowdata,n){
+				{field:"dutyName",title:"职务",width:"15%",align:"center",sortable:false,formatter:function(value,rowdata,n){
+						if(rowdata.dutyName){
+							return '<span class="remarkContent"  title="'+rowdata.dutyName+'" >'+rowdata.dutyName.splice(0,10)+'</span>';
+						}
+				}},
+				{field:"remarks",title:"备注",width:"15%",align:"center",sortable:false,formatter:function(value,rowdata,n){
 					if(rowdata.remarks == '' || rowdata.remarks == null){
             		  return '<div class="remarkContent" style="width: 100%; height: 18.5px; cursor:pointer;" title="点击进行编辑" data-toggle="modal" href="#editRemarks" onclick="editRemarks(\''+rowdata.userid+'\',\''+rowdata.fullname+'\',\''+rowdata.remarks+'\')">'+rowdata.remarks+'</div>';
             	  } else {
