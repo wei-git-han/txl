@@ -267,9 +267,9 @@ var pageModule = function(){
              	 }
                 	 return caozuo;  					
 				}},
-				{field:"dutyName",title:"职务",width:"15%",align:"center",sortable:false,formatter:function(value,rowdata,n){
-						if(rowdata.dutyName){
-							return '<span class="remarkContent"  title="'+rowdata.dutyName+'" >'+rowdata.dutyName.splice(0,10)+'</span>';
+				{field:"post",title:"职务",width:"15%",align:"center",sortable:false,formatter:function(value,rowdata,n){
+						if(rowdata.post){
+							return '<span class="remarkContent"  title="'+rowdata.post+'" >'+rowdata.post.substring(0,10)+'</span>';
 						}
 				}},
 				{field:"remarks",title:"备注",width:"15%",align:"center",sortable:false,formatter:function(value,rowdata,n){

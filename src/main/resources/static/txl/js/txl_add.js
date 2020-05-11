@@ -27,7 +27,7 @@ var pageModule = function(){
 					$(".telephoneLi").removeAttr("disabled");
 					$("#address").removeAttr("disabled");
 					$("#remarks").removeAttr("disabled");
-					$("#dutyName").removeAttr("disabled");
+					//$("#dutyName").removeAttr("disabled");
 					
 				}else if(true == data.manager){
 					$("#post").removeAttr("disabled");
@@ -39,7 +39,7 @@ var pageModule = function(){
 					$(".mobileLi").removeAttr("disabled");
 					$(".telephoneLi").removeAttr("disabled");
 					$("#address").removeAttr("disabled");
-					$("#dutyName").removeAttr("disabled");
+					//$("#dutyName").removeAttr("disabled");
 					$("#remarks").removeAttr("disabled");
 					$("#save").show();
             	}else{
@@ -96,7 +96,7 @@ var pageModule = function(){
 		//表单验证
 		$("#saveForm").validate({
 		    submitHandler: function() {
-				var elementarry = ["userid","fullname","sex","organName","dutyName","post","telephone","mobile","telephoneTwo","mobileTwo","address","remarks"];
+				var elementarry = ["userid","fullname","sex","organName","post","telephone","mobile","telephoneTwo","mobileTwo","address","remarks"];
 				var paramdata = getformdata(elementarry);
 				$ajax({
 					url:savetip,
