@@ -2,9 +2,6 @@ package com.css.addbase.orgservice;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +20,6 @@ import com.css.txl.service.TxlUserService;
 @Component
 @RequestMapping("/app/org")
 public class ImportOrganUtil {
-	private final Logger logger = LoggerFactory.getLogger(ImportOrganUtil.class);
 	
 	@Autowired
 	private TxlOrganService txlOrganService;
@@ -44,8 +40,7 @@ public class ImportOrganUtil {
 					importOrg("root");
 					System.out.println("组织机构导入成功！");
 				} catch (Exception e) {
-					e.printStackTrace();
-					logger.info("增量同步接口异常{}", com.css.base.utils.StringUtils.isBlank(e.getMessage()) ? "请看后台日志："+e : e.getMessage());
+					System.out.println(e);
 				}
 			}
 		}, 60000);
@@ -151,16 +146,18 @@ public class ImportOrganUtil {
 			txlUser.setUseremail(userInfo.getUserEmail());
 			txlUser.setUserid(userInfo.getUserid());
 			if(baseAppUsertemp!=null){
-				if (StringUtils.isEmpty(baseAppUsertemp.getPost())) {
+				//通讯录中职位不从单点中取，完全自己编辑修改
+				/*if (StringUtils.isEmpty(baseAppUsertemp.getPost())) {
 					txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
-				}
+				}*/
+				txlUser.setPost(baseAppUsertemp.getPost());
 				txlUser.setTelephone(userInfo.getTel());
 				txlUser.setMobile(userInfo.getMobile());
 				txlUser.setMobileTwo(baseAppUsertemp.getMobileTwo());
 				txlUser.setTelephoneTwo(baseAppUsertemp.getTelephoneTwo());
 				txlUserService.update(txlUser);
 			}else{
-				txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
+				//txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
 				txlUser.setTelephone(userInfo.getTel());
             	txlUser.setMobile(userInfo.getMobile());
 				txlUserService.save(txlUser);

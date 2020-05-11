@@ -1,21 +1,17 @@
 package com.css.addbase.orgservice;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
+
 import com.css.addbase.AppConfig;
-import com.css.addbase.orgservice.Organ;
-import com.css.addbase.orgservice.UserInfo;
 import com.css.base.utils.Response;
 import com.css.base.utils.StringUtils;
 import com.css.txl.entity.TxlOrgan;
@@ -31,7 +27,7 @@ import com.css.txl.utils.ChineseFCUtil;
 @Component
 @RequestMapping("/app/timer")
 public class SyncOrganUtil {
-	private static Logger logger = LoggerFactory.getLogger(SyncOrganUtil.class);
+	
 	@Value("${csse.mircoservice.zuul}")
 	private String zuul;
 	
@@ -78,13 +74,7 @@ public class SyncOrganUtil {
 			timerTask = new TimerTask(){
 				@Override
 				public void run() {
-					try{
-						SyncOrgan();
-					}catch (Exception e){
-						e.printStackTrace();
-						logger.info("增量同步接口异常{}", com.css.base.utils.StringUtils.isBlank(e.getMessage()) ? "请看后台日志："+e : e.getMessage());
-					}
-
+					SyncOrgan();
 				}
 			};
 		}
@@ -134,17 +124,14 @@ public class SyncOrganUtil {
 	public void SyncOrgan() {
 		if (starttime == null) {
 			//设置消息时间戳
-			String time = String.valueOf(System.currentTimeMillis()-60000);
+			String time = String.valueOf(System.currentTimeMillis());
 			starttime = Long.valueOf(time.substring(0, 10));
 		}
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		logger.info("本次查询时间：{}",df.format(Long.valueOf(starttime+"000")));
 		System.out.println("同步地址："+zuul+syncdepartments+"?starttime="+starttime+"&access_token=" + appConfig.getAccessToken());
 		try {
 			SyncOrgan syncOrgan = (SyncOrgan) restTemplate.getForObject(zuul+syncdepartments+"?starttime="+starttime+"&access_token=" + appConfig.getAccessToken(),
 					SyncOrgan.class, new Object[0]);
 			starttime = syncOrgan.getTimestamp();
-			logger.info("下一次查询时间：{}",df.format(Long.valueOf(starttime+"000")));
 			List<Organ> organs = syncOrgan.getOrg();
 			int syncNum = 0;
 			if (organs != null && organs.size() > 0) {
@@ -239,14 +226,15 @@ public class SyncOrganUtil {
 				txlUser.setUserid(userInfo.getUserid());
 				TxlUser txlUsertemp = txlUserService.queryObject(userInfo.getUserid());
                 if (txlUsertemp == null) {
-                	txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
+                	//txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
                 	txlUser.setTelephone(userInfo.getTel());
                 	txlUser.setMobile(userInfo.getMobile());
                 	txlUserService.save(txlUser);
                 } else {
-                	if (StringUtils.isEmpty(txlUsertemp.getPost())) {
+                	/*if (StringUtils.isEmpty(txlUsertemp.getPost())) {
                 		txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
-					}
+					}*/
+                	txlUser.setPost(txlUsertemp.getPost());
 					txlUser.setTelephone(userInfo.getTel());
 					txlUser.setMobile(userInfo.getMobile());
     				txlUser.setMobileTwo(txlUsertemp.getMobileTwo());

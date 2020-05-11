@@ -27,6 +27,7 @@ var pageModule = function(){
 					$(".telephoneLi").removeAttr("disabled");
 					$("#address").removeAttr("disabled");
 					$("#remarks").removeAttr("disabled");
+					//$("#dutyName").removeAttr("disabled");
 					
 				}else if(true == data.manager){
 					$("#post").removeAttr("disabled");
@@ -38,6 +39,7 @@ var pageModule = function(){
 					$(".mobileLi").removeAttr("disabled");
 					$(".telephoneLi").removeAttr("disabled");
 					$("#address").removeAttr("disabled");
+					//$("#dutyName").removeAttr("disabled");
 					$("#remarks").removeAttr("disabled");
 					$("#save").show();
             	}else{
