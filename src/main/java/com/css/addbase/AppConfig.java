@@ -18,6 +18,7 @@ public class AppConfig {
 	
 	/**
 	 * 系统取默认应用的token
+	 * 的
 	 */
 	public static String accessToken;
 	
