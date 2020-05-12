@@ -1,0 +1,81 @@
+{
+  "currPage": 1,
+  "isOnlyJuzhang": 0,
+  "nextpage": 0,
+  "pageSize": 15,
+  "prepage": 0,
+  "rows": [
+    {
+      "adminType": "2",
+      "deptId": "cff3bccc-1c28-48f2-8af2-afef1e8f2f33",
+      "deptName": "一局一处",
+      "editFlag": "1",
+      "id": "407bd486-efad-4e15-a94a-2ba611184303",
+      "orgId": "247e8890-7b8b-4d5a-8260-0b1098d3e440",
+      "orgName": "测试局一",
+      "remark": "",
+      "seniorOfficial": "",
+      "seniorOfficialId": "",
+      "userId": "67b9a23a-d888-4fe5-8f00-80a2208d4287",
+      "userName": "韩局秘"
+    },
+    {
+      "adminType": "2",
+      "deptId": "2d4357e2-4462-4354-95fc-630b27418bb9",
+      "deptName": "二局一处",
+      "editFlag": "1",
+      "id": "38189901-f754-431c-9519-ff8402b0e96c",
+      "orgId": "35756e53-6d51-40e4-ae2f-aa21e0ed1136",
+      "orgName": "测试局二",
+      "remark": "",
+      "seniorOfficial": "",
+      "seniorOfficialId": "",
+      "userId": "f0908287-ff32-4ffe-8812-609381ed80f5",
+      "userName": "韩局秘2"
+    },
+    {
+      "adminType": "2",
+      "deptId": "2d4357e2-4462-4354-95fc-630b27418bb9",
+      "deptName": "二局一处",
+      "editFlag": "1",
+      "id": "73380da5-d59a-4629-9bfc-916e5e8e8bde",
+      "orgId": "35756e53-6d51-40e4-ae2f-aa21e0ed1136",
+      "orgName": "测试局二",
+      "remark": "",
+      "seniorOfficial": "",
+      "seniorOfficialId": "",
+      "userId": "7c8943bc-47de-45e4-8a8c-c6cf41221dff",
+      "userName": "陈文华局长"
+    },
+    {
+      "adminType": "2",
+      "deptId": "402ef5df-e3f5-42ff-a667-4534db3e8881",
+      "deptName": "二局二处",
+      "editFlag": "1",
+      "id": "396de423-b5e6-4664-96e4-0dbb7c9f3f11",
+      "orgId": "35756e53-6d51-40e4-ae2f-aa21e0ed1136",
+      "orgName": "测试局二",
+      "remark": "",
+      "seniorOfficial": "",
+      "seniorOfficialId": "",
+      "userId": "967f20ef-04c1-48ca-909f-e42c3e209d72",
+      "userName": "方杰"
+    },
+    {
+      "adminType": "2",
+      "deptId": "402ef5df-e3f5-42ff-a667-4534db3e8881",
+      "deptName": "二局二处",
+      "editFlag": "1",
+      "id": "c5c19769-171c-4406-be83-390fcce207ec",
+      "orgId": "35756e53-6d51-40e4-ae2f-aa21e0ed1136",
+      "orgName": "测试局二",
+      "remark": "",
+      "seniorOfficial": "",
+      "seniorOfficialId": "",
+      "userId": "11e74a8a-7dc1-4740-8164-ebab1510c526",
+      "userName": "吴强"
+    }
+  ],
+  "total": 5,
+  "totalPage": 15
+}

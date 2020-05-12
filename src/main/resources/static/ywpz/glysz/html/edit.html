@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+	<meta charset="utf-8"/>
+	<title>业务配置-管理员-编辑</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta content="width=device-width, initial-scale=1" name="viewport"/>
+	<link rel="stylesheet" type="text/css"  href="../../../../../../assets/global/plugins/font-awesome/css/font-awesome.min.css"/>
+	<link rel="stylesheet" type="text/css"  href="../../../../../../assets/global/plugins/simple-line-icons/simple-line-icons.min.css"/>
+	<link rel="stylesheet" type="text/css"  href="../../../../../../assets/global/plugins/bootstrap/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css"  href="../../../../../../assets/global/css/components.css" id="style_components"/>
+	<link rel="stylesheet" type="text/css"  href="../../../../../../assets/global/css/plugins.css"/>
+	<link rel="stylesheet" type="text/css"  href="../../../../../../assets/global/plugins/jstree/dist/themes/default/style.min.css" />
+	<link rel="stylesheet" type="text/css"  href="../../../ywpz/common/css/common.css"/>
+	<link rel="stylesheet" type="text/css"  href="../css/edit.css"/>
+</head>
+<body>
+	<div class="newpage1">
+		<div class="newpage2">
+			<div class="newpage3">
+				<i class="fa fa-arrow-circle-o-left newpage4" id="fanhui"></i>
+				<font>局管理员设置</font>
+			</div>
+		</div>
+		<div class="newpage5">
+			<div class="newpage1">
+				<div class="newpage6">
+					<div class="newpage7">
+						<div class="scroller newpage8">
+							<div style="padding-top:50px;">
+								<div class="form-body" style="width:40%;margin:0 auto;">
+							        <div class="form-group">
+							       		<label class="col-xs-3 control-label">姓名</label>
+							            <div class="col-xs-9">
+							            	<div class="form-control" style="padding:0">
+						                        <div class="selecttree">
+					                        		<input type="text" id="userName" name="userName" />
+					                        		<input type="hidden" id="userId" name="userId" />
+					                        	</div>
+				                        	</div>
+					                    </div>
+					                    <div class="clearfix"></div>
+							        </div>
+							        <div class="clearfix"></div>
+							        <div class="form-group">
+							       		 <label class="col-xs-3 control-label">管理员类型</label>
+							       		 <div class="col-xs-9">
+									          <input type="text" id="roleType" disabled="disabled" class="form-control" required="required"  value="局管理员"></input>
+								         </div>
+					              	 </div>
+							   	  </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="newpage23">
+			<button class="btn btn-primary btn-button1" style="width:150px;" id="save"> 保存 </button>
+			<button class="btn btn-default btn-button2" style="width:150px;" id="quxiao"> 取消 </button>
+		</div>
+	</div>
+	
+	<script type="text/javascript" src="../../../../../../assets/global/plugins/jquery.min.js"></script>
+	<script type="text/javascript" src="../../../../../../assets/global/plugins/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../../../../../assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+	<script type="text/javascript" src="../../../../../../assets/global/scripts/metronic.js"></script>
+	<script type="text/javascript" src="../../../../../../assets/admin/layout/scripts/layout.js"></script>
+	<script type="text/javascript" src="../../../../../../assets/admin/layout/scripts/quick-sidebar.js"></script>
+	<script type="text/javascript" src="../../../../../../assets/admin/layout/scripts/demo.js"></script>
+	<script type="text/javascript" src="../../../../../../templates/admin/commons/js/commons.js"></script>
+	<script type="text/javascript" src="../../../../../../assets/global/plugins/jstree/dist/jstree.min.js"></script>
+	<script type="text/javascript" src="../../../../../../assets/global/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="../../../../../../assets/global/plugins/jquery-validation/js/additional-methods.js"></script>
+    <script type="text/javascript" src="../../../../../../assets/global/plugins/jquery-validation/js/localization/messages_zh.js"></script>
+    <script type="text/javascript" src="../../../../../../templates/admin/commons/js/commons.js"></script>
+	<script type="text/javascript" src="../../../ywpz/common/js/commons.js"></script>
+	<script type="text/javascript" src="../js/edit.js"></script>
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+			pageModule.initControl();
+		});
+	</script>
+</body>
+</html>

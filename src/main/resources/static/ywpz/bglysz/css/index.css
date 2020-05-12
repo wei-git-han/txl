@@ -1,0 +1,44 @@
+html,body{
+	background-color:#ffffff;
+	height:100%;
+	font-family: "微软雅黑";
+	/*padding-top:10px;*/
+}
+*{
+	box-sizing:border-box;
+}
+
+th{
+	text-align: center !important;
+}
+#gridcont_hdtable th ,#gridcont_hdtable td{
+	white-space: normal;
+	text-overflow: inherit;
+}
+td{
+	vertical-align: middle!important;
+	white-space: normal!important;
+	text-overflow: inherit!important;
+}
+td span{
+	display: inline-block;
+}
+.control-label {
+    margin: 0px;
+}
+#textitem-error,#fieldValue-error{
+	color: #f00;
+}
+.btn-button1{
+	width:105px;height:33px;
+	text-align: center;
+	/*border-radius: 0px!important;*/
+}
+.btn-button2{
+	background: none;
+	border: 1px solid #3399FF;
+	color: #000;
+}
+.table-advance thead tr th {
+    background-color: transparent;
+}

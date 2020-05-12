@@ -834,3 +834,12 @@ $("body").keydown(function(event){
 	}
 })
 
+function GetRootPath(){
+	var pathName = window.location.pathname.substring(1);
+	var webName = pathName == '' ? '' : pathName.substring(0, pathName.lastIndexOf('/'));
+	//rootPath = webName == '' ? '/' : '/' + webName;
+	rootPath = "/"+webName.split('/')[0]+"/"+webName.split('/')[1];
+	return rootPath;
+}
+
+var rootPath = GetRootPath();
