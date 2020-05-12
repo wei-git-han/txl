@@ -17,10 +17,10 @@ public class AdminSetServiceImpl implements AdminSetService {
     @Autowired
     private AdminSetDao adminSetDao;
 
-    @Value("${csse.dccb.appId}")
+    @Value("${csse.txl.appId}")
     private  String appId;
 
-    @Value("${csse.dccb.appSecret}")
+    @Value("${csse.txl.appSecret}")
     private  String clientSecret;
 
     @Override
@@ -45,6 +45,16 @@ public class AdminSetServiceImpl implements AdminSetService {
             }
         }
         return adminFlag;
+    }
+
+    @Override
+    public List<AdminSet> queryJuAdminList(String userId) {
+        return adminSetDao.queryJuAdminList(userId);
+    }
+
+    @Override
+    public List<AdminSet> queryList(Map<String, Object> map){
+        return adminSetDao.queryList(map);
     }
 
 }

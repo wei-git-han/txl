@@ -20,5 +20,6 @@ public interface AdminSetDao extends BaseDao<AdminSet> {
 
     List<AdminSet> queryJuAdminList(String userId);
 
+
     List<String> queryUserIdByOrgId(String orgId);
 }
