@@ -1,5 +1,5 @@
-var getUserAdminTypeUrl = {"url":rootPath +"/adminset/getAuthor","dataType":"text"};
-getUserAdminTypeUrl={"url":"../data/getAuthor.json","dataType":"text"};
+var getUserAdminTypeUrl = {"url":"/app/txl/adminconfig/getAuthor","dataType":"text"};
+//getUserAdminTypeUrl={"url":"../data/getAuthor.json","dataType":"text"};
 var pageModule = function(){
 	var initother = function(){
 		$ajax({

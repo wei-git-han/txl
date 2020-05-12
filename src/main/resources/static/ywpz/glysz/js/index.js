@@ -1,7 +1,6 @@
 var grid = null;
-var tableUrl = {"url":rootPath +"/adminset/juList","dataType":"text"};
-tableUrl = {"url":"../data/juList.json","dataType":"text"};
-
+var tableUrl = {"url":"/app/txl/adminconfig/juList","dataType":"text"};
+//tableUrl = {"url":"../data/juList.json","dataType":"text"};
 var delUrl = {"url":rootPath +"/adminset/delete","dataType":"text"}; 
 var pageModule = function() {
 	var initgrid = function() {
