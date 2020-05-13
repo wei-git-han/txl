@@ -18,7 +18,7 @@ var grid3=null;
 var o = {};
 o.pageSize = localStorage.getItem('pageSize1')||20;
 o.pageSize2 = localStorage.getItem('pageSize2')||20;
-var getUserAdminTypeUrl = {"url":rootPath +"/adminset/getAuthor","dataType":"text"};
+var getUserAdminTypeUrl = {"url":"/app/txl/adminconfig/getAuthor","dataType":"text"};
 var lock = true;    //设置人员是否可用
 var isLockUrl = {"url":"txlcollect/isLock","dataType":"text"};
 var pageModule = function(){
@@ -276,7 +276,8 @@ var pageModule = function(){
                             caozuo += '<a class="ysc" title="禁用" href="javascript:delqyfn(\''+rowdata.userid+'\')"><i class="fa fa-unlock "></i></a>';
                          }
                  }
-                	 return caozuo;  					
+                	 return caozuo;
+
 				}},
 				{field:"post",title:"职务",width:"15%",align:"center",sortable:false,formatter:function(value,rowdata,n){
 						if(rowdata.post){
