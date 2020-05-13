@@ -4,6 +4,7 @@ import com.css.adminconfig.dao.AdminSetDao;
 import com.css.adminconfig.entity.AdminSet;
 import com.css.adminconfig.service.AdminSetService;
 import com.css.base.utils.CurrentUser;
+import com.css.base.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,11 +18,51 @@ public class AdminSetServiceImpl implements AdminSetService {
     @Autowired
     private AdminSetDao adminSetDao;
 
-    @Value("${csse.txl.appId}")
+    @Value("${csse.dccb.appId}")
     private  String appId;
 
-    @Value("${csse.txl.appSecret}")
+    @Value("${csse.dccb.appSecret}")
     private  String clientSecret;
+
+    @Override
+    public AdminSet queryObject(String id){
+        return adminSetDao.queryObject(id);
+    }
+
+    @Override
+    public List<AdminSet> queryList(Map<String, Object> map){
+        return adminSetDao.queryList(map);
+    }
+
+    @Override
+    public void save(AdminSet dbAdminSet){
+        adminSetDao.save(dbAdminSet);
+    }
+
+    @Override
+    public void update(AdminSet dbAdminSet){
+        adminSetDao.update(dbAdminSet);
+    }
+
+    @Override
+    public void delete(String id){
+        adminSetDao.delete(id);
+    }
+
+    @Override
+    public void deleteBatch(String[] ids){
+        adminSetDao.deleteBatch(ids);
+    }
+
+    @Override
+    public List<AdminSet> queryJuAdminList(String userId) {
+        return adminSetDao.queryJuAdminList(userId);
+    }
+
+    @Override
+    public List<String> queryUserIdByOrgId(String orgId) {
+        return adminSetDao.queryUserIdByOrgId(orgId);
+    }
 
     @Override
     public String getAdminTypeByUserId(String userId) {
@@ -48,13 +89,20 @@ public class AdminSetServiceImpl implements AdminSetService {
     }
 
     @Override
-    public List<AdminSet> queryJuAdminList(String userId) {
-        return adminSetDao.queryJuAdminList(userId);
+    public String getAgentLeagerId(String userId) {
+        String agentLeaderId="";
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", userId);
+        map.put("adminType", "1");
+        List<AdminSet> adminSets = adminSetDao.queryList(map);
+        if (adminSets != null && adminSets.size() > 0) {
+            AdminSet adminSet = adminSets.get(0);
+            if (StringUtils.isNotBlank(adminSet.getSeniorOfficial())) {
+                agentLeaderId=adminSet.getSeniorOfficialId();
+            }
+        }
+        return agentLeaderId;
     }
 
-    @Override
-    public List<AdminSet> queryList(Map<String, Object> map){
-        return adminSetDao.queryList(map);
-    }
 
 }

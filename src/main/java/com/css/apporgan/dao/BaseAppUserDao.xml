@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.css.apporgan.dao.BaseAppUserDao">
+
+	<select id="queryObject" resultType="com.css.addbase.apporgan.entity.BaseAppUser">
+		select * from BASE_APP_USER where ID = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.css.addbase.apporgan.entity.BaseAppUser">
+		select * from BASE_APP_USER WHERE 1= 1 and ISDELETE = '0'
+		<if test="organid != null">
+		    and ORGANID = #{organid}
+		</if>
+		<if test="userId != null">
+		    and USER_ID = #{userId}
+		</if>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+		order by sort
+	</select>
+	<select id="selectUserByNameAndUnitId" resultType="com.css.addbase.apporgan.entity.BaseAppUser">
+		select * from BASE_APP_USER where ISDELETE = 0 and truename=#{0} and organid in (
+		select ID from BASE_APP_ORGAN start with  id=#{1} and ISDELETE=0 connect by prior id=parent_Id)
+	</select>
+	<select id="queryListBySet" resultType="com.css.addbase.apporgan.entity.BaseAppUser">
+		select u.* from BASE_APP_USER u inner join DOCUMENT_BANJIAN_TREE_SET s
+		on u.user_id=s.user_id where u.ISDELETE=0  
+		<if test="organid != null">
+		    and u.ORGANID = #{organid}
+		</if>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+		order by u.sort
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from BASE_APP_USER where ISDELETE=0
+		<if test="departmentId != null and departmentId != null">
+			and ORGANID = #{departmentId}
+		</if>
+	</select>
+	
+	<select id="queryObjectByUserIds" resultType="com.css.addbase.apporgan.entity.BaseAppUser" >
+		select  *  from BASE_APP_USER where USER_ID in 
+		<foreach item="userIds" collection="array" open="(" separator="," close=")">
+			#{userIds}
+		</foreach>
+	</select>
+	
+	<select id="queryUserByName" parameterType="java.lang.String" resultType="com.css.addbase.apporgan.entity.BaseAppUser" >
+		select  *  from BASE_APP_USER where TRUENAME=#{name} 		
+	</select>
+	
+	<select id="queryObjectByDeptIds" resultType="com.css.addbase.apporgan.entity.BaseAppUser" >
+		select  *  from BASE_APP_USER where ISDELETE=0 and ORGANID in 
+		<foreach item="deptIds" collection="array" open="(" separator="," close=")">
+			#{deptIds}
+		</foreach>
+	</select>
+	
+	<select id="queryContactList" resultType="com.css.addbase.apporgan.entity.BaseAppUser">
+		<if test="askType != null">
+		 select *  from  BASE_APP_USER  where 1=1 
+        	and USER_ID in (
+                select
+                        top 0, 3 
+                        CHECK_USER_ID
+                from
+                        DOCUMENT_CHECK_MANUSCRIPT
+                group by
+                        CHECK_USER_ID
+                order by
+                        count(*) desc
+      		 )
+      	</if>
+      	<if test="checkType != null">
+      	 select *  from  BASE_APP_USER  where 1=1 
+        	and USER_ID in (
+                select
+                        top 0, 3 
+                        AUDIT_USER_ID
+                from
+                        DOCUMENT_AUDIT
+                group by
+                        AUDIT_USER_ID
+                order by
+                        count(*) desc
+      		 )
+      	</if>
+   		<if test="signType != null">
+      	 select *  from  BASE_APP_USER  where 1=1 
+        	and USER_ID in (
+                select
+                        top 0, 3 
+                        REVIEWER_ID
+                from
+                        DOCUMENT_REVIEW_STAMP
+                group by
+                        REVIEWER_ID
+                order by
+                        count(*) desc
+      		 )
+      	</if>
+   	</select>
+	 
+	<insert id="save" parameterType="com.css.addbase.apporgan.entity.BaseAppUser">
+		insert into BASE_APP_USER
+		(
+			"ID", 
+			"USER_ID", 
+			"ISDELETE", 
+			"TIMESTAMP", 
+			"SORT", 
+			"TRUENAME", 
+			"TYPE", 
+			"ORGANID", 
+			"ACCOUNT", 
+			"MOBILE", 
+			"USEREMAIL", 
+			"SECLEVEL", 
+			"SEX",
+			"TELEPHONE"
+		)
+		values
+		(
+			#{id}, 
+			#{userId}, 
+			#{isdelete}, 
+			#{timestamp}, 
+			#{sort}, 
+			#{truename}, 
+			#{type}, 
+			#{organid}, 
+			#{account}, 
+			#{mobile}, 
+			#{useremail}, 
+			#{seclevel}, 
+			#{sex},
+			#{telephone}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.css.addbase.apporgan.entity.BaseAppUser">
+		update BASE_APP_USER 
+		<set>
+			<if test="userId != null">"USER_ID" = #{userId}, </if>
+			<if test="isdelete != null">"ISDELETE" = #{isdelete}, </if>
+			<if test="timestamp != null">"TIMESTAMP" = #{timestamp}, </if>
+			<if test="sort != null">"SORT" = #{sort}, </if>
+			<if test="truename != null">"TRUENAME" = #{truename}, </if>
+			<if test="type != null">"TYPE" = #{type}, </if>
+			<if test="organid != null">"ORGANID" = #{organid}, </if>
+			<if test="account != null">"ACCOUNT" = #{account}, </if>
+			<if test="mobile != null">"MOBILE" = #{mobile}, </if>
+			<if test="useremail != null">"USEREMAIL" = #{useremail}, </if>
+			<if test="seclevel != null">"SECLEVEL" = #{seclevel}, </if>
+			<if test="sex != null">"SEX" = #{sex}, </if>
+			<if test="telephone != null">"TELEPHONE" = #{telephone}</if>
+		</set>
+		where ID = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from BASE_APP_USER where ID = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from BASE_APP_USER where ID in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+
+</mapper>
