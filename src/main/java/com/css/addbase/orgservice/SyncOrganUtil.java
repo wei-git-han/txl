@@ -135,7 +135,7 @@ public class SyncOrganUtil {
 			String time = String.valueOf(System.currentTimeMillis());
 			starttime = Long.valueOf(time.substring(0, 10));
 		}
-		System.out.println("同步地址："+zuul+syncdepartments+"?starttime="+starttime+"&access_token=" + appConfig.getAccessToken());
+		//System.out.println("同步地址："+zuul+syncdepartments+"?starttime="+starttime+"&access_token=" + appConfig.getAccessToken());
 		try {
 			SyncOrgan syncOrgan = (SyncOrgan) restTemplate.getForObject(zuul+syncdepartments+"?starttime="+starttime+"&access_token=" + appConfig.getAccessToken(),
 					SyncOrgan.class, new Object[0]);
