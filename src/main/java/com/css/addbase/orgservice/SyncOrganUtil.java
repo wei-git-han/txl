@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -27,7 +29,7 @@ import com.css.txl.utils.ChineseFCUtil;
 @Component
 @RequestMapping("/app/timer")
 public class SyncOrganUtil {
-	
+	private static Logger logger = LoggerFactory.getLogger(SyncOrganUtil.class);
 	@Value("${csse.mircoservice.zuul}")
 	private String zuul;
 	
@@ -74,7 +76,13 @@ public class SyncOrganUtil {
 			timerTask = new TimerTask(){
 				@Override
 				public void run() {
-					SyncOrgan();
+					try{
+						SyncOrgan();
+					}catch (Exception e){
+						e.printStackTrace();
+						logger.info("增量同步接口异常{}", com.css.base.utils.StringUtils.isBlank(e.getMessage()) ? "请看后台日志："+e : e.getMessage());
+					}
+
 				}
 			};
 		}
