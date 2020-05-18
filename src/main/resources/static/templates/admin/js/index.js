@@ -113,6 +113,7 @@ var pageModule = function(){
 			initLxr();//中间收藏列表
 		});
 	}
+	//判断管理员
 	var initmanager = function(){
 		$ajax({
 			url:authenurl,
