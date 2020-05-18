@@ -19,7 +19,6 @@ var o = {};
 o.pageSize = localStorage.getItem('pageSize1')||20;
 o.pageSize2 = localStorage.getItem('pageSize2')||20;
 var getUserAdminTypeUrl = {"url":"/app/txl/adminconfig/getAuthor","dataType":"text"};
-var lock = true;    //设置人员是否可用
 var isLockUrl = {"url":"txlcollect/isLock","dataType":"text"};
 var pageModule = function(){
 	/*收藏*/
@@ -113,13 +112,45 @@ var pageModule = function(){
 			initLxr();//中间收藏列表
 		});
 	}
-	//判断管理员
 	var initmanager = function(){
-		$ajax({
+	 //查询是否是管理员，管理员可以看见 业务配置菜单
+    	    $ajax({
+                url: getUserAdminTypeUrl,
+                type: "GET",
+                success: function(data) {
+                    //0:超级管理员 ;1：部管理员；2：局管理员；3：即是部管理员又是局管理员
+                    if(data=="0"||data=="1" || data == "2" || data=="3" ){
+                      $(".wyConfig").show();
+                    }
+                    if (data=="0") {
+                        cbox = true;
+                        show = true;
+                        $("#daoru").show();
+                        $("#add_bmdh").show();
+                        $(".ljt").show();
+                    } else if (data == "2") {
+                        //修改通讯录内人员可见可用
+                         cbox = false;
+                         show = true;
+                         $("#daoru").hide();
+                         $("#add_bmdh").hide();
+                         $(".ljt").hide();
+                    }else {
+                        cbox = false;
+                        show = false;
+                        $("#daoru").hide();
+                        $("#add_bmdh").hide();
+                        $(".ljt").hide();
+                    }
+                    initgrid();
+                    initgrid3();
+                }
+            });
+		/*$ajax({
 			url:authenurl,
 			success:function(data){
 //				if(true == true){
-				if(true == data.manager){ 
+				if(true == data.manager){
 		   		 	cbox = true;
 		   		 	show = true;
 		   		 	$("#daoru").show();
@@ -136,7 +167,7 @@ var pageModule = function(){
 			   	initgrid();
 				initgrid3();
 			}
-		});
+		});*/
 	}
 	//收藏卡表格
 	var initgrid3 = function(){
@@ -268,15 +299,12 @@ var pageModule = function(){
                    	 }else{
                    		caozuo += '<a class="ysc" title="取消隐藏" href="javascript:delycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
                    	 }
+                   	  if(rowdata.islock=="1"||rowdata.islock==""){
+                        caozuo += '<a class="sc" title="启用" href="javascript:addqyfn(\''+rowdata.userid+'\')"><i class="fa  fa-lock "></i></a>';
+                      }else{
+                         caozuo += '<a class="ysc" title="禁用" href="javascript:delqyfn(\''+rowdata.userid+'\')"><i class="fa fa-unlock "></i></a>';
+                      }
              	 }
-             	 //设置人员是否可用  islock=1 禁用
-             	 if(lock){
-                     if(rowdata.islock=="1"||rowdata.islock==""){
-                         caozuo += '<a class="sc" title="启用" href="javascript:addqyfn(\''+rowdata.userid+'\')"><i class="fa  fa-lock "></i></a>';
-                         }else{
-                            caozuo += '<a class="ysc" title="禁用" href="javascript:delqyfn(\''+rowdata.userid+'\')"><i class="fa fa-unlock "></i></a>';
-                         }
-                 }
                 	 return caozuo;
 
 				}},
@@ -448,17 +476,6 @@ var pageModule = function(){
 		});
 	}
 	var initother = function(){
-	    //查询是否是管理员，管理员可以看见 业务配置菜单
-	    $ajax({
-            url: getUserAdminTypeUrl,
-            type: "GET",
-            success: function(data) {
-                //0:超级管理员 ;1：部管理员；2：局管理员；3：即是部管理员又是局管理员
-                if(data=="0"||data=="1" || data == "2" || data=="3" ){
-                  $(".wyConfig").show();
-                }
-            }
-        });
 		//搜索划过更换图标
 		$(".search_btn").hover(function(){
 			$(this).attr("src","templates/admin/images/search-hover.png");
