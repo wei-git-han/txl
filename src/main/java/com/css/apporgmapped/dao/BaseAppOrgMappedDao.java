@@ -1,6 +1,6 @@
 package com.css.apporgmapped.dao;
 
-import com.css.addbase.apporgmapped.entity.BaseAppOrgMapped;
+import com.css.apporgmapped.entity.BaseAppOrgMapped;
 import com.css.base.dao.BaseDao;
 import org.apache.ibatis.annotations.Mapper;
 

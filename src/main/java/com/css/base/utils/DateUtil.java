@@ -385,5 +385,18 @@ public class DateUtil {
     public static String format(Date date) {
         return format(date, DATE_PATTERN);
     }
+
+    /**
+     * 将时间戳转换为日期字符串(格式：yyyy-MM-dd HH:mm:ss)
+     * @param timestamp
+     * @return
+     */
+    public static String timestampToDate(Long timestamp){
+        if(timestamp != null){
+            SimpleDateFormat df = new SimpleDateFormat(DATE_TIME_PATTERN);
+            return df.format(new Date(Long.parseUnsignedLong(timestamp.toString())));
+        }
+        return null;
+    }
     
 }

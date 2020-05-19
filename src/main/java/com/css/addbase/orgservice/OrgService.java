@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import com.css.addbase.token.TokenConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -34,31 +35,22 @@ public class OrgService {
 	 * @date 2017年7月21日
 	 * @author gengds
 	 */
-	/*public UserInfo getUserInfo(String uuid) {
+	public UserInfo getUserInfo(String uuid) {
 		try {
+			String url=appConfig.getZuul() + appConfig.getOrg() +"/userinfo/" + uuid + "?access_token=" + TokenConfig.token();
 			return (UserInfo) restTemplate.getForObject(
-					appConfig.getZuul() + appConfig.getOrg() +"/userinfo/" + uuid + "?access_token=" + appConfig.getAccessToken(),
+					url,
 					UserInfo.class, new Object[0]);
-		   JSONObject userJson=restTemplate.getForObject(
-                    appConfig.getZuul() + appConfig.getOrg() +"/userinfo/" + uuid + "?access_token=" + appConfig.getAccessToken(),
-                    JSONObject.class, new Object[0]);
-		   String organId=userJson.getJSONArray("organIds").getString(0);
-		   int orderId=userJson.getJSONArray("relations").getJSONObject(0).getIntValue("orderId");
-		   UserInfo userInfo=new UserInfo();
-		   userInfo=JSONObject.toJavaObject(userJson, userInfo.getClass());
-		   userInfo.setOrderId(orderId);
-		   userInfo.setOrganId(organId);
-		   return userInfo;
 		} catch (Exception e) {
 			System.out.println("【报错信息】用户ID不存在，userId="+uuid);
 			System.out.println(e);
 			AppConfig.accessToken = "";
 			return (UserInfo) restTemplate.getForObject(
-					appConfig.getZuul() + appConfig.getOrg() +"/userinfo/" + uuid + "?access_token=" + appConfig.getAccessToken(),
+					appConfig.getZuul() + appConfig.getOrg() +"/userinfo/" + uuid + "?access_token=" + TokenConfig.token(),
 					UserInfo.class, new Object[0]);
 		}
-		
-	}*/
+
+	}
 	/*
 	 * 根据用户token获取用户信息
 	 */
