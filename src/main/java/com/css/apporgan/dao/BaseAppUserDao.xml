@@ -3,11 +3,11 @@
 
 <mapper namespace="com.css.apporgan.dao.BaseAppUserDao">
 
-	<select id="queryObject" resultType="com.css.addbase.apporgan.entity.BaseAppUser">
+	<select id="queryObject" resultType="com.css.apporgan.entity.BaseAppUser">
 		select * from BASE_APP_USER where ID = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.css.addbase.apporgan.entity.BaseAppUser">
+	<select id="queryList" resultType="com.css.apporgan.entity.BaseAppUser">
 		select * from BASE_APP_USER WHERE 1= 1 and ISDELETE = '0'
 		<if test="organid != null">
 		    and ORGANID = #{organid}
@@ -20,11 +20,11 @@
 		</if>
 		order by sort
 	</select>
-	<select id="selectUserByNameAndUnitId" resultType="com.css.addbase.apporgan.entity.BaseAppUser">
+	<select id="selectUserByNameAndUnitId" resultType="com.css.apporgan.entity.BaseAppUser">
 		select * from BASE_APP_USER where ISDELETE = 0 and truename=#{0} and organid in (
 		select ID from BASE_APP_ORGAN start with  id=#{1} and ISDELETE=0 connect by prior id=parent_Id)
 	</select>
-	<select id="queryListBySet" resultType="com.css.addbase.apporgan.entity.BaseAppUser">
+	<select id="queryListBySet" resultType="com.css.apporgan.entity.BaseAppUser">
 		select u.* from BASE_APP_USER u inner join DOCUMENT_BANJIAN_TREE_SET s
 		on u.user_id=s.user_id where u.ISDELETE=0  
 		<if test="organid != null">
@@ -43,25 +43,25 @@
 		</if>
 	</select>
 	
-	<select id="queryObjectByUserIds" resultType="com.css.addbase.apporgan.entity.BaseAppUser" >
+	<select id="queryObjectByUserIds" resultType="com.css.apporgan.entity.BaseAppUser" >
 		select  *  from BASE_APP_USER where USER_ID in 
 		<foreach item="userIds" collection="array" open="(" separator="," close=")">
 			#{userIds}
 		</foreach>
 	</select>
 	
-	<select id="queryUserByName" parameterType="java.lang.String" resultType="com.css.addbase.apporgan.entity.BaseAppUser" >
+	<select id="queryUserByName" parameterType="java.lang.String" resultType="com.css.apporgan.entity.BaseAppUser" >
 		select  *  from BASE_APP_USER where TRUENAME=#{name} 		
 	</select>
 	
-	<select id="queryObjectByDeptIds" resultType="com.css.addbase.apporgan.entity.BaseAppUser" >
+	<select id="queryObjectByDeptIds" resultType="com.css.apporgan.entity.BaseAppUser" >
 		select  *  from BASE_APP_USER where ISDELETE=0 and ORGANID in 
 		<foreach item="deptIds" collection="array" open="(" separator="," close=")">
 			#{deptIds}
 		</foreach>
 	</select>
 	
-	<select id="queryContactList" resultType="com.css.addbase.apporgan.entity.BaseAppUser">
+	<select id="queryContactList" resultType="com.css.apporgan.entity.BaseAppUser">
 		<if test="askType != null">
 		 select *  from  BASE_APP_USER  where 1=1 
         	and USER_ID in (
@@ -106,7 +106,7 @@
       	</if>
    	</select>
 	 
-	<insert id="save" parameterType="com.css.addbase.apporgan.entity.BaseAppUser">
+	<insert id="save" parameterType="com.css.apporgan.entity.BaseAppUser">
 		insert into BASE_APP_USER
 		(
 			"ID", 
@@ -143,7 +143,7 @@
 		)
 	</insert>
 	 
-	<update id="update" parameterType="com.css.addbase.apporgan.entity.BaseAppUser">
+	<update id="update" parameterType="com.css.apporgan.entity.BaseAppUser">
 		update BASE_APP_USER 
 		<set>
 			<if test="userId != null">"USER_ID" = #{userId}, </if>

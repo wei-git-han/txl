@@ -3,18 +3,18 @@
 
 <mapper namespace="com.css.appconfig.dao.BaseAppConfigDao">
 
-	<select id="queryObject" resultType="com.css.addbase.appconfig.entity.BaseAppConfig">
+	<select id="queryObject" resultType="com.css.appconfig.entity.BaseAppConfig">
 		select * from BASE_APP_CONFIG where type = #{value}
 	</select>
 
-	<select id="queryList" resultType="com.css.addbase.appconfig.entity.BaseAppConfig">
+	<select id="queryList" resultType="com.css.appconfig.entity.BaseAppConfig">
 		select * from BASE_APP_CONFIG 
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
 	</select>
 	
-	<select id="typeList" resultType="com.css.addbase.appconfig.entity.BaseAppConfig">
+	<select id="typeList" resultType="com.css.appconfig.entity.BaseAppConfig">
 		select * from BASE_APP_CONFIG where TYPE like '%'||#{value}||'%'
 	</select>
 	
