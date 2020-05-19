@@ -1,9 +1,10 @@
 var id = getUrlParam2("id");
 var saveUrl = {"url":"/app/txl/adminconfig/saveOrUpdate","dataType":"text"};  //保存
 var editInfo = {"url":"/app/txl/adminconfig/info","dataType":"text"}; //编辑数据
-
+//editInfo = {"url":"../data/info.json","dataType":"text"}; //编辑数据
 //获取某人的管理员类型（0:超级管理员 ;1：部管理员；2：局管理员；3：即是部管理员又是局管理员）
 var getUserAdminTypeUrl = {"url":"/app/txl/adminconfig/getAuthor","dataType":"text"};
+//getUserAdminTypeUrl = {"url":"../../main/data/getAuthor.json","dataType":"text"};
 var userTree; //部门树
 var pageModule = function(){
 	var initrolefn = function(){
@@ -15,7 +16,7 @@ var pageModule = function(){
 					userTree = {"url":"/app/base/user/tree","dataType":"text"}; //部门树
 				}else{
 					userTree = {"url":"/app/base/user/allTree","dataType":"text"}; //人员选择树
-					userTree = {"url":"../data/allTree.json","dataType":"text"}; //人员选择树
+					//userTree = {"url":"../data/allTree.json","dataType":"text"}; //人员选择树
 				}
 			}
 		})
