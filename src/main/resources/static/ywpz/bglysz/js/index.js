@@ -1,7 +1,7 @@
 var grid = null;
-var tableUrl = {"url":rootPath +"/adminset/list","dataType":"text"}; 
-tableUrl = {"url":"../data/list.json","dataType":"text"};
-var delUrl = {"url":rootPath +"/adminset/delete","dataType":"text"};
+var tableUrl = {"url":"/app/txl/adminconfig/list","dataType":"text"};
+//tableUrl = {"url":"../data/list.json","dataType":"text"};
+var delUrl = {"url":"/app/txl/adminconfig/delete","dataType":"text"};
 
 var pageModule = function() {
 	var initgrid = function() {

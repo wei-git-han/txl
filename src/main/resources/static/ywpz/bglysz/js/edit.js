@@ -1,11 +1,11 @@
 var id = getUrlParam2("id");
-var saveUrl = {"url":rootPath +"/adminset/saveOrUpdate","dataType":"text"};  //保存
-var editInfo = {"url":rootPath +"/adminset/info","dataType":"text"}; //编辑数据
-editInfo = {"url":"../data/info.json","dataType":"text"}; //编辑数据
+var saveUrl = {"url":"/app/txl/adminconfig/saveOrUpdate","dataType":"text"};  //保存
+var editInfo = {"url":"/app/txl/adminconfig/info","dataType":"text"}; //编辑数据
+//editInfo = {"url":"../data/info.json","dataType":"text"}; //编辑数据
 var userTree ={"url":"/app/base/user/allTree","dataType":"text"}; //人员选择树
-userTree ={"url":"../../glysz/data/allTree.json","dataType":"text"}; //人员选择树
-var shouZhangTree ={"url":"/app/db/documentjcdb/allShouZhang","dataType":"text"}; //人员选择树
-shouZhangTree ={"url":"../data/allShouZhang.json","dataType":"text"}; //人员选择树
+//userTree ={"url":"../../glysz/data/allTree.json","dataType":"text"}; //人员选择树
+var shouZhangTree ={"url":"/app/txl/adminconfig/allShouZhang","dataType":"text"}; //人员选择树
+//shouZhangTree ={"url":"../data/allShouZhang.json","dataType":"text"}; //人员选择树
 var pageModule = function(){
 	var initdatafn = function(){
 		$ajax({
