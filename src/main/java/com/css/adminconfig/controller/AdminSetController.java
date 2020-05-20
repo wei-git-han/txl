@@ -1,11 +1,15 @@
 package com.css.adminconfig.controller;
 
 import com.css.adminconfig.entity.AdminSet;
+import com.css.adminconfig.entity.BaseTreeObject;
 import com.css.adminconfig.service.AdminSetService;
+import com.css.appconfig.entity.BaseAppConfig;
+import com.css.appconfig.service.BaseAppConfigService;
 import com.css.apporgan.entity.BaseAppOrgan;
 import com.css.apporgan.entity.BaseAppUser;
 import com.css.apporgan.service.BaseAppOrganService;
 import com.css.apporgan.service.BaseAppUserService;
+import com.css.apporgmapped.constant.AppConstant;
 import com.css.base.utils.CurrentUser;
 import com.css.base.utils.GwPageUtils;
 import com.css.base.utils.Response;
@@ -17,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +35,8 @@ public class AdminSetController {
     private BaseAppOrganService baseAppOrganService;
     @Autowired
     private BaseAppUserService baseAppUserService;
+    @Autowired
+    private BaseAppConfigService baseAppConfigService;
 
     /**
      * 列表
@@ -55,7 +62,7 @@ public class AdminSetController {
         String loginUserId = CurrentUser.getUserId();
         //获取当前人的管理员类型（0:超级管理员 ;1：部管理员；2：局管理员；3：即是部管理员又是局管理员）
         String adminFlag = adminSetService.getAdminTypeByUserId(loginUserId);
-        PageHelper.startPage(page, pagesize);
+        PageHelper.startPage(1, pagesize);
         if(StringUtils.equals("2", adminFlag) || StringUtils.equals("3", adminFlag)) {
             adminSetList=adminSetService.queryJuAdminList(loginUserId);
         }else {
@@ -77,6 +84,9 @@ public class AdminSetController {
     @RequestMapping("/getAuthor")
     public void getAuthor(){
         String adminFlag = adminSetService.getAdminTypeByUserId(CurrentUser.getUserId());
+        if(StringUtils.isBlank(adminFlag)){
+            adminFlag = "没有查到该用户信息";
+        }
         Response.json(adminFlag);
     }
 
@@ -154,6 +164,28 @@ public class AdminSetController {
         String[] idArry = ids.split(",");
         adminSetService.deleteBatch(idArry);
         Response.json("result","success");
+    }
+
+    /**
+     * 查询所有首长
+     */
+    @ResponseBody
+    @RequestMapping("/allShouZhang")
+    public void allShouZhang() {
+        BaseAppConfig mapped = baseAppConfigService.queryObject(AppConstant.LEAD_TEAM);//首长单位id
+        Map<String, Object> map = new HashMap<>();
+        map.put("organid",mapped.getValue());
+        List<BaseAppUser> baseAppUsers = baseAppUserService.queryList(map);
+        List<BaseTreeObject> baseTreeObjects = new ArrayList<BaseTreeObject>();
+        BaseTreeObject baseTreeObject = null;
+        for (BaseAppUser baseAppUser : baseAppUsers) {
+            baseTreeObject = new BaseTreeObject();
+            baseTreeObject.setId(baseAppUser.getUserId());
+            baseTreeObject.setText(baseAppUser.getTruename());
+            baseTreeObject.setType("1");
+            baseTreeObjects.add(baseTreeObject);
+        }
+        Response.json(baseTreeObjects);
     }
 
 }
