@@ -65,6 +65,12 @@ public class AdminSetController {
         PageHelper.startPage(1, pagesize);
         if(StringUtils.equals("2", adminFlag) || StringUtils.equals("3", adminFlag)) {
             adminSetList=adminSetService.queryJuAdminList(loginUserId);
+            //判断即是部管理员又是局管理员
+            if(StringUtils.equals("3", adminFlag)){
+                for (AdminSet adminSet : adminSetList) {
+                    adminSet.setEditFlag("1");
+                }
+            }
         }else {
             Map<String, Object > map = new HashMap<>();
             map.put("adminType", adminType);

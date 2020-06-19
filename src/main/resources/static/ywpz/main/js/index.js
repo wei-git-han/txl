@@ -14,6 +14,7 @@ var pageModule = function(){
 					$('#juAdmin').show();
 				}else{ //局管理员
 					$('#juAdmin').show();
+					$('#departAdmin').hide();
 				}
 			}
 		});

@@ -29,7 +29,30 @@ var pageModule = function(){
 					$("#remarks").removeAttr("disabled");
 					//$("#dutyName").removeAttr("disabled");
 					
-				}else if(true == data.manager){
+				}else if(true == data.isBuManager){
+                    $("#post").removeAttr("disabled");
+                    $("#address").removeAttr("disabled");
+                    $("#mobile").removeAttr("disabled");
+                    $("#telephone").removeAttr("disabled");
+                    $("#mobileTwo").removeAttr("disabled");
+                    $("#telephoneTwo").removeAttr("disabled");
+                    $(".mobileLi").removeAttr("disabled");
+                    $(".telephoneLi").removeAttr("disabled");
+                    //$("#dutyName").removeAttr("disabled");
+                    $("#remarks").removeAttr("disabled");
+                    $("#save").show();
+				}else if(true == data.isJuManager && data.orgId==data.orgIdToSelf){
+                    $("#post").removeAttr("disabled");
+                    $("#mobile").removeAttr("disabled");
+                    $("#telephone").removeAttr("disabled");
+                    $("#mobileTwo").removeAttr("disabled");
+                    $("#telephoneTwo").removeAttr("disabled");
+                    $(".mobileLi").removeAttr("disabled");
+                    $(".telephoneLi").removeAttr("disabled");
+                    $("#address").removeAttr("disabled");
+                    $("#remarks").removeAttr("disabled");
+				}
+				else if(true == data.manager){
 					$("#post").removeAttr("disabled");
 					$("#address").removeAttr("disabled");
 					$("#mobile").removeAttr("disabled");

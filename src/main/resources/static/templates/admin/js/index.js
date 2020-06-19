@@ -122,7 +122,7 @@ var pageModule = function(){
                     if(data=="0"||data=="1" || data == "2" || data=="3" ){
                       $(".wyConfig").show();
                     }
-                    if (data=="0") {
+                    if (data=="0"||data=="1"||data=="3") {
                         cbox = true;
                         show = true;
                         $("#daoru").show();
@@ -141,6 +141,7 @@ var pageModule = function(){
                         $("#daoru").hide();
                         $("#add_bmdh").hide();
                         $(".ljt").hide();
+                        $(".wyConfig").hide();
                     }
                     initgrid();
                     initgrid3();
