@@ -135,11 +135,21 @@ public class SearchApiController {
 			jo.put("name", StringUtil.isNotEmpty(txlUser.getFullname())?txlUser.getFullname():"");
 			jo.put("phone", StringUtil.isNotEmpty(txlUser.getTelephone())?txlUser.getTelephone():"");
 			jo.put("tel", StringUtil.isNotEmpty(txlUser.getMobile())?txlUser.getMobile():"");
+			if("xlglGetTxlInfo".equals(callback)) { // 训练管理获取通讯录额外需要的字段
+				jo.put("userId", StringUtil.isNotEmpty(txlUser.getAccount())?txlUser.getAccount():"");
+				jo.put("post", StringUtil.isNotEmpty(txlUser.getPost())?txlUser.getPost():"");
+				jo.put("address", StringUtil.isNotEmpty(txlUser.getAddress())?txlUser.getAddress():"");
+				jo.put("dept", StringUtil.isNotEmpty(txlUser.getDept())?txlUser.getDept():"");
+			}
 			ja.add(jo);
 		}
 		//Response.json(ja);
 		String message = JSON.toJSONString(ja);
-		Response.stringJsonp(message, callback);
+		if("xlglGetTxlInfo".equals(callback)) {
+			Response.json(ja);
+		} else {
+			Response.stringJsonp(message, callback);
+		}
 	}
 	/**
 	 * 负一屏默认搜索sc的前6个;搜索时搜索全部
