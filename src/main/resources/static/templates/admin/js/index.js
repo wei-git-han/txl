@@ -18,6 +18,8 @@ var grid3=null;
 var o = {};
 o.pageSize = localStorage.getItem('pageSize1')||20;
 o.pageSize2 = localStorage.getItem('pageSize2')||20;
+var getUserAdminTypeUrl = {"url":"/app/txl/adminconfig/getAuthor","dataType":"text"};
+var isLockUrl = {"url":"txlcollect/isLock","dataType":"text"};
 var pageModule = function(){
 	/*收藏*/
 	var initLxr = function(){
@@ -111,11 +113,45 @@ var pageModule = function(){
 		});
 	}
 	var initmanager = function(){
-		$ajax({
+	 //查询是否是管理员，管理员可以看见 业务配置菜单
+    	    $ajax({
+                url: getUserAdminTypeUrl,
+                type: "GET",
+                success: function(data) {
+                    //0:超级管理员 ;1：部管理员；2：局管理员；3：即是部管理员又是局管理员
+                    if(data=="0"||data=="1" || data == "2" || data=="3" ){
+                      $(".wyConfig").show();
+                    }
+                    if (data=="0"||data=="1"||data=="3") {
+                        cbox = true;
+                        show = true;
+                        $("#daoru").show();
+                        $("#add_bmdh").show();
+                        $(".ljt").show();
+                    } else if (data == "2") {
+                        //修改通讯录内人员可见可用
+                         cbox = false;
+                         show = true;
+                         $("#daoru").hide();
+                         $("#add_bmdh").hide();
+                         $(".ljt").hide();
+                    }else {
+                        cbox = false;
+                        show = false;
+                        $("#daoru").hide();
+                        $("#add_bmdh").hide();
+                        $(".ljt").hide();
+                        $(".wyConfig").hide();
+                    }
+                    initgrid();
+                    initgrid3();
+                }
+            });
+		/*$ajax({
 			url:authenurl,
 			success:function(data){
 //				if(true == true){
-				if(true == data.manager){ 
+				if(true == data.manager){
 		   		 	cbox = true;
 		   		 	show = true;
 		   		 	$("#daoru").show();
@@ -132,7 +168,7 @@ var pageModule = function(){
 			   	initgrid();
 				initgrid3();
 			}
-		});
+		});*/
 	}
 	//收藏卡表格
 	var initgrid3 = function(){
@@ -256,7 +292,7 @@ var pageModule = function(){
 				{field:"dept",title:"部门",width:"20%",align:"center",sortable:false,formatter:function(value,rowdata,n){
 					return '<span title="'+rowdata.dept+'">'+rowdata.dept+'</span>';                                 
 				}},
-				{field:"sc",title:"操作",width:"5%",align:"center",sortable:false,formatter:function(value,rowdata,n){
+				{field:"sc",title:"操作",width:"8%",align:"center",sortable:false,formatter:function(value,rowdata,n){
 				 var caozuo="";
              	 if(rowdata.isSc == 0 ){
              		 caozuo = '<a class="ysc" style="margin-right:10px;" title="收藏" href="javascript:addscfn(\''+rowdata.userid+'\')"><i class="fa fa-star"></i></a>';
@@ -265,12 +301,18 @@ var pageModule = function(){
              	 }
              	 if(show){
              		 if(rowdata.isShow=="1"||rowdata.isShow==""){
-             			 caozuo += '<a class="sc" title="隐藏" href="javascript:addycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
+             			 caozuo += '<a class="sc" title="隐藏" style="margin-right:10px;" href="javascript:addycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
                    	 }else{
                    		caozuo += '<a class="ysc" title="取消隐藏" href="javascript:delycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
                    	 }
+                   	  if(rowdata.islock=="1"||rowdata.islock==""){
+                        caozuo += '<a class="sc" title="启用" href="javascript:addqyfn(\''+rowdata.userid+'\')"><i class="fa  fa-lock "></i></a>';
+                      }else{
+                         caozuo += '<a class="ysc" title="禁用" href="javascript:delqyfn(\''+rowdata.userid+'\')"><i class="fa fa-unlock "></i></a>';
+                      }
              	 }
-                	 return caozuo;  					
+                	 return caozuo;
+
 				}},
 				{field:"remarks",title:"备注",width:"15%",align:"center",sortable:false,formatter:function(value,rowdata,n){
 					if(rowdata.remarks == '' || rowdata.remarks == null){
@@ -526,6 +568,11 @@ var pageModule = function(){
 				logininUserId = data.CurrentUserId;
 			}
 		})
+
+		//业务配置
+		$(".wyConfig").click(function(){
+		    window.location.href="ywpz/main/html/index.html";
+		});
 	}
 	return{
 		//加载页面处理程序
@@ -674,6 +721,45 @@ function delycfn(id){
 			}
 		}
 	})
+}
+//启用
+function addqyfn(id){
+    $ajax({
+    		url:isLockUrl,
+    		data:{id:id,isLock:'0'},
+    		success:function(data){
+    			if(data.result=="success"){
+    				newbootbox.alertInfo("该用户启用成功！").done(function(){
+    					pageModule.gridfresh();
+    				});
+    			}else{
+    				newbootbox.alertInfo("该用户启用失败！");
+    			}
+    		}
+    	})
+}
+
+//禁用
+function delqyfn() {
+    newbootbox.confirm({
+         	title:"提示",
+         	message: "是否确定禁用该用户？",
+         	callback1:function(){
+         		$ajax({
+    				url:isLockUrl,
+    				data:{id:id,isLock:'1'},
+    				success:function(data){
+    					if(data.result=="success"){
+    						newbootbox.alertInfo("该用户禁用成功！").done(function(){
+    							pageModule.gridfresh();
+    						});
+    					}else{
+    						newbootbox.alertInfo("该用户禁用失败！");
+    					}
+    				}
+    			})
+         	}
+       });
 }
 //删除
 function delfn(id){

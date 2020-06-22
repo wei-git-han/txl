@@ -1,10 +1,15 @@
  package com.css.txl.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.css.adminconfig.entity.AdminSet;
+import com.css.adminconfig.service.AdminSetService;
+import com.css.apporgan.service.BaseAppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -48,6 +53,12 @@ public class TxlUserController {
 	
 	@Autowired
 	private AppConfig appConfig;
+
+	@Autowired
+	private AdminSetService adminSetService;
+
+	@Autowired
+	private BaseAppUserService baseAppUserService;
 	
 	@Value("${csse.mircoservice.zuul}")
 	private String zuul;
@@ -162,6 +173,36 @@ public class TxlUserController {
 			}
 		}
 		String userId=CurrentUser.getUserId();
+		//查询当前登录人是否为局管理员或部管理员
+		String typeByUserId = adminSetService.getAdminTypeByUserId(userId);
+		//如果登录人具有管理员权限
+		if(StringUtils.isNotEmpty(typeByUserId)){
+			//查询登录人所属部门
+			Map<String, Object> adminMap = new HashMap<>();
+			adminMap.put("userId",userId);
+			List<AdminSet> adminList = adminSetService.queryList(adminMap);
+			if(null!=adminList&&adminList.size()>0){
+				AdminSet adminSet = adminList.get(0);
+				String orgId = adminSet.getOrgId();
+				json.put("orgId",orgId);
+			}
+			//判断具有部管理员还是局管理员
+			if("3".equals(typeByUserId)||"1".equals(typeByUserId)){
+			json.put("isBuManager",true);
+			json.put("isJuManager",true);
+			}else if("2".equals(typeByUserId)){
+			json.put("isJuManager",true);
+			json.put("isBuManager",false);
+			}else {
+				json.put("isBuManager",false);
+				json.put("isJuManager",false);
+			}
+
+		}else {
+			json.put("orgId","");
+		}
+		String orgIdToSelf = baseAppUserService.getBareauByUserId(txlUser.getUserid());
+		json.put("orgIdToSelf",orgIdToSelf);
 		json.put("txlOrgtel", txlUser);
 		json.put("ismyself", txlUser.getUserid().equals(userId));
 		Response.json(json);

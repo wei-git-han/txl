@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.css.apporgan.dao.BaseAppOrganDao">
+
+	<select id="queryObject" resultType="com.css.apporgan.entity.BaseAppOrgan">
+		select * from BASE_APP_ORGAN where ID = #{value}
+		order by SORT asc
+	</select>
+
+	<select id="queryList" resultType="com.css.apporgan.entity.BaseAppOrgan">
+		select * from BASE_APP_ORGAN where ISDELETE = 0
+		<if test="name != null and name != ''">
+			and NAME=#{name}
+		</if>
+		order by SORT asc
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from BASE_APP_ORGAN where ISDELETE = 0
+		<if test="parentId != null and parentId != null">
+			and PARENT_ID = #{parentId}
+		</if>
+	</select>
+	 
+	<insert id="save" parameterType="com.css.apporgan.entity.BaseAppOrgan">
+		insert into BASE_APP_ORGAN
+		(
+			"ID", 
+			"TREE_PATH", 
+			"ISDELETE", 
+			"NAME", 
+			"TIMESTAMP", 
+			"SORT", 
+			"TYPE", 
+			"CODE", 
+			"PARENT_ID",
+			"DEPT_OFFICER"
+		)
+		values
+		(
+			#{id}, 
+			#{treePath}, 
+			#{isdelete}, 
+			#{name}, 
+			#{timestamp}, 
+			#{sort}, 
+			#{type}, 
+			#{code}, 
+			#{parentId},
+			#{deptOfficer}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.css.apporgan.entity.BaseAppOrgan">
+		update BASE_APP_ORGAN 
+		<set>
+			<if test="treePath != null">"TREE_PATH" = #{treePath}, </if>
+			<if test="isdelete != null">"ISDELETE" = #{isdelete}, </if>
+			<if test="name != null">"NAME" = #{name}, </if>
+			<if test="timestamp != null">"TIMESTAMP" = #{timestamp}, </if>
+			<if test="sort != null">"SORT" = #{sort}, </if>
+			<if test="type != null">"TYPE" = #{type}, </if>
+			<if test="code != null">"CODE" = #{code}, </if>
+			<if test="parentId != null">"PARENT_ID" = #{parentId},</if>
+			<if test="deptOfficer != null">"DEPT_OFFICER" = #{deptOfficer}</if>
+		</set>
+		where ID = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from BASE_APP_ORGAN where ID = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from BASE_APP_ORGAN where ID in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<select id="queryListByIds" resultType="com.css.apporgan.entity.BaseAppOrgan" >
+		select  *  from BASE_APP_ORGAN where ID in 
+		<foreach item="ids" collection="array" open="(" separator="," close=")">
+			#{ids}
+		</foreach>
+	</select>
+
+</mapper>

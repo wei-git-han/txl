@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.css.adminconfig.dao.AdminSetDao">
+
+	<select id="queryObject" resultType="com.css.adminconfig.entity.AdminSet">
+		select * from DB_ADMIN_SET where ID = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.css.adminconfig.entity.AdminSet">
+		select * from DB_ADMIN_SET where 1=1
+		<if test="userId != null and userId != null">
+			and USER_ID = #{userId}
+		</if>
+		<if test="adminType != null and adminType != '' ">
+			and ADMIN_TYPE = #{adminType}
+		</if>
+		<if test="orgId != null and orgId != '' ">
+			and ORG_ID = #{orgId}
+		</if>
+		order by ORG_ID asc,DEPT_ID asc
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+	<select id="queryJuAdminList" resultType="com.css.adminconfig.entity.AdminSet">
+	select * from DB_ADMIN_SET a
+	left join (select substr(tree_path,instr(tree_path,',',1,2)+1,instr(tree_path,',',1,3)-instr(tree_path,',',1,2)-1) edit_Flag from BASE_APP_ORGAN where ID=(select organid from BASE_APP_USER where USER_ID=#{userId}))
+	b on a.org_id = b.edit_Flag
+	where admin_type='2' order by ORG_ID asc,DEPT_ID asc
+	</select>
+	<select id="queryUserIdByOrgId" resultType="String">
+		select USER_ID from DB_ADMIN_SET where ADMIN_TYPE = '2' and ORG_ID = #{orgId}
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from DB_ADMIN_SET 
+	</select>
+	 
+	<insert id="save" parameterType="com.css.adminconfig.entity.AdminSet">
+		insert into DB_ADMIN_SET
+		(
+			"ID", 
+			"USER_ID", 
+			"USER_NAME", 
+			"DEPT_ID", 
+			"DEPT_NAME", 
+			"ADMIN_TYPE", 
+			"REMARK",
+			"ORG_ID", 
+			"ORG_NAME",
+			"SENIOR_OFFICIAL",
+			"SENIOR_OFFICIAL_ID"
+		)
+		values
+		(
+			#{id}, 
+			#{userId}, 
+			#{userName}, 
+			#{deptId}, 
+			#{deptName}, 
+			#{adminType}, 
+			#{remark},
+			#{orgId}, 
+			#{orgName},
+			#{seniorOfficial},
+			#{seniorOfficialId}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.css.adminconfig.entity.AdminSet">
+		update DB_ADMIN_SET 
+		<set>
+			<if test="userId != null">"USER_ID" = #{userId}, </if>
+			<if test="userName != null">"USER_NAME" = #{userName}, </if>
+			<if test="deptId != null">"DEPT_ID" = #{deptId}, </if>
+			<if test="deptName != null">"DEPT_NAME" = #{deptName}, </if>
+			<if test="adminType != null">"ADMIN_TYPE" = #{adminType}, </if>
+			<if test="remark != null">"REMARK" = #{remark},</if>
+			<if test="orgId != null">"ORG_ID" = #{orgId}, </if>
+			<if test="orgName != null">"ORG_NAME" = #{orgName},</if>
+			<if test="seniorOfficial != null">"SENIOR_OFFICIAL" = #{seniorOfficial}, </if>
+			<if test="seniorOfficialId != null">"SENIOR_OFFICIAL_ID" = #{seniorOfficialId}</if> 
+		</set>
+		where ID = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from DB_ADMIN_SET where ID = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from DB_ADMIN_SET where ID in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
