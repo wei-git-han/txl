@@ -300,11 +300,11 @@ var pageModule = function(){
                    	 }else{
                    		caozuo += '<a class="ysc" title="取消隐藏" href="javascript:delycfn(\''+rowdata.userid+'\')"><i class="fa fa-eye"></i></a>';
                    	 }
-                   	  if(rowdata.islock=="1"||rowdata.islock==""){
+                   	  /*if(rowdata.islock=="1"||rowdata.islock==""){
                         caozuo += '<a class="sc" title="启用" href="javascript:addqyfn(\''+rowdata.userid+'\')"><i class="fa  fa-lock "></i></a>';
                       }else{
                          caozuo += '<a class="ysc" title="禁用" href="javascript:delqyfn(\''+rowdata.userid+'\')"><i class="fa fa-unlock "></i></a>';
-                      }
+                      }*/
              	 }
                 	 return caozuo;
 
@@ -740,7 +740,7 @@ function addqyfn(id){
 }
 
 //禁用
-function delqyfn() {
+function delqyfn(id) {
     newbootbox.confirm({
          	title:"提示",
          	message: "是否确定禁用该用户？",
