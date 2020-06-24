@@ -43,7 +43,7 @@ var pageModule = function(){
 		});
  
 		//选择首长       seniorOfficial
-		$("#seniorOfficial").createUserTree({
+		/*$("#seniorOfficial").createUserTree({
 			url : shouZhangTree,
 			width:"100%",
 			success : function(data, treeobj) {},
@@ -51,7 +51,7 @@ var pageModule = function(){
 				$("#seniorOfficial").val(data.node.text);
 				$("#seniorOfficialId").val(data.node.id);
 			}
-		});
+		});*/
 		
 		$("#quxiao,#fanhui").click(function(){
 			window.location.href="/ywpz/bglysz/html/index.html";
@@ -60,15 +60,15 @@ var pageModule = function(){
 		$("#save").click(function(){
 			var userName=$("#userName").val();
 			var userId=$("#userId").val();
-			var seniorOfficial=$("#seniorOfficial").val();
-			var seniorOfficialId=$("#seniorOfficialId").val();
+			/*var seniorOfficial=$("#seniorOfficial").val();
+			var seniorOfficialId=$("#seniorOfficialId").val();*/
 			if(userId == ''){
 				newbootbox.alertInfo("请选择用户！");
 				return;
 			}
 			$ajax({
 				url:saveUrl,
-				data:{id:id,userName:userName,userId:userId,adminType:"1",seniorOfficial:seniorOfficial,seniorOfficialId:seniorOfficialId},
+				data:{id:id,userName:userName,userId:userId,adminType:"1"/*,seniorOfficial:seniorOfficial,seniorOfficialId:seniorOfficialId*/},
 				type: "GET",
 				success:function(data){
 					if(data.result == "success") {

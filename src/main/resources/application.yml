@@ -76,7 +76,7 @@ csse.mircoservice.app: /api/app/application/manager
 csse.mircoservice.syncdepartments: /api/org/syncdepartments
 
 #数据库配置地址
-csse.dmdba.url: 172.16.2.100:5236
+csse.dmdba.url: 172.16.201.140:5236
 
 #应用的appID
 csse.txl.appId: legacycpk.csse.txl
