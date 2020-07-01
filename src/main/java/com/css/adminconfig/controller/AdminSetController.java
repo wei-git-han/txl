@@ -1,5 +1,6 @@
 package com.css.adminconfig.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.css.adminconfig.entity.AdminSet;
 import com.css.adminconfig.entity.BaseTreeObject;
 import com.css.adminconfig.service.AdminSetService;
@@ -117,6 +118,7 @@ public class AdminSetController {
         String orgName="";
         String orgId="";
         String userId = adminSet.getUserId();
+        JSONObject json = new JSONObject();
         if(StringUtils.isNotBlank(userId)) {
             orgId = baseAppUserService.getBareauByUserId(userId);
             if(StringUtils.isNotBlank(orgId)) {
@@ -147,7 +149,8 @@ public class AdminSetController {
             adminMap.put("userId", adminSet.getUserId());
             List<AdminSet> queryList = adminSetService.queryList(adminMap);
             if(queryList != null && queryList.size()>0) {
-                Response.json("result", "exist");
+                json.put("result", "exist");
+                Response.json(json);
                 return;
             }else {
                 adminSet.setId(UUIDUtils.random());
@@ -158,7 +161,28 @@ public class AdminSetController {
                 adminSetService.save(adminSet);
             }
         }
-        Response.json("result", "success");
+        json.put("result", "success");
+        String userIdtemp = CurrentUser.getUserId();
+        Map<String, Object > map = new HashMap<>();
+        map.put("userId",userIdtemp);
+        List<AdminSet> adminSets = adminSetService.queryList(map);
+        if(adminSets!=null && adminSets.size()>0){
+            json.put("isShow", true);
+            if(adminSets.size()==2){
+                json.put("adminTypetemp","3");
+            }else {
+                AdminSet adminSettemp = adminSets.get(0);
+                if(adminSettemp.getAdminType().equals("2")){
+                    json.put("adminTypetemp","2");
+                }else if(adminSettemp.getAdminType().equals("1")){
+                    json.put("adminTypetemp","1");
+                }
+            }
+        }else {
+            json.put("isShow", false);
+        }
+        Response.json(json);
+
     }
 
     /**

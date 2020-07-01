@@ -72,9 +72,23 @@ var pageModule = function(){
 				type: "GET",
 				success:function(data){
 					if(data.result == "success") {
-						newbootbox.alertInfo('保存成功！').done(function(){
-							window.location.href = "/ywpz/bglysz/html/index.html";
-						});
+						if(data.isShow == true){
+							if(data.adminTypetemp =="1"||data.adminTypetemp =="3"){
+                                newbootbox.alertInfo('保存成功！').done(function(){
+                                    window.location.href = "/ywpz/bglysz/html/index.html";
+                                });
+							}else if(data.adminTypetemp =="2"){
+                                newbootbox.alertInfo('保存成功！').done(function(){
+                                    top.location.href = "/index.html";
+                                });
+							}
+
+						}else {
+                            newbootbox.alertInfo('保存成功！').done(function(){
+                                top.location.href="/index.html";
+                            });
+						}
+
 					}else if(data.result == "exist"){
 						newbootbox.alertInfo("重复设置！");
 					}else{

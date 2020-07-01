@@ -100,10 +100,12 @@ public class BaseAppUserServiceImpl implements BaseAppUserService {
 					if(pathArr.length > 2){
 						return pathArr[2];
 					}
+					if(pathArr.length==2&&pathArr[1].equals("root")){
+						return "root";
+					}
 				}
 			}
 		}
-		
 		return "";
 	}
 	
