@@ -1,4 +1,5 @@
 var id = getUrlParam2("id");
+var appNameVal = '<c:out value="${appName}"/>';
 var saveUrl = {"url":"/app/txl/adminconfig/saveOrUpdate","dataType":"text"};  //保存
 var editInfo = {"url":"/app/txl/adminconfig/info","dataType":"text"}; //编辑数据
 //editInfo = {"url":"../data/info.json","dataType":"text"}; //编辑数据
@@ -63,9 +64,15 @@ var pageModule = function(){
 				type: "GET",
 				success:function(data){
 					if(data.result == "success") {
-						newbootbox.alertInfo('保存成功！').done(function(){
-							window.location.href = "/ywpz/glysz/html/index.html";
-						});
+						if(data.isShow == true){
+                            newbootbox.alertInfo('保存成功！').done(function(){
+                                window.location.href = "/ywpz/glysz/html/index.html";
+                            });
+						}else {
+                            newbootbox.alertInfo('保存成功！').done(function(){
+                            	top.location.href="/index.html" ;
+                            });
+						}
 					}else if(data.result == "exist"){
 						newbootbox.alertInfo("重复设置！");
 					}else{
