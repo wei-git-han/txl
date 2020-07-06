@@ -17,13 +17,13 @@ var pageModule = function() {
 					  return rowdata.userName;   
 				  }}, 
 				  
-				  {display: "管理员类型",name: "adminType",width: "15%",align: "center",render: function(rowdata,n){
+				  {display: "管理员类型",name: "adminType",width: "30%",align: "center",render: function(rowdata,n){
 					  return "部管理员"
 				  }}, 
 				  
-				  {display: "首长姓名",name: "seniorOfficial",width: "15%",align: "center",render: function(rowdata,n){
+				  /*{display: "首长姓名",name: "seniorOfficial",width: "15%",align: "center",render: function(rowdata,n){
 					  return rowdata.seniorOfficial;
-				  }}, 
+				  }},*/
 				  
 				  {display: "操作",name: "do",width: "10%",align: "center",render: function(rowdata,n){
 					  return '<i class="fa fa fa-pencil" style="cursor:pointer;background:#5498EB;padding:4px 5px;color:#fff;" onclick="editfn(\''+rowdata.id+'\')" title="编辑"></i>';
