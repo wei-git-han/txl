@@ -37,4 +37,6 @@ public interface TxlOrganService {
 	
 	/*int queryTotal(Map<String,Object> map);*/
 	void hideOrgan(Map<String, Object> map);
+
+	String getBarOrgIdByUserId(String userId);
 }

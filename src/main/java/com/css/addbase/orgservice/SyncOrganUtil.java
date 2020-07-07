@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.css.apporgan.entity.BaseAppOrgan;
 import com.css.apporgan.entity.BaseAppUser;
 import com.css.apporgan.service.BaseAppOrganService;
@@ -51,6 +53,7 @@ public class SyncOrganUtil {
 	
 	@Autowired
 	private RestTemplate restTemplate;
+
 
 	@Autowired
 	private BaseAppUserService baseAppUserService;
