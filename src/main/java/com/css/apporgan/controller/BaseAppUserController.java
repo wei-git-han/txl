@@ -19,6 +19,10 @@ import com.css.base.utils.CurrentUser;
 import com.css.base.utils.Response;
 import com.css.base.utils.StringUtils;
 import com.css.constant.AppConstant;
+import com.css.txl.entity.TxlOrgan;
+import com.css.txl.entity.TxlUser;
+import com.css.txl.service.TxlOrganService;
+import com.css.txl.service.TxlUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,6 +56,10 @@ public class BaseAppUserController {
 	private OrgService orgService;
 	@Autowired
 	private BaseAppConfigService baseAppConfigService;
+	@Autowired
+	private TxlUserService txlUserService;
+	@Autowired
+	private TxlOrganService txlOrganService;
 	
 	/**
 	 * 获取指定部门下的人员列表
@@ -82,29 +90,33 @@ public class BaseAppUserController {
 	
 	/**
 	 * 加载全部人员树
-	 * @param request
 	 * @return
 	 */
 	@RequestMapping(value = "/allTree")
 	@ResponseBody
 	public Object getAllUserTree() {
-		List<BaseAppOrgan> organs = baseAppOrganService.queryList(null);
-		List<BaseAppUser> users = baseAppUserService.queryList(null);
-		JSONObject list =OrgUtil.getUserTree(organs, users);
+		List<TxlUser> txlUsers = txlUserService.queryList(null);
+		List<TxlOrgan> txlOrgans = txlOrganService.queryList(null);
+		//List<BaseAppOrgan> organs = baseAppOrganService.queryList(null);
+		//List<BaseAppUser> users = baseAppUserService.queryList(null);
+		//JSONObject list =OrgUtil.getUserTree(organs, users);
+		JSONObject list = OrgUtil.getUserTree(txlOrgans, txlUsers);
 		return list;
 	}
 	
 	/**
 	 * 获取当前登录人所在部门的人员树
-	 * @param request
 	 * @return
 	 */
 	@RequestMapping(value = "/tree")
 	@ResponseBody
 	public Object getUserTree() {
-		String organId = baseAppOrgMappedService.getBareauByUserId(CurrentUser.getUserId());
-		List<BaseAppOrgan> organs = baseAppOrganService.queryList(null);
-		List<BaseAppUser> users = baseAppUserService.queryList(null);
+		//String organId = baseAppOrgMappedService.getBareauByUserId(CurrentUser.getUserId());
+		//List<BaseAppOrgan> organs = baseAppOrganService.queryList(null);
+		//List<BaseAppUser> users = baseAppUserService.queryList(null);
+		String organId = txlOrganService.getBarOrgIdByUserId(CurrentUser.getUserId());
+		List<TxlUser> users = txlUserService.queryList(null);
+		List<TxlOrgan> organs = txlOrganService.queryList(null);
 		if (StringUtils.isNotEmpty(organId)) {
 			JSONObject list=  OrgUtil.getUserTree(organs, users, organId);
 			return list;
@@ -115,15 +127,17 @@ public class BaseAppUserController {
 	}
 	/**
 	 * 获取当前登录人所在部门的人员树指定不显示的人员
-	 * @param request
 	 * @return
 	 */
 	@RequestMapping(value = "/treePart")
 	@ResponseBody
 	public Object getUserTreePart() {
-		String organId = baseAppOrgMappedService.getBareauByUserId(CurrentUser.getUserId());
+		/*String organId = baseAppOrgMappedService.getBareauByUserId(CurrentUser.getUserId());
 		List<BaseAppOrgan> organs = baseAppOrganService.queryList(null);
-		List<BaseAppUser> users = baseAppUserService.queryList(null);
+		List<BaseAppUser> users = baseAppUserService.queryList(null);*/
+		String organId = txlOrganService.getBarOrgIdByUserId(CurrentUser.getUserId());
+		List<TxlUser> users = txlUserService.queryList(null);
+		List<TxlOrgan> organs = txlOrganService.queryList(null);
 		String[] hideUserIds = {CurrentUser.getUserId()};
 		if (StringUtils.isNotEmpty(organId)) {
 			JSONObject list=  OrgUtil.getUserTree(organs, users, organId, null,null,hideUserIds,null);
@@ -140,9 +154,12 @@ public class BaseAppUserController {
 	@RequestMapping(value = "/treeBySet")
 	@ResponseBody
 	public Object getUserTreeBySet() {
-		String organId = baseAppOrgMappedService.getBareauByUserId(CurrentUser.getUserId());
+		/*String organId = baseAppOrgMappedService.getBareauByUserId(CurrentUser.getUserId());
 		List<BaseAppOrgan> organs = baseAppOrganService.queryList(null);
-		List<BaseAppUser> users = baseAppUserService.queryListBySet(null);
+		List<BaseAppUser> users = baseAppUserService.queryListBySet(null);*/
+		String organId = txlOrganService.getBarOrgIdByUserId(CurrentUser.getUserId());
+		List<TxlUser> users = txlUserService.queryList(null);
+		List<TxlOrgan> organs = txlOrganService.queryList(null);
 		if (StringUtils.isNotEmpty(organId)) {
 			JSONObject list=  OrgUtil.getUserTree(organs, users, organId);
 			return list;
@@ -154,15 +171,14 @@ public class BaseAppUserController {
 	}
 	/**
 	 * 根据人员所在局或者部获取加载人员树，部级加载全部人员
-	 * @param request
 	 * @return
 	 */
 	@RequestMapping(value = "/treeByPost")
 	@ResponseBody
 	public Object getUserTreeByPosition() {
 		String ret=baseAppOrgMappedService.getAppLevelByType(AppConstant.APP_DZBMS);
-		List<BaseAppOrgan> organs = baseAppOrganService.queryList(null);
-		List<BaseAppUser> users = baseAppUserService.queryList(null);
+		List<TxlUser> users = txlUserService.queryList(null);
+		List<TxlOrgan> organs = txlOrganService.queryList(null);
 		if("true".equals(ret)){
 			JSONObject list = OrgUtil.getUserTree(organs,users);
 			return list;
@@ -219,7 +235,7 @@ public class BaseAppUserController {
 	
 	/**
 	 * 递归导入指定部门及其所属子部门和人员
-	 * @param String deptId
+	 * @param  deptSet
 	 */
 	private void importUsers(Set<String> deptSet,Set<String> userSet) {
 		//
@@ -297,7 +313,6 @@ public class BaseAppUserController {
 	
 	/**
 	 * 仅加载办公厅保密档案室人员 
-	 * @param request
 	 * @return
 	 */
 	@RequestMapping(value = "/getBmdasUserTree")
@@ -307,8 +322,10 @@ public class BaseAppUserController {
 		BaseAppConfig conf =baseAppConfigService.queryObject("bmdas_orgid");
 		if(conf!=null) {
 			String organId = conf.getValue();
-			List<BaseAppOrgan> organs = baseAppOrganService.queryList(null);
-			List<BaseAppUser> users = baseAppUserService.queryList(null);
+			/*List<BaseAppOrgan> organs = baseAppOrganService.queryList(null);
+			List<BaseAppUser> users = baseAppUserService.queryList(null);*/
+			List<TxlUser> users = txlUserService.queryList(null);
+			List<TxlOrgan> organs = txlOrganService.queryList(null);
 			if (StringUtils.isNotEmpty(organId)) {
 				list=  OrgUtil.getUserTree(organs, users, organId);
 				System.out.println("没有设置办公厅保密档案室人员 ");

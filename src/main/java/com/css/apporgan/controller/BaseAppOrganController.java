@@ -1,3 +1,4 @@
+/*
 package com.css.apporgan.controller;
 
 import com.alibaba.fastjson.JSONArray;
@@ -21,11 +22,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.ArrayList;
 import java.util.List;
 
+*/
 /**
  * 自定义部门表
  * 
  * @author gengds
- */
+ *//*
+
 @Controller
 @RequestMapping("app/base/dept")
 public class BaseAppOrganController {
@@ -37,10 +40,12 @@ public class BaseAppOrganController {
 	@Autowired
 	private BaseAppOrgMappedService baseAppOrgMappedService;
 
-	/**
+	*/
+/**
 	 * 获取以当前登录人部门为根节点的部门树(获取全部的叶子节点)
 	 * @return
-	 */
+	 *//*
+
 	@RequestMapping(value = "/tree")
 	@ResponseBody
 	public Object getDeptTree() {
@@ -50,10 +55,12 @@ public class BaseAppOrganController {
 		return list;
 	}
 	
-	/**
+	*/
+/**
 	 * 获取以当前登录人部门为根节点的部门树(获取全部的叶子节点)
 	 * @return
-	 */
+	 *//*
+
 	@RequestMapping(value = "/tree2")
 	@ResponseBody
 	public Object getDeptTree2() {
@@ -64,11 +71,13 @@ public class BaseAppOrganController {
 	}
 	
 
-	/**
+	*/
+/**
 	 * 获取以指定部门ID为根节点的部门树(获取全部的叶子节点)
 	 * @param organId 指定部门ID
 	 * @return
-	 */
+	 *//*
+
 	@RequestMapping(value = "/spetree")
 	@ResponseBody
 	public Object getSpeDeptTree(String organId) {
@@ -77,9 +86,11 @@ public class BaseAppOrganController {
 		return list;
 	}
 	
-	/**
+	*/
+/**
 	 * 只获取root节点下的叶子节点
-	 */
+	 *//*
+
 	@RequestMapping(value = "/tree_onlyroot")
 	@ResponseBody
 	public Object getDeptTreeOnlyRootChildren() {
@@ -88,10 +99,12 @@ public class BaseAppOrganController {
 		return list;
 	}
 	
-	/**
+	*/
+/**
 	 * 根据部门ID获取子部门信息
 	 * @param organId 部门ID
-	 */
+	 *//*
+
 	@RequestMapping(value = "/list")
 	@ResponseBody
 	public void list(String organId) {
@@ -100,10 +113,12 @@ public class BaseAppOrganController {
 		Response.json(pageUtil);
 	}
 
-	/**
+	*/
+/**
 	 * 根据部门ID获取部门名称
 	 * @param organId
-	 */
+	 *//*
+
 	@RequestMapping(value = "/deptname")
 	@ResponseBody
 	public void deptname(String organId){
@@ -113,10 +128,12 @@ public class BaseAppOrganController {
 		} 
 	}
 	
-    /**
+    */
+/**
      * 根据指定的部门ID获取部门字典
      * @param organId
-     */
+     *//*
+
 	@ResponseBody
 	@RequestMapping("/{organId}")
 	public void info(@PathVariable("organId") String organId){
@@ -135,10 +152,12 @@ public class BaseAppOrganController {
 	
 
 	
-	/**
+	*/
+/**
 	 * 获取以当所有部门为根节点的部门树(获取全部的叶子节点)
 	 * @return
-	 */
+	 *//*
+
 	@RequestMapping(value = "/allOrgTree")
 	@ResponseBody
 	public Object allOrgTree(String organId) {
@@ -158,10 +177,12 @@ public class BaseAppOrganController {
 		return list;
 	}
 	
-	/**
+	*/
+/**
 	 * 获取所有局级单位
 	 * @return
-	 */
+	 *//*
+
 	@RequestMapping(value = "/allGeneralOrg")
 	@ResponseBody
 	public Object allGeneralOrg(String organId) {
@@ -181,3 +202,4 @@ public class BaseAppOrganController {
 	}
 
 }
+*/

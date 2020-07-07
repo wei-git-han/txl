@@ -174,6 +174,7 @@ public class SyncOrganUtil {
 				//编辑
 				TxlOrgan txlOrgan = new TxlOrgan();
 				txlOrgan.setCode(organ.getCode());
+				txlOrgan.setPath(organ.getP());
 				txlOrgan.setIsdelete(String.valueOf(organ.getIsDelete()));
 				txlOrgan.setOrderid(String.valueOf(organ.getOrderId()));
 				txlOrgan.setDn(organ.getDn());

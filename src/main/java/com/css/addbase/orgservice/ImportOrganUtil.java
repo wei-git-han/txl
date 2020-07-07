@@ -34,11 +34,6 @@ public class ImportOrganUtil {
 	@Autowired
 	private OrgService orgService;
 
-	@Autowired
-	private BaseAppUserService baseAppUserService;
-
-	@Autowired
-	private BaseAppOrganService baseAppOrganService;
 	
 	
 	public ImportOrganUtil() {
@@ -65,8 +60,6 @@ public class ImportOrganUtil {
 		try {
 			txlOrganService.clearOrgan();
 			txlUserService.clearUser();
-			baseAppUserService.clearUser();
-			baseAppOrganService.clearOrgan();
 			Response.json("清空组织结构成功");
 		} catch (Exception e) {
 			Response.json(e);
@@ -94,16 +87,14 @@ public class ImportOrganUtil {
 	public void importOrg(String organId){
 		Organ organ = orgService.getOrgan(organId);
 		TxlOrgan baseAppOrgantemp = txlOrganService.queryObject(organId);
-		BaseAppOrgan baseOrgantmp = baseAppOrganService.queryObject(organId);
 		TxlOrgan txlOrgan = new TxlOrgan();
-		BaseAppOrgan baseAppOrgantmp = new BaseAppOrgan();
 		txlOrgan.setCode(organ.getCode());
 		txlOrgan.setIsdelete(String.valueOf(organ.getIsDelete()));
 		if(organ.getOrderId()!=null){
 			txlOrgan.setOrderid(String.valueOf(organ.getOrderId()));
-			baseAppOrgantmp.setSort(organ.getOrderId());
 		}
 		txlOrgan.setDn(organ.getDn());
+		txlOrgan.setPath(organ.getP());
 		txlOrgan.setFatherid(organ.getFatherId());
 		txlOrgan.setOrganid(organ.getOrganId());
 		txlOrgan.setOrganname(organ.getOrganName());
@@ -115,31 +106,18 @@ public class ImportOrganUtil {
 		}else{
 			txlOrganService.save(txlOrgan);
 		}
-		//插入base_app_organ表
-		baseAppOrgantmp.setId(organ.getOrganId());
-		baseAppOrgantmp.setName(organ.getOrganName());
-		baseAppOrgantmp.setParentId(organ.getFatherId());
-		baseAppOrgantmp.setTreePath(organ.getP());
-		baseAppOrgantmp.setIsdelete(organ.getIsDelete());
-		if(baseOrgantmp!=null){
-			baseAppOrganService.update(baseAppOrgantmp);
-		}else {
-			baseAppOrganService.save(baseAppOrgantmp);
-		}
 		System.out.println(organ.getOrganId()+":"+organ.getOrganName()+"导入成功！");
 		Organ[] organs = orgService.getSubOrg(organId);
 		for (Organ sysOrgan:organs) {
 			TxlOrgan appOrgantemp = txlOrganService.queryObject(organId);
-			BaseAppOrgan baseOrgantemp = baseAppOrganService.queryObject(organId);
 			TxlOrgan txlorgan = new TxlOrgan();
-			BaseAppOrgan baseAppOrgan = new BaseAppOrgan();
 			txlorgan.setCode(organ.getCode());
 			txlorgan.setIsdelete(String.valueOf(organ.getIsDelete()));
 			if(organ.getOrderId()!=null){
 				txlorgan.setOrderid(String.valueOf(organ.getOrderId()));
-				baseAppOrgan.setSort(organ.getOrderId());
 			}
 			txlorgan.setDn(organ.getDn());
+			txlOrgan.setPath(organ.getP());
 			txlorgan.setFatherid(organ.getFatherId());
 			txlorgan.setOrganid(organ.getOrganId());
 			txlorgan.setOrganname(organ.getOrganName());
@@ -151,18 +129,6 @@ public class ImportOrganUtil {
 			}else{
 				txlOrganService.save(txlorgan);
 			}
-			//插入base_app_organ表
-			baseAppOrgan.setId(organ.getOrganId());
-			baseAppOrgan.setName(organ.getOrganName());
-			baseAppOrgan.setParentId(organ.getFatherId());
-			baseAppOrgan.setTreePath(organ.getP());
-			baseAppOrgan.setIsdelete(organ.getIsDelete());
-			if(baseOrgantemp != null){
-				baseAppOrganService.update(baseAppOrgan);
-			}else {
-				baseAppOrganService.save(baseAppOrgan);
-			}
-
 			System.out.println(organ.getOrganId()+":"+organ.getOrganName()+"导入成功！");
 			txlorgan = null;
 			importOrg(sysOrgan.getOrganId());
@@ -202,27 +168,6 @@ public class ImportOrganUtil {
             	txlUser.setMobile(userInfo.getMobile());
 				txlUserService.save(txlUser);
 			}
-			//插入base_app_user表
-			BaseAppUser baseAppUser = new BaseAppUser();
-			baseAppUser.setId(userInfo.getUserid());
-			baseAppUser.setUserId(userInfo.getUserid());
-			baseAppUser.setTruename(userInfo.getFullname());
-			baseAppUser.setAccount(userInfo.getAccount());
-			baseAppUser.setSex(userInfo.getSex());
-			baseAppUser.setUseremail(userInfo.getUserEmail());
-			baseAppUser.setSeclevel(userInfo.getSecLevel());
-			baseAppUser.setOrganid(userInfo.getRelations().get(0).get("organId"));
-			baseAppUser.setSort(userInfo.getOrderId());
-			baseAppUser.setIsdelete(userInfo.getIsDelete());
-			baseAppUser.setMobile(userInfo.getMobile());
-			baseAppUser.setTelephone(userInfo.getTel());
-			BaseAppUser baseUsertemp = baseAppUserService.queryObject(userInfo.getUserid());
-			if(baseUsertemp == null){
-				baseAppUserService.save(baseAppUser);
-			}else {
-				baseAppUserService.update(baseAppUser);
-			}
-
 			System.out.println(userInfo.getUserid()+":"+userInfo.getFullname()+"导入成功！");
 			txlUser = null;
 		}

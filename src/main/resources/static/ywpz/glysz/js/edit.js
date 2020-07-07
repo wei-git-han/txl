@@ -50,7 +50,8 @@ var pageModule = function(){
 		$("#quxiao,#fanhui").click(function(){
 			window.location.href="/ywpz/glysz/html/index.html";
 		})
-		
+
+		var sub_flag=false;
 		$("#save").click(function(){
 			var userName=$("#userName").val();
 			var userId=$("#userId").val();
@@ -58,6 +59,10 @@ var pageModule = function(){
 				newbootbox.alertInfo("请选择用户！");
 				return;
 			}
+			if(sub_flag){
+				return;
+			}
+			sub_flag=true;
 			$ajax({
 				url:saveUrl,
 				data:{id:id,userName:userName,userId:userId,adminType:"2"},
@@ -78,6 +83,7 @@ var pageModule = function(){
 					}else{
 						newbootbox.alertInfo("保存失败！");
 					}
+					sub_flag=false;
 				}
 			});
 			
