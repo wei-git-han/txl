@@ -85,9 +85,15 @@ var delfn = function(id){
 					data: {"ids":id},
 					success: function(data) {
 						if(data.result == "success") {
-							newbootbox.alertInfo('删除成功！').done(function(){
-								grid.refresh();
-							});
+							if(data.isShow== false){
+                                newbootbox.alertInfo('删除成功！').done(function(){
+                                    top.location.href="/index.html" ;
+                                });
+							}else {
+                                newbootbox.alertInfo('删除成功！').done(function(){
+                                    grid.refresh();
+                                });
+							}
 						}else{
 							newbootbox.alertInfo("删除失败！");
 						}

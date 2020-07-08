@@ -137,12 +137,22 @@ public class AdminSetController {
             }
         }
         if(StringUtils.isNotBlank(adminSet.getId())) {
-            adminSet.setDeptId(deptId);
-            adminSet.setDeptName(deptName);
-            adminSet.setOrgId(orgId);
-            adminSet.setOrgName(orgName);
-            adminSet.setOrgName(orgName);
-            adminSetService.update(adminSet);
+            Map<String, Object> adminMap = new HashMap<>();
+            adminMap.put("adminType", adminSet.getAdminType());
+            adminMap.put("userId", adminSet.getUserId());
+            List<AdminSet> queryList = adminSetService.queryList(adminMap);
+            if(queryList != null && queryList.size()>0) {
+                json.put("result", "exist");
+                Response.json(json);
+                return;
+            }else {
+                adminSet.setDeptId(deptId);
+                adminSet.setDeptName(deptName);
+                adminSet.setOrgId(orgId);
+                adminSet.setOrgName(orgName);
+                adminSet.setOrgName(orgName);
+                adminSetService.update(adminSet);
+            }
         }else {
             Map<String, Object> adminMap = new HashMap<>();
             adminMap.put("adminType", adminSet.getAdminType());
@@ -191,9 +201,30 @@ public class AdminSetController {
     @ResponseBody
     @RequestMapping("/delete")
     public void delete(String ids){
+        JSONObject json = new JSONObject();
         String[] idArry = ids.split(",");
         adminSetService.deleteBatch(idArry);
-        Response.json("result","success");
+        json.put("result","success");
+        String userIdtemp = CurrentUser.getUserId();
+        Map<String, Object > map = new HashMap<>();
+        map.put("userId",userIdtemp);
+        List<AdminSet> adminSets = adminSetService.queryList(map);
+        if(adminSets!=null && adminSets.size()>0){
+            json.put("isShow", true);
+            if(adminSets.size()==2){
+                json.put("adminTypetemp","3");
+            }else {
+                AdminSet adminSettemp = adminSets.get(0);
+                if(adminSettemp.getAdminType().equals("2")){
+                    json.put("adminTypetemp","2");
+                }else if(adminSettemp.getAdminType().equals("1")){
+                    json.put("adminTypetemp","1");
+                }
+            }
+        }else {
+            json.put("isShow", false);
+        }
+        Response.json(json);
     }
 
     /**

@@ -2,7 +2,7 @@ var grid = null;
 var tableUrl = {"url":"/app/txl/adminconfig/list","dataType":"text"};
 //tableUrl = {"url":"../data/list.json","dataType":"text"};
 var delUrl = {"url":"/app/txl/adminconfig/delete","dataType":"text"};
-
+var getUserAdminTypeUrl = {"url":"/app/txl/adminconfig/getAuthor","dataType":"text"};
 var pageModule = function() {
 	var initgrid = function() {
 		grid = $("#gridcont").createGrid({
@@ -20,7 +20,7 @@ var pageModule = function() {
 					  return rowdata.userName;   
 				  }}, 
 				  
-				  {display: "管理员类型",name: "adminType",width: "20%",align: "center",render: function(rowdata,n){
+				  {display: "管理员类型",name: "adminType",width: "10%",align: "center",render: function(rowdata,n){
 					  return "部管理员"
 				  }}, 
 				  
@@ -82,9 +82,41 @@ var pageModule = function() {
 								data: {"ids": ids.toString()},
 								success: function(data) {
 									if(data.result == "success") {
-										newbootbox.alertInfo('删除成功！').done(function(){
-											grid.refresh();
-										});
+                                        if(data.isShow== false){
+                                            newbootbox.alertInfo('删除成功！').done(function(){
+                                                top.location.href="/index.html" ;
+                                            });
+                                        }else {
+                                        	if(data.adminTypetemp=="2"){
+                                                newbootbox.alertInfo('删除成功！').done(function(){
+                                                    $ajax({
+                                                        url: getUserAdminTypeUrl,
+                                                        type: "GET",
+                                                        success: function(data) {
+                                                            if(data=="3"){//即是部管理员又是局管理员,按照部管理员权限分配
+                                                                parent.$('#departAdmin').show();
+                                                                parent.$('#juAdmin').show();
+                                                                parent.$('#iframe100').attr("src","../../bglysz/html/index.html");
+                                                            }else if (data=="0"||data=="1"){//超级管理员或部管理员
+                                                                parent.$('#departAdmin').show();
+                                                                parent.$('#juAdmin').show();
+                                                                parent.$('#iframe100').attr("src","../../bglysz/html/index.html");
+                                                            }else{ //局管理员
+                                                                parent.$('#juAdmin').show();
+                                                                parent.$('#departAdmin').hide();
+                                                                parent.$('#iframe100').attr("src","../../glysz/html/index.html");
+                                                                parent.$("#departAdmin").removeClass("active");
+                                                                parent.$('#juAdmin').addClass("active");
+                                                            }
+                                                        }
+                                                    });
+                                                });
+											}else {
+                                                newbootbox.alertInfo('删除成功！').done(function(){
+                                                    grid.refresh();
+                                                });
+											}
+                                        }
 									}else{
 										newbootbox.alertInfo("删除失败！");
 									}
