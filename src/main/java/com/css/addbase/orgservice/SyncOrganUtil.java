@@ -6,6 +6,12 @@ import java.util.TimerTask;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.css.apporgan.entity.BaseAppOrgan;
+import com.css.apporgan.entity.BaseAppUser;
+import com.css.apporgan.service.BaseAppOrganService;
+import com.css.apporgan.service.BaseAppUserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -47,7 +53,14 @@ public class SyncOrganUtil {
 	
 	@Autowired
 	private RestTemplate restTemplate;
-	
+
+
+	@Autowired
+	private BaseAppUserService baseAppUserService;
+
+	@Autowired
+	private BaseAppOrganService baseAppOrganService;
+
 	//自动同步时间
 	private static Long starttime;
 	//java 定时器
@@ -135,7 +148,7 @@ public class SyncOrganUtil {
 			String time = String.valueOf(System.currentTimeMillis());
 			starttime = Long.valueOf(time.substring(0, 10));
 		}
-		//System.out.println("同步地址："+zuul+syncdepartments+"?starttime="+starttime+"&access_token=" + appConfig.getAccessToken());
+		System.out.println("同步地址："+zuul+syncdepartments+"?starttime="+starttime+"&access_token=" + appConfig.getAccessToken());
 		try {
 			SyncOrgan syncOrgan = (SyncOrgan) restTemplate.getForObject(zuul+syncdepartments+"?starttime="+starttime+"&access_token=" + appConfig.getAccessToken(),
 					SyncOrgan.class, new Object[0]);
@@ -174,7 +187,6 @@ public class SyncOrganUtil {
 				//编辑
 				TxlOrgan txlOrgan = new TxlOrgan();
 				txlOrgan.setCode(organ.getCode());
-				txlOrgan.setPath(organ.getP());
 				txlOrgan.setIsdelete(String.valueOf(organ.getIsDelete()));
 				txlOrgan.setOrderid(String.valueOf(organ.getOrderId()));
 				txlOrgan.setDn(organ.getDn());
@@ -189,7 +201,22 @@ public class SyncOrganUtil {
 					txlOrganService.save(txlOrgan);
 				} else {
 					txlOrganService.update(txlOrgan);
-				} 
+				}
+
+				//插入base_app_organ表
+				BaseAppOrgan baseAppOrgan = new BaseAppOrgan();
+				baseAppOrgan.setId(organ.getOrganId());
+				baseAppOrgan.setName(organ.getOrganName());
+				baseAppOrgan.setParentId(organ.getFatherId());
+				baseAppOrgan.setTreePath(organ.getP());
+				baseAppOrgan.setSort(organ.getOrderId());
+				baseAppOrgan.setIsdelete(organ.getIsDelete());
+				BaseAppOrgan baseOrgantemp = baseAppOrganService.queryObject(organ.getOrganId());
+				if(baseOrgantemp != null){
+					baseAppOrganService.update(baseOrgantemp);
+				}else {
+					baseAppOrganService.save(baseOrgantemp);
+				}
 			}
     	}
     	
@@ -206,6 +233,7 @@ public class SyncOrganUtil {
     		if(StringUtils.equals("0", userInfo.getType())) {
     			//人员删除
 				txlUserService.delete(userInfo.getUserid());
+				baseAppUserService.delete(userInfo.getUserid());
 			}else if(StringUtils.equals("1", userInfo.getType()) || StringUtils.equals("2", userInfo.getType())) {
 				//人员编辑
 				TxlUser txlUser = new TxlUser();
@@ -234,7 +262,7 @@ public class SyncOrganUtil {
 				txlUser.setUseremail(userInfo.getUserEmail());
 				txlUser.setUserid(userInfo.getUserid());
 				TxlUser txlUsertemp = txlUserService.queryObject(userInfo.getUserid());
-                if (txlUsertemp == null) {
+				if (txlUsertemp == null) {
                 	//txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
                 	txlUser.setTelephone(userInfo.getTel());
                 	txlUser.setMobile(userInfo.getMobile());
@@ -244,12 +272,33 @@ public class SyncOrganUtil {
                 		txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
 					}*/
                 	txlUser.setPost(txlUsertemp.getPost());
-					txlUser.setTelephone(userInfo.getTel());
+					txlUser.setTelephone(txlUsertemp.getTelephone());
 					txlUser.setMobile(userInfo.getMobile());
     				txlUser.setMobileTwo(txlUsertemp.getMobileTwo());
     				txlUser.setTelephoneTwo(txlUsertemp.getTelephoneTwo());
                 	txlUserService.update(txlUser);
                 }
+				//插入base_app_user表
+				BaseAppUser baseAppUser = new BaseAppUser();
+				baseAppUser.setId(userInfo.getUserid());
+				baseAppUser.setUserId(userInfo.getUserid());
+				baseAppUser.setTruename(userInfo.getFullname());
+				baseAppUser.setAccount(userInfo.getAccount());
+				baseAppUser.setSex(userInfo.getSex());
+				baseAppUser.setUseremail(userInfo.getUserEmail());
+				baseAppUser.setSeclevel(userInfo.getSecLevel());
+				baseAppUser.setOrganid(userInfo.getRelations().get(0).get("organId"));
+				baseAppUser.setSort(userInfo.getOrderId());
+				baseAppUser.setIsdelete(userInfo.getIsDelete());
+				baseAppUser.setMobile(userInfo.getMobile());
+				baseAppUser.setTelephone(userInfo.getTel());
+				BaseAppUser baseAppUsertemp = baseAppUserService.queryObject(userInfo.getUserid());
+				if(baseAppUsertemp == null){
+					baseAppUserService.save(baseAppUser);
+				}else {
+					baseAppUserService.update(baseAppUser);
+				}
+
 			}
     	}
       	

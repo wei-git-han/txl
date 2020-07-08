@@ -157,7 +157,7 @@ public class ImportOrganUtil {
 					txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
 				}*/
 				txlUser.setPost(baseAppUsertemp.getPost());
-				txlUser.setTelephone(userInfo.getTel());
+				txlUser.setTelephone(baseAppUsertemp.getTelephone());
 				txlUser.setMobile(userInfo.getMobile());
 				txlUser.setMobileTwo(baseAppUsertemp.getMobileTwo());
 				txlUser.setTelephoneTwo(baseAppUsertemp.getTelephoneTwo());
