@@ -63,7 +63,7 @@ public class AdminSetController {
         String loginUserId = CurrentUser.getUserId();
         //获取当前人的管理员类型（0:超级管理员 ;1：部管理员；2：局管理员；3：即是部管理员又是局管理员）
         String adminFlag = adminSetService.getAdminTypeByUserId(loginUserId);
-        PageHelper.startPage(1, pagesize);
+        PageHelper.startPage(page, pagesize);
         if(StringUtils.equals("2", adminFlag) || StringUtils.equals("3", adminFlag)) {
             adminSetList=adminSetService.queryJuAdminList(loginUserId);
             //判断即是部管理员又是局管理员

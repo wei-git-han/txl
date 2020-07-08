@@ -7,17 +7,20 @@ var pageModule = function() {
 	var initgrid = function() {
 		grid = $("#gridcont").createGrid({
 			columns: [
+                {display: "单位名称",name:"orgName",width: "30%",align: "left",render: function(rowdata,n){
+                        return rowdata.orgName;
+                    }},
 				  {display: "部门",name:"deptName",width: "30%",align: "left",render: function(rowdata,n){
 					  return rowdata.deptName;   
 				  }}, 
-				  /*{display: "分局名称",name:"deptName",width: "40%",align: "left",render: function(rowdata,n){
+				  /*{display: "单位名称",name:"deptName",width: "40%",align: "left",render: function(rowdata,n){
 					  return rowdata.deptName;   
 				  }},*/
-				  {display: "姓名",name: "userName",width: "30%",align: "center",render: function(rowdata,n){
+				  {display: "姓名",name: "userName",width: "20%",align: "center",render: function(rowdata,n){
 					  return rowdata.userName;   
 				  }}, 
 				  
-				  {display: "管理员类型",name: "adminType",width: "30%",align: "center",render: function(rowdata,n){
+				  {display: "管理员类型",name: "adminType",width: "20%",align: "center",render: function(rowdata,n){
 					  return "部管理员"
 				  }}, 
 				  
