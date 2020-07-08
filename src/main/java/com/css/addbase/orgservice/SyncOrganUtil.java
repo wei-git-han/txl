@@ -272,7 +272,7 @@ public class SyncOrganUtil {
                 		txlUser.setPost((StringUtils.isNotBlank(userInfo.getDuty())&&(userInfo.getDuty().indexOf(";")!=-1))? userInfo.getDuty().split(";")[1]:"");
 					}*/
                 	txlUser.setPost(txlUsertemp.getPost());
-					txlUser.setTelephone(userInfo.getTel());
+					txlUser.setTelephone(txlUsertemp.getTelephone());
 					txlUser.setMobile(userInfo.getMobile());
     				txlUser.setMobileTwo(txlUsertemp.getMobileTwo());
     				txlUser.setTelephoneTwo(txlUsertemp.getTelephoneTwo());
