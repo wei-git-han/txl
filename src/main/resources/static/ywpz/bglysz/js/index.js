@@ -113,7 +113,7 @@ var pageModule = function() {
                                                 });
 											}else {
                                                 newbootbox.alertInfo('删除成功！').done(function(){
-                                                    grid.refresh();
+                                                    window.location.href = "/ywpz/bglysz/html/index.html";
                                                 });
 											}
                                         }

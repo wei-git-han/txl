@@ -91,7 +91,7 @@ var delfn = function(id){
                                 });
 							}else {
                                 newbootbox.alertInfo('删除成功！').done(function(){
-                                    grid.refresh();
+                                    window.location.href = "/ywpz/glysz/html/index.html";
                                 });
 							}
 						}else{
