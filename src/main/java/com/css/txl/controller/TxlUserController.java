@@ -1,6 +1,8 @@
  package com.css.txl.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import com.css.adminconfig.entity.AdminSet;
 import com.css.adminconfig.service.AdminSetService;
 import com.css.apporgan.service.BaseAppUserService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -32,6 +37,7 @@ import com.css.txl.entity.TxlOrgan;
 import com.css.txl.entity.TxlUser;
 import com.css.txl.service.TxlOrganService;
 import com.css.txl.service.TxlUserService;
+
 
 import dm.jdbc.util.StringUtil;
 
@@ -62,6 +68,7 @@ public class TxlUserController {
 	
 	@Value("${csse.mircoservice.zuul}")
 	private String zuul;
+	private final Logger logger = LoggerFactory.getLogger(TxlUserController.class);
 
 
 	@RequestMapping(value = "/updateUser")
@@ -122,6 +129,9 @@ public class TxlUserController {
 		
 		JSONObject result = getJsonData(url,user);
 		System.out.println(result);
+		Date date = new Date();
+		String format = new SimpleDateFormat("yyyy-MM-dd").format(date);
+		logger.info("当前修改用户个人信息操作人："+CurrentUser.getSSOUser().getFullname()+"---id:"+CurrentUser.getUserId()+"--时间是："+format);
 //		CrossDomainUtil.getJsonData(url, map);
 		Response.json("result","success");
 	}

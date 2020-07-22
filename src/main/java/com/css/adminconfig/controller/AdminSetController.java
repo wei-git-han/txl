@@ -15,14 +15,19 @@ import com.css.base.utils.CurrentUser;
 import com.css.base.utils.GwPageUtils;
 import com.css.base.utils.Response;
 import com.css.base.utils.UUIDUtils;
+import com.css.txl.controller.TxlUserController;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +43,7 @@ public class AdminSetController {
     private BaseAppUserService baseAppUserService;
     @Autowired
     private BaseAppConfigService baseAppConfigService;
-
+	private final Logger logger = LoggerFactory.getLogger(AdminSetController.class);
     /**
      * 列表
      */
@@ -224,6 +229,9 @@ public class AdminSetController {
         }else {
             json.put("isShow", false);
         }
+    	Date date = new Date();
+		String format = new SimpleDateFormat("yyyy-MM-dd").format(date);
+		logger.info("当前删除操作人："+CurrentUser.getSSOUser().getFullname()+"---id:"+CurrentUser.getUserId()+"--时间是："+format);
         Response.json(json);
     }
 
