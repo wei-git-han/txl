@@ -3,6 +3,8 @@ package com.css.txl.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.alibaba.fastjson.JSONObject;
+
 /**
  * 
  * 
@@ -87,6 +89,9 @@ public class TxlUser implements Serializable {
 	private String mobileTwo;
 	// 座机电话2
 	private String telephoneTwo;
+	
+	//训练管理app需要-请销假app返回
+	private JSONObject jsonData;
 
 	//
 	private String pyName;
@@ -548,6 +553,14 @@ public class TxlUser implements Serializable {
 
 	public void setTelephoneTwo(String telephoneTwo) {
 		this.telephoneTwo = telephoneTwo;
+	}
+
+	public JSONObject getJsonData() {
+		return jsonData;
+	}
+
+	public void setJsonData(JSONObject jsonData) {
+		this.jsonData = jsonData;
 	}
 	
 	

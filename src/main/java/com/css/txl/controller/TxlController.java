@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -20,6 +21,9 @@ import com.css.addbase.orgservice.OrgService;
 import com.css.addbase.orgservice.Organ;
 import com.css.addbase.orgservice.SyncOrganUtil;
 import com.css.addbase.orgservice.UserInfo;
+import com.css.apporgmapped.constant.AppConstant;
+import com.css.apporgmapped.service.BaseAppOrgMappedService;
+import com.css.base.utils.CrossDomainUtil;
 import com.css.base.utils.CurrentUser;
 import com.css.base.utils.PageUtils;
 import com.css.base.utils.Response;
@@ -72,6 +76,13 @@ public class TxlController {
 	public List<UserInfo> listUserInfo = new ArrayList<>();
 	
 	private Map<String,String> agents=new HashMap<String,String>();
+	@Autowired
+	private BaseAppOrgMappedService baseAppOrgMappedService;
+	 /**
+     * @author 李振楠
+     * @date 2020年8月13日
+     * */
+    public final static String WEB_INTERFACE_QXJ_USER_INFO_QJDAYS = "/leave/apply/countXiuJiaDays";
 
 	int i = 0;
 	String dept = "";
@@ -130,6 +141,10 @@ public class TxlController {
 		}
 		gernOrgs(liInfos);
 		PageUtils pageUtil = new PageUtils(liInfos);
+		for (TxlUser txlUser : liInfos) {
+			JSONObject qxjDays = this.getQXJDays(txlUser.getUserid());
+			txlUser.setJsonData(qxjDays);
+		}
 		JSONObject json = new JSONObject();
 		json.put("total", pageUtil.getTotalCount());
 		json.put("page", pageUtil.getCurrPage());
@@ -767,4 +782,15 @@ public class TxlController {
 	//
 	// return userInfos;
 	// }
+	
+	
+	private JSONObject getQXJDays(String userId) {
+		LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<String,Object>();
+		map.add("userId", userId);
+		// 获取办件开放的接口
+		String elecPath = baseAppOrgMappedService.getWebUrl(AppConstant.APP_QXJGL, this.WEB_INTERFACE_QXJ_USER_INFO_QJDAYS);
+		JSONObject jsonData = CrossDomainUtil.getJsonData(elecPath,map);
+
+		return jsonData;
+	}
 }
