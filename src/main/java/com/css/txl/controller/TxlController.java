@@ -141,10 +141,6 @@ public class TxlController {
 		}
 		gernOrgs(liInfos);
 		PageUtils pageUtil = new PageUtils(liInfos);
-		for (TxlUser txlUser : liInfos) {
-			JSONObject qxjDays = this.getQXJDays(txlUser.getUserid());
-			txlUser.setJsonData(qxjDays);
-		}
 		JSONObject json = new JSONObject();
 		json.put("total", pageUtil.getTotalCount());
 		json.put("page", pageUtil.getCurrPage());
@@ -686,6 +682,53 @@ public class TxlController {
 		}
 		return result;
 	}
+	
+	@RequestMapping(value = "/listuserXLGL")
+	@ResponseBody
+	public void listuserXLGL(String page, String rows, String orgid, String searchValue, String currentOrgid) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String orgIds = "";
+		String currentUserId = CurrentUser.getUserId();
+		map.put("currentUserId", currentUserId);
+		if (StringUtils.isNotBlank(searchValue)) {
+			searchValue = searchValue.replace(" ", "");
+			map.put("search", searchValue);
+			if (PinYinUtil.hasZm(searchValue)) {
+				map.put("zm", searchValue);
+			}
+		}
+		if (StringUtils.isNotBlank(currentOrgid)) {
+			orgid = currentOrgid;
+		}
+		if (StringUtils.isBlank(orgid) || "null".equals(orgid)) {
+			orgid = "root";
+		}
+		if (StringUtils.isNotBlank(orgid) && !StringUtils.equals("root", orgid)) {
+			orgIds = allOrgIds(orgid);
+			map.put("orgIds", orgIds.split(","));
+		}
+		boolean isManager = CurrentUser.getIsManager(appConfig.getAppId(), appConfig.getAppSecret());
+		if (!isManager) {
+			map.put("isShow", "1");// 1代表显示的，0和空为隐藏
+		}
+		int pageInt = Integer.parseInt(page);
+		int rowsInt = Integer.parseInt(rows);
+		PageHelper.startPage(pageInt, rowsInt);
+		List<TxlUser> liInfos = txlUserService.queryList(map);
+		fillSc(liInfos);
+		if (!isManager) {
+			makeShow(liInfos);
+		}
+		gernOrgs(liInfos);
+		PageUtils pageUtil = new PageUtils(liInfos);
+		JSONObject json = new JSONObject();
+		json.put("total", pageUtil.getTotalCount());
+		json.put("page", pageUtil.getCurrPage());
+		json.put("rows", liInfos);
+		json.put("manager", CurrentUser.getIsManager(appConfig.getAppId(), appConfig.getAppSecret()));
+		Response.json(json);
+	}
+	
 
 	// public List<UserInfo> getAllUsers() {
 	// List<UserInfo> resultUserInfo = new ArrayList<>();
@@ -784,13 +827,4 @@ public class TxlController {
 	// }
 	
 	
-	private JSONObject getQXJDays(String userId) {
-		LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<String,Object>();
-		map.add("userId", userId);
-		// 获取办件开放的接口
-		String elecPath = baseAppOrgMappedService.getWebUrl(AppConstant.APP_QXJGL, this.WEB_INTERFACE_QXJ_USER_INFO_QJDAYS);
-		JSONObject jsonData = CrossDomainUtil.getJsonData(elecPath,map);
-
-		return jsonData;
-	}
 }
