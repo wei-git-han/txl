@@ -78,12 +78,6 @@ public class TxlController {
 	private Map<String,String> agents=new HashMap<String,String>();
 	@Autowired
 	private BaseAppOrgMappedService baseAppOrgMappedService;
-	 /**
-     * @author 李振楠
-     * @date 2020年8月13日
-     * */
-    public final static String WEB_INTERFACE_QXJ_USER_INFO_QJDAYS = "/leave/apply/countXiuJiaDays";
-
 	int i = 0;
 	String dept = "";
 
