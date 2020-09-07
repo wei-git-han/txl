@@ -705,19 +705,24 @@ public class TxlController {
 		if (!isManager) {
 			map.put("isShow", "1");// 1代表显示的，0和空为隐藏
 		}
-		int pageInt = Integer.parseInt(page);
-		int rowsInt = Integer.parseInt(rows);
-		PageHelper.startPage(pageInt, rowsInt);
-		List<TxlUser> liInfos = txlUserService.queryList(map);
+		List<TxlUser> liInfos= new ArrayList<TxlUser>();
+		if(StringUtils.isNotBlank(page) && StringUtils.isNotBlank(rows)) {
+			int pageInt = Integer.parseInt(page);
+			int rowsInt = Integer.parseInt(rows);
+			PageHelper.startPage(pageInt, rowsInt);
+		}
+		liInfos = txlUserService.queryList(map);
 		fillSc(liInfos);
 		if (!isManager) {
 			makeShow(liInfos);
 		}
-		gernOrgs(liInfos);
-		PageUtils pageUtil = new PageUtils(liInfos);
 		JSONObject json = new JSONObject();
-		json.put("total", pageUtil.getTotalCount());
-		json.put("page", pageUtil.getCurrPage());
+		gernOrgs(liInfos);
+		if(StringUtils.isNotBlank(page) && StringUtils.isNotBlank(rows)) {
+			PageUtils pageUtil = new PageUtils(liInfos);
+			json.put("total", pageUtil.getTotalCount());
+			json.put("page", pageUtil.getCurrPage());
+		}
 		json.put("rows", liInfos);
 		json.put("manager", CurrentUser.getIsManager(appConfig.getAppId(), appConfig.getAppSecret()));
 		Response.json(json);
