@@ -39,4 +39,6 @@ public interface TxlOrganService {
 	void hideOrgan(Map<String, Object> map);
 
 	String getBarOrgIdByUserId(String userId);
+	
+	List<String> queryListByTREEPATH(String organId);
 }

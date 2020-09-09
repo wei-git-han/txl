@@ -39,4 +39,7 @@ public interface TxlOrganDao extends BaseDao<TxlOrgan> {
 	void clearOrgan();
 	@Update("update txl_organ set is_Show=#{isShow} where organid in (select organid from txl_organ start with organid=#{organId} and ISDELETE = 0 connect by prior organid=fatherid)")
 	void hideOrgan(Map<String, Object> map);
+	
+	
+	List<String> queryListByTREEPATH(String organId);
 }

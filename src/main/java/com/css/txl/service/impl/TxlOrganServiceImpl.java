@@ -115,4 +115,10 @@ public class TxlOrganServiceImpl implements TxlOrganService {
 		}
 		return "";
 	}
+
+	@Override
+	public List<String> queryListByTREEPATH(String organId) {
+		// TODO Auto-generated method stub
+		return txlOrganDao.queryListByTREEPATH(organId);
+	}
 }
