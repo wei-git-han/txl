@@ -101,7 +101,7 @@ public class TxlController {
 
 	@RequestMapping(value = "/listuser")
 	@ResponseBody
-	public void listuser(Integer page, Integer rows, String orgid, String searchValue, String currentOrgid) {
+	public void listuser(Integer page, Integer rows, String orgid, String searchValue, String currentOrgid,String userId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String orgIds = "";
 		String currentUserId = CurrentUser.getUserId();
@@ -112,6 +112,9 @@ public class TxlController {
 			if (PinYinUtil.hasZm(searchValue)) {
 				map.put("zm", searchValue);
 			}
+		}
+		if(StringUtils.isNotBlank(userId)){
+			map.put("userId",userId);
 		}
 		if (StringUtils.isNotBlank(currentOrgid)) {
 			orgid = currentOrgid;

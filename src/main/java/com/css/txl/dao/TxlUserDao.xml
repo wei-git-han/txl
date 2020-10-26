@@ -30,6 +30,9 @@
 		<if test="isShow!=null">
 		  and (T.IS_SHOW =#{isShow} or T.IS_SHOW is null )
 		</if>
+		<if test="userId != null and userId !=''">
+			and T.USERID = #{userId}
+		</if>
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
