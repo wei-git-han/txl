@@ -151,6 +151,27 @@ public class SearchApiController {
 			Response.stringJsonp(message, callback);
 		}
 	}
+	@ResponseBody
+	@RequestMapping("/fypUserSearch")
+	public void  fypUserSearch(String userIds) {
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("userIds", userIds.split(","));
+		JSONArray ja=new JSONArray();
+	    JSONObject jo=new JSONObject();
+		List<TxlUser> users=txlUserService.queryList(map);
+		for(TxlUser txlUser:users) {
+			jo=new JSONObject();
+			jo.put("userName", StringUtil.isNotEmpty(txlUser.getFullname())?txlUser.getFullname():"");
+			jo.put("phone", StringUtil.isNotEmpty(txlUser.getTelephone())?txlUser.getTelephone():"");
+			jo.put("tel", StringUtil.isNotEmpty(txlUser.getMobile())?txlUser.getMobile():"");
+			jo.put("userId", StringUtil.isNotEmpty(txlUser.getAccount())?txlUser.getAccount():"");
+			jo.put("post", StringUtil.isNotEmpty(txlUser.getPost())?txlUser.getPost():"");
+			jo.put("address", StringUtil.isNotEmpty(txlUser.getAddress())?txlUser.getAddress():"");
+			jo.put("dept", StringUtil.isNotEmpty(txlUser.getDept())?txlUser.getDept():"");
+			ja.add(jo);
+		}
+		Response.json(ja);
+	}
 	/**
 	 * 负一屏默认搜索sc的前6个;搜索时搜索全部
 	 * @param request
