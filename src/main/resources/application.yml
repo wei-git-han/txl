@@ -10,19 +10,16 @@ spring.profiles.include: url
  
 druid:
     dbType: dm
-    url: jdbc:dm://${csse.dmdba.url}/TYYY_TXL_APP_DB
-    username: TYYY_TXL_APP_DB
-    password: Lc5/rBYlaDGn2MF/g5xorNVZ6PDEwxdwFkOpkVh5TRlFGp3+0gHQm4RBw3lR+OQIT4EqpwNS/U1zF7G4C3cIgg==
+    url: jdbc:dm://${csse.dmdba.url}/TXL_APP_YUN
+    username: TXL_APP_YUN
+    password: password01
     initial-size: 1
     min-idle: 1
     max-active: 10 
     maxWait: 3000
     test-on-borrow: true
     testWhileIdle: true
-    validationQuery: select 1 from DUAL 
-    filters: config
-    connectionProperties: config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIjkuPg8jCTRqX8rHkXoVsRsBEBbVlaAwEPYmMBG8D7EqMR7bF6OGS3rNnH8I6p4b7x4YhYVj/3+31ZABR87gDsCAwEAAQ==
-
+    validationQuery: select 1 from DUAL
 mybatis.configuration.mapUnderscoreToCamelCase: true
 
 logging:
@@ -76,7 +73,7 @@ csse.mircoservice.app: /api/app/application/manager
 csse.mircoservice.syncdepartments: /api/org/syncdepartments
 
 #数据库配置地址
-csse.dmdba.url: 172.16.201.140:5236
+csse.dmdba.url: 10.1.150.1:5236
 
 #应用的appID
 csse.txl.appId: legacycpk.csse.txl
