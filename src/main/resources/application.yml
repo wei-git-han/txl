@@ -1,4 +1,4 @@
-server:
+﻿server:
   port: 64001
 
 app:
@@ -20,6 +20,9 @@ druid:
     test-on-borrow: true
     testWhileIdle: true
     validationQuery: select 1 from DUAL
+
+
+
 mybatis.configuration.mapUnderscoreToCamelCase: true
 
 logging:
@@ -60,9 +63,9 @@ msg:
   type: application
   appid: 
   display: 
-    system: 
-    notification: 
-    msgbox: 
+    system: true
+    notification: true
+    msgbox: true
   action: 
     anstore: 
     deployment: 
@@ -73,11 +76,12 @@ csse.mircoservice.app: /api/app/application/manager
 csse.mircoservice.syncdepartments: /api/org/syncdepartments
 
 #数据库配置地址
+
 csse.dmdba.url: 10.1.150.1:5236
 
 #应用的appID
-csse.txl.appId: legacycpk.csse.txl
+csse.txl.appId: cpk.csse.txl
 #应用的secret
 csse.txl.appSecret: AC10074F-9DB6-4e2f-9BD6-F06AD6167853
 #日志输出路径
-csse.log.path: c:/temp/storetemp/txl_app.log
+csse.log.path: /home/kylin/java/temp/storetemp/txlApp.log
