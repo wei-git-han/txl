@@ -18,6 +18,12 @@
 			#{item}
 		</foreach>
 		</if>
+		<if test="userIds != null and userIds !=''">
+		 and T.USERID in 
+		 <foreach item="item" collection="userIds" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		</if>
 		<if test="search != null">
 		 and (T.fullname like '%'||#{search}||'%'
 		or T.mobile like '%'||#{search}||'%'
