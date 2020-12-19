@@ -721,6 +721,30 @@ public class TxlController {
 		Response.json(json);
 	}
 	
+	
+	@RequestMapping(value = "/listXLGL")
+	@ResponseBody
+	public void listXLGL( String orgid, String searchValue, String currentOrgid) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String orgIds = "";
+		if (StringUtils.isBlank(orgid) || "null".equals(orgid)) {
+			orgid = "root";
+		}
+		if (StringUtils.isNotBlank(orgid) && !StringUtils.equals("root", orgid)) {
+			orgIds = allOrgIds(orgid);
+			map.put("orgIds", orgIds.split(","));
+		}
+		List<TxlUser> liInfos= new ArrayList<TxlUser>();
+		liInfos = txlUserService.queryList(map);
+		makeShow(liInfos);
+		
+		JSONObject json = new JSONObject();
+		gernOrgs(liInfos);
+		json.put("rows", liInfos);
+		Response.json(json);
+	}
+	
+	
 
 	// public List<UserInfo> getAllUsers() {
 	// List<UserInfo> resultUserInfo = new ArrayList<>();

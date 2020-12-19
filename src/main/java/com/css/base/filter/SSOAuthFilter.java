@@ -99,6 +99,20 @@ public class SSOAuthFilter extends OncePerRequestFilter{
 				if(suffixs.contains(suffix)){
 					return true;
 				}
+			}else if(url.contains("/")){
+				String suffix = url.substring(index+1).toLowerCase();
+				if(suffixs.contains(suffix)){
+					return true;
+				}
+			}
+		}else {
+			String url = request.getRequestURI();
+			int index = url.lastIndexOf(".");
+			if(url.contains("/")){
+				String suffix = url.substring(index+1).toLowerCase();
+				if(suffixs.contains(suffix)){
+					return true;
+				}
 			}
 		}
 		return false ;
