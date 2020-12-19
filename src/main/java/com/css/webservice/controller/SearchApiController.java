@@ -157,10 +157,10 @@ public class SearchApiController {
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("userIds", userIds.split(","));
 		JSONArray ja=new JSONArray();
-	    JSONObject jo=new JSONObject();
+	    //JSONObject jo=new JSONObject();
 		List<TxlUser> users=txlUserService.queryList(map);
 		for(TxlUser txlUser:users) {
-			jo=new JSONObject();
+			JSONObject jo=new JSONObject();
 			jo.put("userName", StringUtil.isNotEmpty(txlUser.getFullname())?txlUser.getFullname():"");
 			jo.put("phone", StringUtil.isNotEmpty(txlUser.getTelephone())?txlUser.getTelephone():"");
 			jo.put("tel", StringUtil.isNotEmpty(txlUser.getMobile())?txlUser.getMobile():"");
@@ -170,7 +170,9 @@ public class SearchApiController {
 			jo.put("dept", StringUtil.isNotEmpty(txlUser.getDept())?txlUser.getDept():"");
 			ja.add(jo);
 		}
-		Response.json(ja);
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("list",ja);
+		Response.json(jsonObject);
 	}
 	/**
 	 * 负一屏默认搜索sc的前6个;搜索时搜索全部
