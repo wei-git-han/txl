@@ -53,7 +53,7 @@ csse:
   sso: 
     server: 
       url: ${csse.mircoservice.zuul}
-      no-auth-suffixs: js,css,font,png,jpg,jpeg,htm,ico,pdf,ofd,wps,doc
+      no-auth-suffixs: js,css,font,png,jpg,jpeg,htm,ico,pdf,ofd,wps,doc,/txluser/listxlgl
       api: 
         checkToken: api/sso/valtoken/  
         userinfo: api/sso/user/

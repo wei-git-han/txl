@@ -682,7 +682,7 @@ public class TxlController {
 	
 	@RequestMapping(value = "/listuserXLGL")
 	@ResponseBody
-	public void listuserXLGL(String page, String rows, String orgid, String searchValue, String currentOrgid) {
+	public void listuserXLGL( String orgid, String searchValue, String currentOrgid) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String orgIds = "";
 		String currentUserId = CurrentUser.getUserId();
@@ -709,11 +709,6 @@ public class TxlController {
 			map.put("isShow", "1");// 1代表显示的，0和空为隐藏
 		}
 		List<TxlUser> liInfos= new ArrayList<TxlUser>();
-		if(StringUtils.isNotBlank(page) && StringUtils.isNotBlank(rows)) {
-			int pageInt = Integer.parseInt(page);
-			int rowsInt = Integer.parseInt(rows);
-			PageHelper.startPage(pageInt, rowsInt);
-		}
 		liInfos = txlUserService.queryList(map);
 		fillSc(liInfos);
 		if (!isManager) {
@@ -721,15 +716,34 @@ public class TxlController {
 		}
 		JSONObject json = new JSONObject();
 		gernOrgs(liInfos);
-		if(StringUtils.isNotBlank(page) && StringUtils.isNotBlank(rows)) {
-			PageUtils pageUtil = new PageUtils(liInfos);
-			json.put("total", pageUtil.getTotalCount());
-			json.put("page", pageUtil.getCurrPage());
-		}
 		json.put("rows", liInfos);
 		json.put("manager", CurrentUser.getIsManager(appConfig.getAppId(), appConfig.getAppSecret()));
 		Response.json(json);
 	}
+	
+	
+	@RequestMapping(value = "/listXLGL")
+	@ResponseBody
+	public void listXLGL( String orgid, String searchValue, String currentOrgid) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String orgIds = "";
+		if (StringUtils.isBlank(orgid) || "null".equals(orgid)) {
+			orgid = "root";
+		}
+		if (StringUtils.isNotBlank(orgid) && !StringUtils.equals("root", orgid)) {
+			orgIds = allOrgIds(orgid);
+			map.put("orgIds", orgIds.split(","));
+		}
+		List<TxlUser> liInfos= new ArrayList<TxlUser>();
+		liInfos = txlUserService.queryList(map);
+		makeShow(liInfos);
+		
+		JSONObject json = new JSONObject();
+		gernOrgs(liInfos);
+		json.put("rows", liInfos);
+		Response.json(json);
+	}
+	
 	
 
 	// public List<UserInfo> getAllUsers() {
