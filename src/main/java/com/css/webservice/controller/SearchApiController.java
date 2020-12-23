@@ -23,12 +23,14 @@ import com.css.addbase.AppConfig;
 import com.css.addbase.JSONUtil;
 import com.css.addbase.PinYinUtil;
 import com.css.base.utils.CurrentUser;
+import com.css.base.utils.PageUtils;
 import com.css.base.utils.Response;
 import com.css.base.utils.StringUtils;
 import com.css.txl.entity.TxlCollect;
 import com.css.txl.entity.TxlUser;
 import com.css.txl.service.TxlCollectService;
 import com.css.txl.service.TxlUserService;
+import com.github.pagehelper.PageHelper;
 
 import dm.jdbc.util.StringUtil;
 
@@ -153,26 +155,27 @@ public class SearchApiController {
 	}
 	@ResponseBody
 	@RequestMapping("/fypUserSearch")
-	public void  fypUserSearch(String userIds) {
+	public void  fypUserSearch(String userIds,String page, String limit) {
 		Map<String,Object> map=new HashMap<String,Object>();
 		map.put("userIds", userIds.split(","));
 		JSONArray ja=new JSONArray();
-	    //JSONObject jo=new JSONObject();
+	    JSONObject jo=new JSONObject();
+	    PageHelper.startPage(Integer.valueOf(page), Integer.valueOf(limit));
 		List<TxlUser> users=txlUserService.queryList(map);
+		PageUtils pageUtil = new PageUtils(users);
 		for(TxlUser txlUser:users) {
-			JSONObject jo=new JSONObject();
+			jo = new JSONObject();
 			jo.put("userName", StringUtil.isNotEmpty(txlUser.getFullname())?txlUser.getFullname():"");
 			jo.put("phone", StringUtil.isNotEmpty(txlUser.getTelephone())?txlUser.getTelephone():"");
 			jo.put("tel", StringUtil.isNotEmpty(txlUser.getMobile())?txlUser.getMobile():"");
 			jo.put("userId", StringUtil.isNotEmpty(txlUser.getAccount())?txlUser.getAccount():"");
 			jo.put("post", StringUtil.isNotEmpty(txlUser.getPost())?txlUser.getPost():"");
 			jo.put("address", StringUtil.isNotEmpty(txlUser.getAddress())?txlUser.getAddress():"");
-			jo.put("dept", StringUtil.isNotEmpty(txlUser.getDept())?txlUser.getDept():"");
+			jo.put("orgName", StringUtil.isNotEmpty(txlUser.getDept())?txlUser.getDept():"");
 			ja.add(jo);
 		}
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("list",ja);
-		Response.json(jsonObject);
+		pageUtil.setList(ja);
+		Response.json(pageUtil);
 	}
 	/**
 	 * 负一屏默认搜索sc的前6个;搜索时搜索全部
