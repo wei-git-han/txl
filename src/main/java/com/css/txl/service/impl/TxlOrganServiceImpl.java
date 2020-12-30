@@ -2,8 +2,6 @@ package com.css.txl.service.impl;
 import com.css.addbase.orgservice.OrgService;
 import com.css.addbase.orgservice.Organ;
 import com.css.addbase.orgservice.UserInfo;
-import com.css.apporgan.entity.BaseAppOrgan;
-import com.css.apporgan.entity.BaseAppUser;
 import com.css.txl.dao.TxlUserDao;
 import com.css.txl.entity.TxlUser;
 import org.apache.commons.lang.StringUtils;

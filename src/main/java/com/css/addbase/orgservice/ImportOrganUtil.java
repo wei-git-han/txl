@@ -2,10 +2,7 @@ package com.css.addbase.orgservice;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.css.apporgan.entity.BaseAppOrgan;
-import com.css.apporgan.entity.BaseAppUser;
-import com.css.apporgan.service.BaseAppOrganService;
-import com.css.apporgan.service.BaseAppUserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
