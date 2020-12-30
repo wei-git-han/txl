@@ -129,7 +129,7 @@ public class AdminSetController {
 
             orgId= txlOrganService.getBarOrgIdByUserId(userId);
             orgName=txlOrganService.queryObject(orgId).getOrganname();
-            deptName=orgName;
+            deptName=txlOrganService.queryObject(txlUserService.queryObject(userId).getOrganid()).getOrganname();
         }
         if(StringUtils.isNotBlank(adminSet.getId())) {
             Map<String, Object> adminMap = new HashMap<>();
