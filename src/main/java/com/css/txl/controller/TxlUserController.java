@@ -141,7 +141,16 @@ public class TxlUserController {
 		list.put("state", json);
 		return list;
 	}
-	
+
+	@RequestMapping(value = "/bareauTree")
+	@ResponseBody
+	public Object getBureauTree(HttpServletRequest request) {
+		JSONObject list=  getUserTree(txlOrganService.getBarOrgIdByUserId(CurrentUser.getUserId()));
+		JSONObject json = new JSONObject();
+		json.put("opened", true);
+		list.put("state", json);
+		return list;
+	}
 	
 	@RequestMapping(value = "/getCurrentUserId")
 	@ResponseBody
