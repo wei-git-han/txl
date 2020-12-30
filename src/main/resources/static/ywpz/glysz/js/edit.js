@@ -14,7 +14,7 @@ var pageModule = function(){
 			async:false,
 			success:function(data){
 				if(data=="2"){
-					userTree = {"url":"/app/base/user/tree","dataType":"text"}; //部门树
+					userTree = {"url":"/txluser/tree","dataType":"text"}; //部门树
 				}else{
 					userTree = {"url":"/app/base/user/allTree","dataType":"text"}; //人员选择树
 					//userTree = {"url":"../data/allTree.json","dataType":"text"}; //人员选择树

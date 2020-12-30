@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.css.adminconfig.entity.AdminSet;
 import com.css.adminconfig.service.AdminSetService;
-import com.css.apporgan.service.BaseAppUserService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,9 +61,6 @@ public class TxlUserController {
 	@Autowired
 	private AdminSetService adminSetService;
 
-	@Autowired
-	private BaseAppUserService baseAppUserService;
-	
 	@Value("${csse.mircoservice.zuul}")
 	private String zuul;
 	private final Logger logger = LoggerFactory.getLogger(TxlUserController.class);
@@ -211,7 +206,7 @@ public class TxlUserController {
 		}else {
 			json.put("orgId","");
 		}
-		String orgIdToSelf = baseAppUserService.getBareauByUserId(txlUser.getUserid());
+		String orgIdToSelf = txlOrganService.getBarOrgIdByUserId(txlUser.getUserid());
 		json.put("orgIdToSelf",orgIdToSelf);
 		json.put("txlOrgtel", txlUser);
 		json.put("ismyself", txlUser.getUserid().equals(userId));

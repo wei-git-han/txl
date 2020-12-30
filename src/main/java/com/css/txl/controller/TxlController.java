@@ -21,8 +21,6 @@ import com.css.addbase.orgservice.OrgService;
 import com.css.addbase.orgservice.Organ;
 import com.css.addbase.orgservice.SyncOrganUtil;
 import com.css.addbase.orgservice.UserInfo;
-import com.css.apporgmapped.constant.AppConstant;
-import com.css.apporgmapped.service.BaseAppOrgMappedService;
 import com.css.base.utils.CrossDomainUtil;
 import com.css.base.utils.CurrentUser;
 import com.css.base.utils.PageUtils;
@@ -76,8 +74,6 @@ public class TxlController {
 	public List<UserInfo> listUserInfo = new ArrayList<>();
 	
 	private Map<String,String> agents=new HashMap<String,String>();
-	@Autowired
-	private BaseAppOrgMappedService baseAppOrgMappedService;
 	int i = 0;
 	String dept = "";
 

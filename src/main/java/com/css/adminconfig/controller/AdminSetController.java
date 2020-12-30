@@ -6,16 +6,14 @@ import com.css.adminconfig.entity.BaseTreeObject;
 import com.css.adminconfig.service.AdminSetService;
 import com.css.appconfig.entity.BaseAppConfig;
 import com.css.appconfig.service.BaseAppConfigService;
-import com.css.apporgan.entity.BaseAppOrgan;
-import com.css.apporgan.entity.BaseAppUser;
-import com.css.apporgan.service.BaseAppOrganService;
-import com.css.apporgan.service.BaseAppUserService;
-import com.css.apporgmapped.constant.AppConstant;
 import com.css.base.utils.CurrentUser;
 import com.css.base.utils.GwPageUtils;
 import com.css.base.utils.Response;
 import com.css.base.utils.UUIDUtils;
 import com.css.txl.controller.TxlUserController;
+import com.css.txl.entity.TxlUser;
+import com.css.txl.service.TxlOrganService;
+import com.css.txl.service.TxlUserService;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -38,11 +36,14 @@ public class AdminSetController {
     @Autowired
     private AdminSetService adminSetService;
     @Autowired
-    private BaseAppOrganService baseAppOrganService;
-    @Autowired
-    private BaseAppUserService baseAppUserService;
-    @Autowired
     private BaseAppConfigService baseAppConfigService;
+
+    @Autowired
+    private TxlOrganService txlOrganService;
+
+    @Autowired
+    private TxlUserService txlUserService;
+
 	private final Logger logger = LoggerFactory.getLogger(AdminSetController.class);
     /**
      * 列表
@@ -125,21 +126,10 @@ public class AdminSetController {
         String userId = adminSet.getUserId();
         JSONObject json = new JSONObject();
         if(StringUtils.isNotBlank(userId)) {
-            orgId = baseAppUserService.getBareauByUserId(userId);
-            if(StringUtils.isNotBlank(orgId)) {
-                BaseAppOrgan organ = baseAppOrganService.queryObject(orgId);
-                if(organ != null) {
-                    orgName=organ.getName();
-                }
-            }
-            List<BaseAppUser> users = baseAppUserService.findByUserId(userId);
-            if(users != null) {
-                deptId = users.get(0).getOrganid();
-                BaseAppOrgan dept = baseAppOrganService.queryObject(deptId);
-                if(dept != null) {
-                    deptName=dept.getName();
-                }
-            }
+
+            orgId= txlOrganService.getBarOrgIdByUserId(userId);
+            orgName=txlOrganService.queryObject(orgId).getOrganname();
+            deptName=orgName;
         }
         if(StringUtils.isNotBlank(adminSet.getId())) {
             Map<String, Object> adminMap = new HashMap<>();
@@ -234,27 +224,4 @@ public class AdminSetController {
 		logger.info("当前删除操作人："+CurrentUser.getSSOUser().getFullname()+"---id:"+CurrentUser.getUserId()+"--时间是："+format);
         Response.json(json);
     }
-
-    /**
-     * 查询所有首长
-     */
-    @ResponseBody
-    @RequestMapping("/allShouZhang")
-    public void allShouZhang() {
-        BaseAppConfig mapped = baseAppConfigService.queryObject(AppConstant.LEAD_TEAM);//首长单位id
-        Map<String, Object> map = new HashMap<>();
-        map.put("organid",mapped.getValue());
-        List<BaseAppUser> baseAppUsers = baseAppUserService.queryList(map);
-        List<BaseTreeObject> baseTreeObjects = new ArrayList<BaseTreeObject>();
-        BaseTreeObject baseTreeObject = null;
-        for (BaseAppUser baseAppUser : baseAppUsers) {
-            baseTreeObject = new BaseTreeObject();
-            baseTreeObject.setId(baseAppUser.getUserId());
-            baseTreeObject.setText(baseAppUser.getTruename());
-            baseTreeObject.setType("1");
-            baseTreeObjects.add(baseTreeObject);
-        }
-        Response.json(baseTreeObjects);
-    }
-
 }
