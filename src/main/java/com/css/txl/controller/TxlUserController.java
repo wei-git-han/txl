@@ -222,6 +222,45 @@ public class TxlUserController {
 		Response.json(json);
 	}
 	
+	@RequestMapping(value = "/getUserTreeForqxj")
+	@ResponseBody
+	public Object getUserTreeForqxj(HttpServletRequest request) {
+		JSONObject list=  getUserTreeQxj("root");
+		JSONObject json = new JSONObject();
+		json.put("opened", true);
+		list.put("state", json);
+		return list;
+	}
+	
+	public JSONObject getUserTreeQxj(String id){
+		JSONObject result = new JSONObject();
+		JSONArray jsons = new JSONArray();
+		TxlOrgan organ = txlOrganService.queryObject(id);
+		result.put("id", organ.getOrganid());
+		result.put("text", organ.getOrganname());
+		result.put("type", "0");
+		List<TxlOrgan> organs = txlOrganService.getSubOrg(id);
+		for (TxlOrgan sysOrgan:organs) {
+			JSONObject json = new JSONObject();
+			json.put("id", sysOrgan.getOrganid());
+			json.put("text", sysOrgan.getOrganname());
+			json.put("type", "0");
+		    jsons.add(getUserTreeQxj(sysOrgan.getOrganid()));
+		}
+		List<TxlUser> sysUsers = txlUserService.getUserInfos(id);
+		for (TxlUser sysUser:sysUsers) {
+			JSONObject jsonUser = new JSONObject();
+			jsonUser.put("id", sysUser.getUserid());
+			jsonUser.put("text", sysUser.getFullname());
+			jsonUser.put("type", "1");
+			jsonUser.put("post", sysUser.getPost()==null ? "" :sysUser.getPost());
+			jsons.add(jsonUser);
+		}
+		if (jsons.size()>0) {
+			result.put("children", jsons);
+		}
+		return result;
+	}
 	
 	public JSONObject getUserTree(String id){
 		JSONObject result = new JSONObject();

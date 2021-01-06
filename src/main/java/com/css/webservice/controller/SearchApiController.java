@@ -1,6 +1,7 @@
 package com.css.webservice.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -157,7 +158,9 @@ public class SearchApiController {
 	@RequestMapping("/fypUserSearch")
 	public void  fypUserSearch(String userIds,String page, String limit) {
 		Map<String,Object> map=new HashMap<String,Object>();
-		map.put("userIds", userIds.split(","));
+		if(userIds!=null) {
+			map.put("userIds", userIds.split(","));
+		}
 		JSONArray ja=new JSONArray();
 	    JSONObject jo=new JSONObject();
 	    PageHelper.startPage(Integer.valueOf(page), Integer.valueOf(limit));
