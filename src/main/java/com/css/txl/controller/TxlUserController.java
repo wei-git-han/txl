@@ -159,6 +159,16 @@ public class TxlUserController {
 		Response.json("CurrentUserId",CurrentUserId);
 	}
 	
+	@RequestMapping(value = "/getUserPostForQxj")
+	@ResponseBody
+	public void getUserPostForQxj(HttpServletRequest request, String id) {
+		JSONObject json = new JSONObject();
+		TxlUser txlUser = txlUserService.queryObject(id);
+		json.put("post", txlUser.getPost()==null ? "" :txlUser.getPost());
+		json.put("id", txlUser.getUserid());
+		json.put("text", txlUser.getFullname());
+		Response.json(json);
+	}
 	
 	@RequestMapping(value = "/getUser")
 	@ResponseBody
