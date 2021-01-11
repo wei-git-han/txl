@@ -133,12 +133,6 @@ public class TxlController {
 			makeShow(liInfos);
 		}
 		gernOrgs(liInfos);
-		for(int i = liInfos.size() - 1;i>=0;i--) {
-			TxlUser txlUser = liInfos.get(i);
-			if("安全管理员".equals(txlUser.getFullname()) || "安全审计员".equals(txlUser.getFullname()) || "系统管理员".equals(txlUser.getFullname()) || "管理员".equals(txlUser.getFullname())) {
-				liInfos.remove(i);
-			}
-		}
 		PageUtils pageUtil = new PageUtils(liInfos);
 		JSONObject json = new JSONObject();
 		json.put("total", pageUtil.getTotalCount());
