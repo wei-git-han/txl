@@ -41,4 +41,8 @@ public interface TxlOrganService {
 	String getBarOrgIdByUserId(String userId);
 	
 	List<String> queryListByTREEPATH(String organId);
+
+	List<TxlOrgan> queryRoot();
+
+	List<TxlOrgan> queryListByOrganId(String txlOrgan);
 }

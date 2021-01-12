@@ -1,9 +1,13 @@
 package com.css.addbase.orgservice;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -58,6 +62,7 @@ public class SyncOrganUtil {
 	private static TimerTask timerTask = null;
 	//定时器状态：true：定时器开启；false：定时器关闭
 	private static boolean status = true;
+	private static int num = 1;
 	
 	/**
 	 * 启动程序时默认启动定时同步
@@ -80,6 +85,7 @@ public class SyncOrganUtil {
 				public void run() {
 					try{
 						SyncOrgan();
+						SyncTxlUser();
 					}catch (Exception e){
 						e.printStackTrace();
 						logger.info("增量同步接口异常{}", com.css.base.utils.StringUtils.isBlank(e.getMessage()) ? "请看后台日志："+e : e.getMessage());
@@ -118,7 +124,7 @@ public class SyncOrganUtil {
 	 */
 	@ResponseBody
 	@RequestMapping("/status.htm")
-	public void status() {
+	public void status() { 
 		if (status) {
 			//定时器开启
 			Response.json("status", true);
@@ -255,5 +261,51 @@ public class SyncOrganUtil {
     	}
       	
     }
+	
+	/**
+	 * 同步通讯录
+	 * 
+	 * */
+	public void SyncTxlUser() {
+
+		List<TxlUser> userList1 = txlUserService.queryListByOrganId("root");
+		for(TxlUser txlUser : userList1) {
+			txlUser.setOrderid(String.valueOf(num));
+			txlUserService.update(txlUser);
+			num += 1;
+		}
+		
+		//查询出root节点下的机构
+		List<TxlOrgan> list = txlOrganService.queryRoot();
+		for(int i = 0;i<list.size();i++) {
+			List<TxlUser> userList = txlUserService.queryListByOrganId(list.get(i).getOrganid());
+			for(TxlUser txlUser : userList) {
+				txlUser.setOrderid(String.valueOf(num));
+				txlUserService.update(txlUser);
+				num += 1;
+			}
+			List<TxlOrgan> list2 = txlOrganService.queryListByOrganId(list.get(i).getOrganid());
+			if(list2 != null && list2.size()>0) {
+				for(int j = 0;j<list2.size();j++) {
+					List<TxlUser> userList2 = txlUserService.queryListByOrganId(list2.get(j).getOrganid());
+					for(TxlUser txlUser : userList2) {
+						txlUser.setOrderid(String.valueOf(num));
+						txlUserService.update(txlUser);
+						num += 1;
+					}
+				}
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

@@ -89,4 +89,10 @@ public class TxlUserServiceImpl implements TxlUserService {
 		// TODO Auto-generated method stub
 		txlUserDao.hiderAllUser(map);
 	}
+
+	@Override
+	public List<TxlUser> queryListByOrganId(String organid) {
+		// TODO Auto-generated method stub
+		return txlUserDao.queryListByOrganId(organid);
+	}
 }
