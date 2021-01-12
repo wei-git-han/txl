@@ -1,5 +1,6 @@
 package com.css.addbase.orgservice;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,20 +59,30 @@ public class SyncOrganUtil {
 	private static Long starttime;
 	//java 定时器
 	private Timer timer = null;
+	//java 定时器2
+	private Timer timer2 = null;
 	//定时器任务
 	private static TimerTask timerTask = null;
+	private static TimerTask timerTask2 = null;
 	//定时器状态：true：定时器开启；false：定时器关闭
 	private static boolean status = true;
+	private static boolean status2 = true;
 	private static int num = 1;
 	
 	/**
 	 * 启动程序时默认启动定时同步
+	 * @throws InterruptedException 
 	 */
-	public SyncOrganUtil() {
+	public SyncOrganUtil() throws InterruptedException{
 		if (timer == null) {
 			 timer = new Timer();
 		}
-		timer.scheduleAtFixedRate(getInstance(), 120000,300000);
+		timer.scheduleAtFixedRate(getInstance(), 12000,300000);
+		Thread.sleep(5000);
+		if (timer2 == null) {
+			 timer2 = new Timer();
+		}
+		timer2.scheduleAtFixedRate(getInstance2(), 12000,3600000);
 	}
 	/**
 	 * 获取定时任务
@@ -85,7 +96,6 @@ public class SyncOrganUtil {
 				public void run() {
 					try{
 						SyncOrgan();
-						SyncTxlUser();
 					}catch (Exception e){
 						e.printStackTrace();
 						logger.info("增量同步接口异常{}", com.css.base.utils.StringUtils.isBlank(e.getMessage()) ? "请看后台日志："+e : e.getMessage());
@@ -95,6 +105,25 @@ public class SyncOrganUtil {
 			};
 		}
 		return timerTask;
+	}
+	
+	public  TimerTask getInstance2() {
+		if (timerTask2 == null || !status2) {
+			status2 = true;
+			timerTask2 = new TimerTask(){
+				@Override
+				public void run() {
+					try{
+						SyncTxlUser();
+					}catch (Exception e){
+						e.printStackTrace();
+						logger.info("通讯录同步接口异常{}", com.css.base.utils.StringUtils.isBlank(e.getMessage()) ? "请看后台日志："+e : e.getMessage());
+					}
+
+				}
+			};
+		}
+		return timerTask2;
 	}
 	
 	/**
@@ -107,6 +136,9 @@ public class SyncOrganUtil {
 			timer.purge();
 			timer = new Timer();
 			timer.scheduleAtFixedRate(getInstance(), 120000,300000);
+			timer2.purge();
+			timer2 = new Timer();
+			timer2.scheduleAtFixedRate(getInstance2(), 0,3600000);
 		}
 	}
 	/**
@@ -116,6 +148,7 @@ public class SyncOrganUtil {
 	@RequestMapping("/cancel.htm")
 	public void calcel() {
 		timer.cancel();
+		timer2.cancel();
 		status = false;
 	}
 	
