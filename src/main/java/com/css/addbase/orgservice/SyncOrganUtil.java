@@ -150,6 +150,7 @@ public class SyncOrganUtil {
 		timer.cancel();
 		timer2.cancel();
 		status = false;
+		status2 = false;
 	}
 	
 	/**
@@ -164,6 +165,20 @@ public class SyncOrganUtil {
 		} else {
 			//定时器关闭
 			Response.json("status",false);
+		}
+	}
+	/**
+	 * 获取定时器状态
+	 */
+	@ResponseBody
+	@RequestMapping("/status2.htm")
+	public void status2() { 
+		if (status2) {
+			//定时器开启
+			Response.json("status2", true);
+		} else {
+			//定时器关闭
+			Response.json("status2",false);
 		}
 	}
 	
