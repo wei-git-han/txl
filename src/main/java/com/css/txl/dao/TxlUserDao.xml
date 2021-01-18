@@ -12,7 +12,7 @@
 		left join TXL_REMARK R on T.USERID = R.REMARKED_PERSON_ID and R.REMARK_CREATOR_ID = #{currentUserId}
 		left join TXL_ORGAN O on O.ORGANID =  T.ORGANID 
 		where 1=1 and T.ISDELETE =0 and O.ISDELETE =0
-		and T.FULLNAME not in ('安全审计员','安全管理员','系统管理员','管理员')
+		and O.organid not in ('root')
 		<if test="orgIds != null">
 		 and T.ORGANID in 
 		 <foreach item="item" collection="orgIds" open="(" separator="," close=")">
