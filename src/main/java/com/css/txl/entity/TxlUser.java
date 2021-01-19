@@ -94,13 +94,13 @@ public class TxlUser implements Serializable {
 	private JSONObject jsonData;
 	
 	//新增排序字段
-	private String sortId;
+	private int sortId;
 	
-	public String getSortId() {
+	public int getSortId() {
 		return sortId;
 	}
 
-	public void setSortId(String sortId) {
+	public void setSortId(int sortId) {
 		this.sortId = sortId;
 	}
 

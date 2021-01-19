@@ -316,7 +316,7 @@ public class SyncOrganUtil {
         int num =1;
 		List<TxlUser> userList1 = txlUserService.queryListByOrganId("root");
 		for(TxlUser txlUser : userList1) {
-			txlUser.setSortId(String.valueOf(num));
+			txlUser.setSortId(num);
 			txlUserService.update(txlUser);
 			num += 1;
 		}
@@ -326,7 +326,7 @@ public class SyncOrganUtil {
 		for(int i = 0;i<list.size();i++) {
 			List<TxlUser> userList = txlUserService.queryListByOrganId(list.get(i).getOrganid());
 			for(TxlUser txlUser : userList) {
-				txlUser.setSortId(String.valueOf(num));
+				txlUser.setSortId(num);
 				txlUserService.update(txlUser);
 				num += 1;
 			}
@@ -335,7 +335,7 @@ public class SyncOrganUtil {
 				for(int j = 0;j<list2.size();j++) {
 					List<TxlUser> userList2 = txlUserService.queryListByOrganId(list2.get(j).getOrganid());
 					for(TxlUser txlUser : userList2) {
-						txlUser.setSortId(String.valueOf(num));
+						txlUser.setSortId(num);
 						txlUserService.update(txlUser);
 						num += 1;
 					}
