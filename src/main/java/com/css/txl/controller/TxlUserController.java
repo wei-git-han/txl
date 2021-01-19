@@ -165,6 +165,8 @@ public class TxlUserController {
 		JSONObject json = new JSONObject();
 		TxlUser txlUser = txlUserService.queryObject(id);
 		json.put("post", txlUser.getPost()==null ? "" :txlUser.getPost());
+		json.put("address", txlUser.getAddress()==null ? "" :txlUser.getAddress());
+		json.put("phone", txlUser.getMobile()==null ? "" :txlUser.getMobile());
 		json.put("id", txlUser.getUserid());
 		json.put("text", txlUser.getFullname());
 		Response.json(json);
