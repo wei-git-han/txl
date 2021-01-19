@@ -77,11 +77,12 @@ public class SyncOrganUtil {
 		if (timer == null) {
 			 timer = new Timer();
 		}
-		timer.scheduleAtFixedRate(getInstance(), 12000,300000);
+		timer.scheduleAtFixedRate(getInstance(), 30000,3600000);
+		Thread.sleep(3000);
 		if (timer2 == null) {
 			 timer2 = new Timer();
 		}
-		timer2.scheduleAtFixedRate(getInstance2(), 30000,3600000);
+		timer2.scheduleAtFixedRate(getInstance2(), 60000,3600000);
 	}
 	/**
 	 * 获取定时任务
@@ -134,10 +135,10 @@ public class SyncOrganUtil {
 		if (!status) {
 			timer.purge();
 			timer = new Timer();
-			timer.scheduleAtFixedRate(getInstance(), 12000,300000);
+			timer.scheduleAtFixedRate(getInstance(), 30000,3600000);
 			timer2.purge();
 			timer2 = new Timer();
-			timer2.scheduleAtFixedRate(getInstance2(), 30000,3600000);
+			timer2.scheduleAtFixedRate(getInstance2(), 60000,3600000);
 		}
 	}
 	/**
@@ -152,7 +153,7 @@ public class SyncOrganUtil {
 		status2 = false;
 	}
 	
-	/**
+	/** 
 	 * 获取定时器状态
 	 */
 	@ResponseBody
