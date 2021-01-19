@@ -42,4 +42,6 @@ public interface TxlUserService {
 	 * 根据organId隐藏组织机构所有的下级用户
 	 */
 	void hideAllUser(Map<String,Object> map);
+
+	List<TxlUser> queryListByOrganId(String organid);
 }

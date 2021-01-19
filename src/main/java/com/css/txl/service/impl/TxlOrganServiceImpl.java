@@ -119,4 +119,16 @@ public class TxlOrganServiceImpl implements TxlOrganService {
 		// TODO Auto-generated method stub
 		return txlOrganDao.queryListByTREEPATH(organId);
 	}
+
+	@Override
+	public List<TxlOrgan> queryRoot() {
+		// TODO Auto-generated method stub
+		return txlOrganDao.queryRoot();
+	}
+
+	@Override
+	public List<TxlOrgan> queryListByOrganId(String txlOrgan) {
+		// TODO Auto-generated method stub
+		return txlOrganDao.queryListByOrganId(txlOrgan);
+	}
 }
