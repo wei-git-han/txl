@@ -92,6 +92,17 @@ public class TxlUser implements Serializable {
 	
 	//训练管理app需要-请销假app返回
 	private JSONObject jsonData;
+	
+	//新增排序字段
+	private String sortId;
+	
+	public String getSortId() {
+		return sortId;
+	}
+
+	public void setSortId(String sortId) {
+		this.sortId = sortId;
+	}
 
 	//
 	private String pyName;

@@ -43,9 +43,9 @@ public interface TxlOrganDao extends BaseDao<TxlOrgan> {
 	
 	List<String> queryListByTREEPATH(String organId);
 
-	@Select("select * from txl_organ where fatherid = 'root'")
+	@Select("select * from txl_organ where fatherid = 'root' order by orderid")
 	List<TxlOrgan> queryRoot();
 
-	@Select("select * from txl_organ where fatherid = #{txlOrgan}")
+	@Select("select * from txl_organ where fatherid = #{txlOrgan} order by orderid")
 	List<TxlOrgan> queryListByOrganId(String txlOrgan);
 }

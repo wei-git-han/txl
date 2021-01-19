@@ -54,6 +54,7 @@ public interface TxlUserDao extends BaseDao<TxlUser> {
 	@Update("update txl_user set is_show=#{isShow} where organid in (select organid from  txl_organ start with organid=#{organId} connect by prior organid=fatherid)")
 	void hiderAllUser(Map<String, Object> map);
 
-	@Select("select T.* from TXL_USER T left join TXL_ORGAN O on O.ORGANID = T.ORGANID where O.ORGANID = #{organid}")
+	@Select("select T.* from TXL_USER T left join TXL_ORGAN O on O.ORGANID = T.ORGANID where O.ORGANID = #{organid} order by T.orderid")
 	List<TxlUser> queryListByOrganId(String organid);
+
 }
