@@ -43,7 +43,7 @@
 		<if test="offset != null and limit != null">
 			limit #{offset}, #{limit}
 		</if>
-		order by ORDERID
+		order by sortId
 	</select>
 	<select id="getTxlFavorite" resultType="com.css.txl.entity.TxlUser">
 		select t1.*,t3.organname as org_name from TXL_USER t1 left join TXL_COLLECT t2 on t1.userid=t2.collect_userid 
@@ -176,6 +176,7 @@
 			<if test="pyName != null">"PYNAME" = UCASE(GETPY(#{pyName})),</if>
 			<if test="isShow != null">"IS_SHOW" = #{isShow},</if>
 			<if test="rights != null">"RIGHTS" = #{rights},</if>
+			<if test="sortId != null"> "sortId" = #{sortId},</if>
 			"MOBILE_TWO" = #{mobileTwo},
 			"TELEPHONE_TWO" = #{telephoneTwo}
 		</set>

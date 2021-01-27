@@ -67,7 +67,6 @@ public class SyncOrganUtil {
 	//定时器状态：true：定时器开启；false：定时器关闭
 	private static boolean status = true;
 	private static boolean status2 = true;
-	private static int num = 1;
 	
 	/**
 	 * 启动程序时默认启动定时同步
@@ -82,7 +81,7 @@ public class SyncOrganUtil {
 		if (timer2 == null) {
 			 timer2 = new Timer();
 		}
-		timer2.scheduleAtFixedRate(getInstance2(), 60000,3600000);
+		timer2.scheduleAtFixedRate(getInstance2(), 180000,86400000);
 	}
 	/**
 	 * 获取定时任务
@@ -138,7 +137,7 @@ public class SyncOrganUtil {
 			timer.scheduleAtFixedRate(getInstance(), 30000,3600000);
 			timer2.purge();
 			timer2 = new Timer();
-			timer2.scheduleAtFixedRate(getInstance2(), 60000,3600000);
+			timer2.scheduleAtFixedRate(getInstance2(), 180000,86400000);
 		}
 	}
 	/**
@@ -306,8 +305,7 @@ public class SyncOrganUtil {
                 	txlUserService.update(txlUser);
                 }
 			}
-    	}
-      	
+    	}	
     }
 	
 	/**
@@ -315,10 +313,10 @@ public class SyncOrganUtil {
 	 * 
 	 * */
 	public void SyncTxlUser() {
-
+        int num =1;
 		List<TxlUser> userList1 = txlUserService.queryListByOrganId("root");
 		for(TxlUser txlUser : userList1) {
-			txlUser.setOrderid(String.valueOf(num));
+			txlUser.setSortId(num);
 			txlUserService.update(txlUser);
 			num += 1;
 		}
@@ -328,7 +326,7 @@ public class SyncOrganUtil {
 		for(int i = 0;i<list.size();i++) {
 			List<TxlUser> userList = txlUserService.queryListByOrganId(list.get(i).getOrganid());
 			for(TxlUser txlUser : userList) {
-				txlUser.setOrderid(String.valueOf(num));
+				txlUser.setSortId(num);
 				txlUserService.update(txlUser);
 				num += 1;
 			}
@@ -337,7 +335,7 @@ public class SyncOrganUtil {
 				for(int j = 0;j<list2.size();j++) {
 					List<TxlUser> userList2 = txlUserService.queryListByOrganId(list2.get(j).getOrganid());
 					for(TxlUser txlUser : userList2) {
-						txlUser.setOrderid(String.valueOf(num));
+						txlUser.setSortId(num);
 						txlUserService.update(txlUser);
 						num += 1;
 					}
@@ -346,14 +344,4 @@ public class SyncOrganUtil {
 		}
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 }

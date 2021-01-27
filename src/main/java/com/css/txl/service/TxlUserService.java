@@ -44,4 +44,5 @@ public interface TxlUserService {
 	void hideAllUser(Map<String,Object> map);
 
 	List<TxlUser> queryListByOrganId(String organid);
+
 }
